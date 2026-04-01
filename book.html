@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Museum of Angels — Zixuan Wang</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#C4A882;--paper:#D4B896;--dark:#3A2010;--mid:#6B4A2A;--gold:#C9A84C;--cream:#FAF3E3}
+html,body{width:100%;height:100%;overflow:hidden;background:#1a0e08;font-family:'Cormorant Garamond',Georgia,serif}
+
+.back-btn{position:fixed;top:1.2rem;left:1.5rem;z-index:200;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(250,243,227,.6);text-decoration:none;font-family:'Cormorant Garamond',serif;transition:color .2s;display:flex;align-items:center;gap:.4rem}
+.back-btn:hover{color:var(--gold)}
+
+.page-counter{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:200;font-size:11px;letter-spacing:.25em;color:rgba(250,243,227,.45);font-family:'Cormorant Garamond',serif}
+
+.book-wrap{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:2rem}
+
+.book{display:flex;width:min(900px,95vw);height:min(600px,80vh);box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 0 1px rgba(201,168,76,.15);border-radius:4px;overflow:hidden;position:relative;transition:opacity .3s ease}
+.book.turning{opacity:0}
+
+.page-left{flex:1;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 2rem;text-align:center;position:relative;border-right:.5px solid rgba(58,32,16,.2)}
+.page-left.cover{background:var(--paper)}
+.page-left::after{content:'';position:absolute;right:0;top:0;bottom:0;width:18px;background:linear-gradient(to right,rgba(0,0,0,.08),transparent);pointer-events:none}
+
+.book-logo{width:65px;height:65px;object-fit:contain;margin-bottom:.9rem;opacity:.85}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(.9rem,2vw,1.15rem);font-weight:400;color:var(--dark);margin-bottom:.4rem;line-height:1.4}
+.page-subtitle{font-size:clamp(.72rem,1.4vw,.85rem);color:var(--mid);font-style:italic;margin-bottom:1rem;line-height:1.5}
+.page-body{font-size:clamp(.68rem,1.3vw,.82rem);line-height:1.9;color:var(--dark);text-transform:uppercase;letter-spacing:.04em;max-width:300px}
+.cover-title{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,3vw,1.8rem);letter-spacing:.08em;color:var(--dark);margin-bottom:.4rem}
+.cover-author{font-size:clamp(.85rem,2vw,1.1rem);letter-spacing:.15em;color:var(--mid)}
+
+.page-right{flex:1;background:#2a1a0a;overflow:hidden;position:relative}
+.page-right img{width:100%;height:100%;object-fit:cover;display:block}
+
+.nav-prev,.nav-next{position:fixed;top:50%;transform:translateY(-50%);z-index:200;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:rgba(250,243,227,.7);font-size:1.6rem;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;line-height:1}
+.nav-prev{left:1rem}.nav-next{right:1rem}
+.nav-prev:hover,.nav-next:hover{background:rgba(201,168,76,.3);color:var(--gold)}
+.nav-prev:disabled,.nav-next:disabled{opacity:.2;cursor:default}
+
+@media(max-width:640px){
+  html,body{height:auto;overflow:auto}
+  .book-wrap{height:auto;padding:1rem;align-items:flex-start;padding-top:4rem}
+  .book{flex-direction:column;width:100%;height:auto}
+  .page-left{padding:2rem 1.5rem;min-height:280px}
+  .page-right{min-height:320px}
+  .nav-prev{left:.4rem}.nav-next{right:.4rem}
+  .page-counter{bottom:1rem}
+}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-btn">← Back</a>
+<button class="nav-prev" id="prevBtn" onclick="changePage(-1)">‹</button>
+<button class="nav-next" id="nextBtn" onclick="changePage(1)">›</button>
+
+<div class="book-wrap">
+  <div class="book" id="book">
+    <div class="page-left" id="left-page">
+      <img class="book-logo" id="left-logo" src="moa1.JPG" alt="" style="display:none">
+      <div id="left-content"></div>
+    </div>
+    <div class="page-right">
+      <img id="right-img" src="" alt="">
+    </div>
+  </div>
+</div>
+
+<div class="page-counter" id="counter"></div>
+
+<script>
+const pages=[
+  {type:'cover',img:'moa1.JPG',title:'Museum of Angels',author:'Zixuan Wang'},
+  {type:'spread',img:'moa2.JPG',title:'Curiosity at the Window',subtitle:'',body:'As night falls, the museum is closed to the public. Two curious little girls quietly peek through a window, trying to glimpse the secrets inside. Through the glass, they notice a faint glow in the exhibition hall and a small figure moving among the display cases. They do not know that it is the little angel who protects the artifacts. To them, the museum seems to hold a quiet kind of magic.'},
+  {type:'spread',img:'moa3.JPG',title:'The Quiet Guardian',subtitle:'',body:'When the morning light shines through the tall windows of the museum, the little angel is already sitting in the center of the grand hall. She quietly waits for visitors to arrive. Around her, display cases hold artifacts from different periods of history.'},
+  {type:'spread',img:'moa4.JPG',title:'The Angel at Work',subtitle:'',body:'In a small workshop deep inside the museum, the little angel carries out the quietest work of the day. She gently wipes the dust from the surface of ancient artifacts and carefully adjusts the position of delicate ceramics.'},
+  {type:'spread',img:'moa5.JPG',title:'The Angel and the Jewelry Box',subtitle:'(19th Century European Jewelry / Sewing Box)',body:'Inside an elegant display case, a beautiful 19th-century European jewelry box sits open. Soft fabric lines the interior, holding small tools and delicate ornaments. The little angel sits inside the box, curiously playing with the old pieces of jewelry, as if exploring a tiny treasure chest. Each object once belonged to another time, and she quietly guards these shining memories.'},
+  {type:'spread',img:'moa6.JPG',title:'The Angel and the Nautilus Cup',subtitle:'(European Nautilus Shell Cup, 16–17th Century)',body:'Under the soft light of the display case, an elegant European Nautilus Shell Cup rests quietly. The natural shell is supported by a richly decorated metal base, a type of vessel once used at royal banquets in European courts. The little angel sleeps peacefully inside the curved shell, as if resting in a cradle shaped by the sea.'},
+  {type:'spread',img:'moa7.JPG',title:'The Angel and the Pocket Watch',subtitle:'(European Gold Pocket Watch)',body:'Under the warm light of the display, a delicate European gold pocket watch is opened. Roman numerals circle the white dial while the slender hands move slowly across the face. The little angel sits beside the watch, gently touching the hands, as if trying to understand how time flows.'},
+  {type:'spread',img:'moa8.JPG',title:'The Angel and William the Hippopotamus',subtitle:'("William" the Faience Hippopotamus, Middle Kingdom Egypt)',body:'A turquoise-blue hippopotamus stands quietly on the pedestal, its body decorated with plants that symbolize the vegetation of the Nile River. This is the famous "William" the Hippopotamus. The little angel sits on its back, as if taking part in a quiet nighttime journey. While the hippopotamus carries memories of ancient Egypt, the angel softly watches over it.'},
+  {type:'spread',img:'moa9.JPG',title:'The Angel and the Porcelain Vase',subtitle:'(Yuan Dynasty Blue-and-White Porcelain Vase)',body:'At the center of the display stands a graceful blue-and-white porcelain vase from the Yuan dynasty. Deep blue floral patterns flow across the smooth white surface of the porcelain. The little angel gently sits on the rim of the vase, like a small bird resting for a moment.'},
+  {type:'spread',img:'moa10.JPG',title:'The Angel and the Tang Dynasty Figurine',subtitle:'(Tang Dynasty Female Pottery Figurine)',body:'Inside the display case stands an elegant Tang dynasty female pottery figurine. Her hands are gently folded, and her posture is calm and composed. Standing beside her, the little angel imitates the same pose. The two figures — one large and one small — seem to mirror each other across time.'}
+];
+
+let current=0;
+const book=document.getElementById('book');
+const leftPage=document.getElementById('left-page');
+const leftLogo=document.getElementById('left-logo');
+const leftContent=document.getElementById('left-content');
+const rightImg=document.getElementById('right-img');
+const counter=document.getElementById('counter');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+
+function render(idx){
+  const p=pages[idx];
+  if(p.type==='cover'){
+    leftPage.className='page-left cover';
+    leftLogo.style.display='block';
+    leftLogo.src=p.img;
+    leftContent.innerHTML=`<div class="cover-title">${p.title}</div><div class="cover-author">${p.author}</div>`;
+    rightImg.src=p.img;
+  } else {
+    leftPage.className='page-left';
+    leftLogo.style.display='block';
+    leftLogo.src='moa1.JPG';
+    leftContent.innerHTML=`<div class="page-title">${p.title}</div>${p.subtitle?`<div class="page-subtitle">${p.subtitle}</div>`:''}<div class="page-body">${p.body}</div>`;
+    rightImg.src=p.img;
+  }
+  counter.textContent=`${idx+1} / ${pages.length}`;
+  prevBtn.disabled=idx===0;
+  nextBtn.disabled=idx===pages.length-1;
+}
+
+function changePage(dir){
+  const next=current+dir;
+  if(next<0||next>=pages.length)return;
+  book.classList.add('turning');
+  setTimeout(()=>{current=next;render(current);book.classList.remove('turning');},300);
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight')changePage(1);
+  if(e.key==='ArrowLeft')changePage(-1);
+});
+
+let tx=0;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;});
+document.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)>50)changePage(dx<0?1:-1);
+});
+
+render(0);
+</script>
+</body>
+</html>
