@@ -517,7 +517,12 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // Lightbox
 let lbIndex = 0;
-const lbImages = works.map(w => w.src);
+const lbImages = [
+  'moa1.JPG','moa2.JPG','moa3.JPG','moa4.JPG','moa5.JPG',
+  'moa6.JPG','moa7.JPG','moa8.JPG','moa9.JPG','moa10.JPG',
+  'veil1.JPG','veil2.JPG','veil3.JPG','veil4.JPG','veil5.JPG','veil6.JPG',
+  'book1.jpeg','book2.jpeg'
+];
 
 function openLightbox(idx) {
   lbIndex = idx;
