@@ -312,7 +312,124 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
   </div>
 
   <!-- Series 1 -->
-  <p class="series-label reveal">Museum of Angels <a href="book.html" style="font-size:11px;letter-spacing:.2em;color:var(--gold);text-decoration:none;border:1px solid rgba(201,168,76,.4);padding:.3rem .8rem;border-radius:20px;margin-left:1rem;font-style:normal;font-family:'Cormorant Garamond',serif;text-transform:uppercase;transition:all .2s" onmouseover="this.style.background='rgba(201,168,76,.1)'" onmouseout="this.style.background='transparent'">✦ Read the book</a></p>
+  <p class="series-label reveal">Museum of Angels
+    <button onclick="toggleBook()" id="book-btn" style="font-size:11px;letter-spacing:.2em;color:var(--gold);background:transparent;border:1px solid rgba(201,168,76,.4);padding:.3rem .9rem;border-radius:20px;margin-left:1rem;font-style:normal;font-family:'Cormorant Garamond',serif;text-transform:uppercase;cursor:pointer;transition:all .2s">✦ Read the Book</button>
+  </p>
+
+  <!-- INLINE FLIPBOOK -->
+  <div id="flipbook-wrap" style="display:none;margin-bottom:2rem">
+    <div id="flipbook" style="position:relative;width:100%;max-width:860px;margin:0 auto;height:min(70vh,520px);perspective:2000px">
+
+      <!-- Spread 0: Cover -->
+      <div class="fb-spread active" id="fb0" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+        <div style="overflow:hidden"><img src="moa1.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div style="background:#D4B898;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:2rem;text-align:center">
+          <img src="moa1.JPG" style="width:60px;height:60px;border-radius:50%;object-fit:cover;margin-bottom:1.2rem;opacity:.85">
+          <div style="font-family:'Playfair Display',serif;font-size:clamp(1.1rem,2vw,1.6rem);color:#3A2010;letter-spacing:.06em;line-height:1.4">Museum<br>of Angels</div>
+          <div style="font-size:.85rem;color:rgba(58,32,16,.55);letter-spacing:.18em;text-transform:uppercase;margin-top:.4rem">Zixuan Wang</div>
+        </div>
+      </div>
+
+      <!-- Spreads 1-9 -->
+      <div class="fb-spread" id="fb1" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.8rem">Curiosity at the Window</div>
+          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">As night falls, the museum is closed to the public. Two curious little girls quietly peek through a window, trying to glimpse the secrets inside. Through the glass, they notice a faint glow in the exhibition hall and a small figure moving among the display cases. They do not know that it is the little angel who protects the artifacts. To them, the museum seems to hold a quiet kind of magic.</div>
+        </div>
+        <div style="overflow:hidden"><img src="moa2.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      </div>
+
+      <div class="fb-spread" id="fb2" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.8rem">The Quiet Guardian</div>
+          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">When the morning light shines through the tall windows of the museum, the little angel is already sitting in the center of the grand hall. She quietly waits for visitors to arrive. Around her, display cases hold artifacts from different periods of history.</div>
+        </div>
+        <div style="overflow:hidden"><img src="moa3.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      </div>
+
+      <div class="fb-spread" id="fb3" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.8rem">The Angel at Work</div>
+          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">In a small workshop deep inside the museum, the little angel carries out the quietest work of the day. She gently wipes the dust from the surface of ancient artifacts and carefully adjusts the position of delicate ceramics.</div>
+        </div>
+        <div style="overflow:hidden"><img src="moa4.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      </div>
+
+      <div class="fb-spread" id="fb4" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Jewelry Box</div>
+          <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(19th Century European Jewelry / Sewing Box)</div>
+          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">Inside an elegant display case, a beautiful 19th-century European jewelry box sits open. Soft fabric lines the interior, holding small tools and delicate ornaments. The little angel sits inside the box, curiously playing with the old pieces of jewelry, as if exploring a tiny treasure chest. Each object once belonged to another time, and she quietly guards these shining memories.</div>
+        </div>
+        <div style="overflow:hidden"><img src="moa5.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      </div>
+
+      <div class="fb-spread" id="fb5" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Nautilus Cup</div>
+          <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(European Nautilus Shell Cup, 16–17th Century)</div>
+          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">Under the soft light of the display case, an elegant European Nautilus Shell Cup rests quietly. The natural shell is supported by a richly decorated metal base, a type of vessel once used at royal banquets in European courts. The little angel sleeps peacefully inside the curved shell, as if resting in a cradle shaped by the sea.</div>
+        </div>
+        <div style="overflow:hidden"><img src="moa6.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      </div>
+
+      <div class="fb-spread" id="fb6" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Pocket Watch</div>
+          <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(European Gold Pocket Watch)</div>
+          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">Under the warm light of the display, a delicate European gold pocket watch is opened. Roman numerals circle the white dial while the slender hands move slowly across the face. The little angel sits beside the watch, gently touching the hands, as if trying to understand how time flows.</div>
+        </div>
+        <div style="overflow:hidden"><img src="moa7.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      </div>
+
+      <div class="fb-spread" id="fb7" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and William the Hippopotamus</div>
+          <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">("William" the Faience Hippopotamus, Middle Kingdom Egypt)</div>
+          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">A turquoise-blue hippopotamus stands quietly on the pedestal, its body decorated with plants that symbolize the vegetation of the Nile River. This is the famous "William" the Hippopotamus. The little angel sits on its back, as if taking part in a quiet nighttime journey. While the hippopotamus carries memories of ancient Egypt, the angel softly watches over it.</div>
+        </div>
+        <div style="overflow:hidden"><img src="moa8.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      </div>
+
+      <div class="fb-spread" id="fb8" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Porcelain Vase</div>
+          <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(Yuan Dynasty Blue-and-White Porcelain Vase)</div>
+          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">At the center of the display stands a graceful blue-and-white porcelain vase from the Yuan dynasty. Deep blue floral patterns flow across the smooth white surface of the porcelain. The little angel gently sits on the rim of the vase, like a small bird resting for a moment.</div>
+        </div>
+        <div style="overflow:hidden"><img src="moa9.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      </div>
+
+      <div class="fb-spread" id="fb9" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Tang Dynasty Figurine</div>
+          <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(Tang Dynasty Female Pottery Figurine)</div>
+          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">Inside the display case stands an elegant Tang dynasty female pottery figurine. Her hands are gently folded, and her posture is calm and composed. Standing beside her, the little angel imitates the same pose. The two figures — one large and one small — seem to mirror each other across time.</div>
+        </div>
+        <div style="overflow:hidden"><img src="moa10.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      </div>
+
+      <!-- Spine shadow -->
+      <div style="position:absolute;left:50%;top:0;bottom:0;width:4px;transform:translateX(-50%);background:linear-gradient(to right,rgba(0,0,0,.2),rgba(0,0,0,.05),rgba(0,0,0,.2));pointer-events:none;z-index:5"></div>
+    </div>
+
+    <!-- Book nav -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:2rem;margin-top:1.2rem">
+      <button onclick="fbTurn(-1)" id="fb-prev" style="background:transparent;border:1px solid var(--border);color:var(--mid);font-size:1.4rem;width:38px;height:38px;border-radius:50%;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--mid)'">‹</button>
+      <span id="fb-count" style="font-size:12px;letter-spacing:.2em;color:var(--mid);font-style:italic">1 / 10</span>
+      <button onclick="fbTurn(1)" id="fb-next" style="background:transparent;border:1px solid var(--border);color:var(--mid);font-size:1.4rem;width:38px;height:38px;border-radius:50%;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--mid)'">›</button>
+    </div>
+  </div>
+
   <div class="masonry" id="masonry-1">
     <div class="masonry-item" onclick="openLightbox(0)"><img src="moa1.JPG" alt="Museum of Angels 1" onerror="this.parentElement.style.background='#D4B898';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">01 / 10</div></div></div>
     <div class="masonry-item" onclick="openLightbox(1)"><img src="moa2.JPG" alt="Museum of Angels 2" onerror="this.parentElement.style.background='#C8A888';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">02 / 10</div></div></div>
@@ -621,6 +738,46 @@ function nextWork() {
 
 // Close detail on Escape key
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+
+// Flipbook
+let fbCurrent = 0;
+const FB_TOTAL = 10;
+
+function toggleBook(){
+  const wrap = document.getElementById('flipbook-wrap');
+  const btn = document.getElementById('book-btn');
+  const open = wrap.style.display === 'none' || wrap.style.display === '';
+  wrap.style.display = open ? 'block' : 'none';
+  btn.textContent = open ? '✦ Close Book' : '✦ Read the Book';
+  if(open){ fbCurrent=0; fbShow(0); setTimeout(()=>wrap.scrollIntoView({behavior:'smooth',block:'nearest'}),50); }
+}
+
+function fbShow(idx){
+  document.querySelectorAll('.fb-spread').forEach((el,i)=>{
+    el.style.opacity = i===idx ? '1' : '0';
+    el.style.pointerEvents = i===idx ? 'all' : 'none';
+  });
+  document.getElementById('fb-count').textContent = (idx+1) + ' / ' + FB_TOTAL;
+  document.getElementById('fb-prev').style.opacity = idx===0 ? '.3' : '1';
+  document.getElementById('fb-next').style.opacity = idx===FB_TOTAL-1 ? '.3' : '1';
+}
+
+function fbTurn(dir){
+  const next = fbCurrent + dir;
+  if(next<0||next>=FB_TOTAL) return;
+  fbCurrent = next;
+  fbShow(fbCurrent);
+}
+
+const fbWrap = document.getElementById('flipbook-wrap');
+if(fbWrap){
+  let fbTx=0;
+  fbWrap.addEventListener('touchstart',e=>fbTx=e.touches[0].clientX,{passive:true});
+  fbWrap.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-fbTx;
+    if(Math.abs(dx)>40) fbTurn(dx<0?1:-1);
+  },{passive:true});
+}
 
 // Nav scroll behaviour
 const nav = document.getElementById('main-nav');
