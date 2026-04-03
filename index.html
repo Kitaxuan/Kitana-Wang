@@ -79,7 +79,8 @@ nav.scrolled .nav-links a{color:var(--mid)}
 .sec-title em{font-style:italic;color:var(--brown)}
 
 /* Series label */
-.series-label{
+.fb-spread{opacity:0;pointer-events:none;transition:opacity .3s ease}
+.fb-spread.active{opacity:1;pointer-events:all}
   font-family:'Playfair Display',serif;
   font-size:1.4rem;font-weight:400;font-style:italic;
   color:var(--dark);
@@ -749,13 +750,24 @@ function toggleBook(){
   const open = wrap.style.display === 'none' || wrap.style.display === '';
   wrap.style.display = open ? 'block' : 'none';
   btn.textContent = open ? '✦ Close Book' : '✦ Read the Book';
-  if(open){ fbCurrent=0; fbShow(0); setTimeout(()=>wrap.scrollIntoView({behavior:'smooth',block:'nearest'}),50); }
+  if(open){
+    fbCurrent = 0;
+    // reset all spreads first
+    document.querySelectorAll('.fb-spread').forEach(el=>{
+      el.style.opacity='0';
+      el.style.pointerEvents='none';
+      el.style.zIndex='1';
+    });
+    fbShow(0);
+    setTimeout(()=>wrap.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+  }
 }
 
 function fbShow(idx){
   document.querySelectorAll('.fb-spread').forEach((el,i)=>{
     el.style.opacity = i===idx ? '1' : '0';
     el.style.pointerEvents = i===idx ? 'all' : 'none';
+    el.style.zIndex = i===idx ? '2' : '1';
   });
   document.getElementById('fb-count').textContent = (idx+1) + ' / ' + FB_TOTAL;
   document.getElementById('fb-prev').style.opacity = idx===0 ? '.3' : '1';
