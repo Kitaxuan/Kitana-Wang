@@ -78,9 +78,11 @@ nav.scrolled .nav-links a{color:var(--mid)}
 .sec-title{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:400;color:var(--dark)}
 .sec-title em{font-style:italic;color:var(--brown)}
 
-/* Series label */
 .fb-spread{opacity:0;pointer-events:none;transition:opacity .3s ease}
 .fb-spread.active{opacity:1;pointer-events:all}
+
+/* Series label */
+.series-label{
   font-family:'Playfair Display',serif;
   font-size:1.4rem;font-weight:400;font-style:italic;
   color:var(--dark);
@@ -151,7 +153,80 @@ nav.scrolled .nav-links a{color:var(--mid)}
 .masonry-title{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:#FAF3E3}
 .masonry-num{font-size:10px;color:rgba(250,243,227,.6);letter-spacing:.12em;margin-top:2px}
 
-/* ── DETAIL PAGE (lightbox-style full page) ── */
+/* ── PAINTED VEIL MODAL READER ── */
+#veil-modal{
+  display:none;
+  position:fixed;inset:0;z-index:8000;
+  background:rgba(10,4,0,.96);
+  align-items:center;justify-content:center;
+  flex-direction:column;
+  gap:18px;
+  animation:fadeIn .3s ease;
+}
+#veil-modal.open{display:flex}
+.veil-modal-title{
+  color:rgba(212,175,55,.55);
+  font-size:10px;letter-spacing:.35em;text-transform:uppercase;
+  font-family:'Cormorant Garamond',serif;
+}
+.veil-img-wrap{
+  position:relative;
+  max-width:min(92vw,860px);
+  width:100%;
+}
+.veil-img-wrap img{
+  width:100%;height:auto;
+  max-height:78vh;
+  object-fit:contain;
+  display:block;
+  border-radius:4px;
+  box-shadow:0 20px 60px rgba(0,0,0,.7);
+  transition:opacity .35s ease;
+}
+.veil-img-wrap img.fade{opacity:0}
+.veil-zone{
+  position:absolute;top:0;height:100%;width:38%;
+  cursor:pointer;z-index:5;display:flex;align-items:center;
+  opacity:0;transition:opacity .25s;
+}
+.veil-zone:hover{opacity:1}
+.veil-zone.left{left:0;justify-content:flex-start}
+.veil-zone.right{right:0;justify-content:flex-end}
+.veil-arrow{
+  background:rgba(0,0,0,.55);
+  border:1px solid rgba(212,175,55,.4);
+  color:#d4af37;font-size:22px;
+  width:42px;height:42px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;margin:0 14px;
+  backdrop-filter:blur(4px);
+  transition:background .2s,border-color .2s;
+}
+.veil-zone:hover .veil-arrow{background:rgba(100,50,10,.6);border-color:#d4af37}
+.veil-controls{display:flex;align-items:center;gap:20px}
+.veil-btn{
+  background:transparent;border:1px solid rgba(212,175,55,.35);
+  color:#d4af37;padding:7px 18px;
+  font-family:'Cormorant Garamond',serif;font-size:12px;
+  letter-spacing:.12em;cursor:pointer;border-radius:2px;
+  transition:all .2s;
+}
+.veil-btn:hover{background:rgba(212,175,55,.12);border-color:#d4af37}
+.veil-btn:disabled{opacity:.25;cursor:default}
+.veil-counter{color:rgba(212,175,55,.6);font-size:11px;letter-spacing:.22em;min-width:60px;text-align:center}
+.veil-dots{display:flex;gap:5px;align-items:center}
+.veil-dot{width:5px;height:5px;border-radius:50%;background:rgba(212,175,55,.22);cursor:pointer;transition:all .2s}
+.veil-dot.active{background:#d4af37;transform:scale(1.4)}
+.veil-close{
+  position:absolute;top:1.2rem;right:1.5rem;
+  font-size:24px;color:rgba(250,243,227,.55);
+  cursor:pointer;background:none;border:none;
+  transition:color .2s;line-height:1;z-index:10;
+}
+.veil-close:hover{color:#d4af37}
+.veil-hint{color:rgba(212,175,55,.22);font-size:10px;letter-spacing:.14em}
+
+/* ── DETAIL PAGE ── */
 #page-detail{
   display:none;
   position:fixed;inset:0;z-index:999;
@@ -159,23 +234,13 @@ nav.scrolled .nav-links a{color:var(--mid)}
   overflow-y:auto;
   animation:fadeIn .35s ease;
 }
-.detail-inner{
-  max-width:960px;margin:0 auto;
-  padding:6rem 4rem 5rem;
-}
-.detail-back{
-  display:inline-flex;align-items:center;gap:.6rem;
-  font-size:11px;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--mid);cursor:pointer;margin-bottom:3rem;
-  background:none;border:none;font-family:'Cormorant Garamond',serif;
-  transition:color .2s;
-}
+.detail-inner{max-width:960px;margin:0 auto;padding:6rem 4rem 5rem}
+.detail-back{display:inline-flex;align-items:center;gap:.6rem;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mid);cursor:pointer;margin-bottom:3rem;background:none;border:none;font-family:'Cormorant Garamond',serif;transition:color .2s}
 .detail-back:hover{color:var(--gold)}
 .detail-back::before{content:'←';font-size:14px}
 .detail-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;align-items:start}
 .detail-img{border-radius:8px;overflow:hidden;border:1px solid var(--border)}
 .detail-img img{width:100%;display:block}
-.detail-info{}
 .detail-series{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-style:italic;margin-bottom:.8rem}
 .detail-title{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:400;line-height:1.2;color:var(--dark);margin-bottom:.6rem}
 .detail-title em{font-style:italic;color:var(--brown)}
@@ -260,6 +325,7 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
   .detail-grid{grid-template-columns:1fr}
   .detail-inner{padding:4rem 1.5rem}
   footer{flex-direction:column;gap:1rem;text-align:center}
+  .veil-hint{display:none}
 }
 </style>
 </head>
@@ -312,16 +378,15 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
     <h2 class="sec-title">From the <em>Studio</em></h2>
   </div>
 
-  <!-- Series 1 -->
+  <!-- Series 1: Museum of Angels -->
   <p class="series-label">Museum of Angels
     <button onclick="toggleBook()" id="book-btn" style="font-size:11px;letter-spacing:.2em;color:var(--gold);background:transparent;border:1px solid rgba(201,168,76,.4);padding:.3rem .9rem;border-radius:20px;margin-left:1rem;font-style:normal;font-family:'Cormorant Garamond',serif;text-transform:uppercase;cursor:pointer;transition:all .2s">✦ Read the Book</button>
   </p>
 
-  <!-- INLINE FLIPBOOK -->
+  <!-- INLINE FLIPBOOK (Museum of Angels) -->
   <div id="flipbook-wrap" style="display:none;margin-bottom:2rem">
     <div id="flipbook" style="position:relative;width:100%;max-width:860px;margin:0 auto;height:min(70vh,520px);perspective:2000px">
 
-      <!-- Spread 0: Cover -->
       <div class="fb-spread active" id="fb0" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
         <div style="overflow:hidden"><img src="moa1.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
         <div style="background:#D4B898;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:2rem;text-align:center">
@@ -331,12 +396,11 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
         </div>
       </div>
 
-      <!-- Spreads 1-9 -->
       <div class="fb-spread" id="fb1" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
         <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
           <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.8rem">Curiosity at the Window</div>
           <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">As night falls, the museum is closed to the public. Two curious little girls quietly peek through a window, trying to glimpse the secrets inside. Through the glass, they notice a faint glow in the exhibition hall and a small figure moving among the display cases. They do not know that it is the little angel who protects the artifacts. To them, the museum seems to hold a quiet kind of magic.</div>
+          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">As night falls, the museum is closed to the public. Two curious little girls quietly peek through a window, trying to glimpse the secrets inside. Through the glass, they notice a faint glow in the exhibition hall and a small figure moving among the display cases.</div>
         </div>
         <div style="overflow:hidden"><img src="moa2.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
       </div>
@@ -359,7 +423,7 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
           <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Jewelry Box</div>
           <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(19th Century European Jewelry / Sewing Box)</div>
           <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">Inside an elegant display case, a beautiful 19th-century European jewelry box sits open. Soft fabric lines the interior, holding small tools and delicate ornaments. The little angel sits inside the box, curiously playing with the old pieces of jewelry, as if exploring a tiny treasure chest. Each object once belonged to another time, and she quietly guards these shining memories.</div>
+          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The little angel sits inside the box, curiously playing with the old pieces of jewelry, as if exploring a tiny treasure chest. Each object once belonged to another time, and she quietly guards these shining memories.</div>
         </div>
         <div style="overflow:hidden"><img src="moa5.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
       </div>
@@ -369,7 +433,7 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
           <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Nautilus Cup</div>
           <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(European Nautilus Shell Cup, 16–17th Century)</div>
           <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">Under the soft light of the display case, an elegant European Nautilus Shell Cup rests quietly. The natural shell is supported by a richly decorated metal base, a type of vessel once used at royal banquets in European courts. The little angel sleeps peacefully inside the curved shell, as if resting in a cradle shaped by the sea.</div>
+          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The little angel sleeps peacefully inside the curved shell, as if resting in a cradle shaped by the sea.</div>
         </div>
         <div style="overflow:hidden"><img src="moa6.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
       </div>
@@ -381,9 +445,8 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
       <div class="fb-spread" id="fb7" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
         <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
           <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and William the Hippopotamus</div>
-          <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">("William" the Faience Hippopotamus, Middle Kingdom Egypt)</div>
           <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">A turquoise-blue hippopotamus stands quietly on the pedestal, its body decorated with plants that symbolize the vegetation of the Nile River. This is the famous "William" the Hippopotamus. The little angel sits on its back, as if taking part in a quiet nighttime journey. While the hippopotamus carries memories of ancient Egypt, the angel softly watches over it.</div>
+          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The little angel sits on its back, as if taking part in a quiet nighttime journey. While the hippopotamus carries memories of ancient Egypt, the angel softly watches over it.</div>
         </div>
         <div style="overflow:hidden"><img src="moa8.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
       </div>
@@ -391,9 +454,9 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
       <div class="fb-spread" id="fb8" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
         <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
           <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Porcelain Vase</div>
-          <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(Yuan Dynasty Blue-and-White Porcelain Vase)</div>
+          <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(Yuan Dynasty Blue-and-White Porcelain)</div>
           <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">At the center of the display stands a graceful blue-and-white porcelain vase from the Yuan dynasty. Deep blue floral patterns flow across the smooth white surface of the porcelain. The little angel gently sits on the rim of the vase, like a small bird resting for a moment.</div>
+          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The little angel gently sits on the rim of the vase, like a small bird resting for a moment.</div>
         </div>
         <div style="overflow:hidden"><img src="moa9.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
       </div>
@@ -401,18 +464,15 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
       <div class="fb-spread" id="fb9" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
         <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
           <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Tang Dynasty Figurine</div>
-          <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(Tang Dynasty Female Pottery Figurine)</div>
           <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">Inside the display case stands an elegant Tang dynasty female pottery figurine. Her hands are gently folded, and her posture is calm and composed. Standing beside her, the little angel imitates the same pose. The two figures — one large and one small — seem to mirror each other across time.</div>
+          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The two figures — one large and one small — seem to mirror each other across time.</div>
         </div>
         <div style="overflow:hidden"><img src="moa10.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
       </div>
 
-      <!-- Spine shadow -->
       <div style="position:absolute;left:50%;top:0;bottom:0;width:4px;transform:translateX(-50%);background:linear-gradient(to right,rgba(0,0,0,.2),rgba(0,0,0,.05),rgba(0,0,0,.2));pointer-events:none;z-index:5"></div>
     </div>
 
-    <!-- Book nav -->
     <div style="display:flex;align-items:center;justify-content:center;gap:2rem;margin-top:1.2rem">
       <button onclick="fbTurn(-1)" id="fb-prev" style="background:transparent;border:1px solid var(--border);color:var(--mid);font-size:1.4rem;width:38px;height:38px;border-radius:50%;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--mid)'">‹</button>
       <span id="fb-count" style="font-size:12px;letter-spacing:.2em;color:var(--mid);font-style:italic">1 / 10</span>
@@ -433,23 +493,28 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
     <div class="masonry-item" onclick="openLightbox(9)"><img src="moa10.JPG" alt="Museum of Angels 10" onerror="this.parentElement.style.background='#C0A880';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">10 / 10</div></div></div>
   </div>
 
-  <!-- Series 2 -->
-  <p class="series-label">The Painted Veil</p>
+  <!-- Series 2: The Painted Veil -->
+  <p class="series-label">The Painted Veil
+    <button onclick="openVeilReader()" style="font-size:11px;letter-spacing:.2em;color:var(--gold);background:transparent;border:1px solid rgba(201,168,76,.4);padding:.3rem .9rem;border-radius:20px;margin-left:1rem;font-style:normal;font-family:'Cormorant Garamond',serif;text-transform:uppercase;cursor:pointer;transition:all .2s">✦ Read the Book</button>
+  </p>
+
   <div class="masonry" id="masonry-2">
-    <div class="masonry-item" onclick="openLightbox(10)"><img src="veil1.JPG" alt="The Painted Veil 1" onerror="this.parentElement.style.background='#B8C4C8';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">01 / 06</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(11)"><img src="veil2.JPG" alt="The Painted Veil 2" onerror="this.parentElement.style.background='#A8B8C0';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">02 / 06</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(12)"><img src="veil3.JPG" alt="The Painted Veil 3" onerror="this.parentElement.style.background='#C0C8D0';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">03 / 06</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(13)"><img src="veil4.JPG" alt="The Painted Veil 4" onerror="this.parentElement.style.background='#B0C0C8';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">04 / 06</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(14)"><img src="veil5.JPG" alt="The Painted Veil 5" onerror="this.parentElement.style.background='#C8D0D8';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">05 / 06</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(15)"><img src="veil6.JPG" alt="The Painted Veil 6" onerror="this.parentElement.style.background='#B8C8D0';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">06 / 06</div></div></div>
+    <div class="masonry-item" onclick="openLightbox(10)"><img src="veil_cover.jpg" alt="The Painted Veil Cover" onerror="this.parentElement.style.background='#7A3A2A';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">Cover</div></div></div>
+    <div class="masonry-item" onclick="openLightbox(11)"><img src="veil_p01_text.jpg" alt="The Painted Veil p1" onerror="this.parentElement.style.background='#5A3020';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">01</div></div></div>
+    <div class="masonry-item" onclick="openLightbox(12)"><img src="veil_p02_text.jpg" alt="The Painted Veil p2" onerror="this.parentElement.style.background='#6A4030';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">02</div></div></div>
+    <div class="masonry-item" onclick="openLightbox(13)"><img src="veil_p03_text.jpg" alt="The Painted Veil p3" onerror="this.parentElement.style.background='#704838';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">03</div></div></div>
+    <div class="masonry-item" onclick="openLightbox(14)"><img src="veil_p04_text.jpg" alt="The Painted Veil p4" onerror="this.parentElement.style.background='#5C3828';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">04</div></div></div>
+    <div class="masonry-item" onclick="openLightbox(15)"><img src="veil_p05_text.jpg" alt="The Painted Veil p5" onerror="this.parentElement.style.background='#664030';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">05</div></div></div>
+    <div class="masonry-item" onclick="openLightbox(16)"><img src="veil_p06_text.jpg" alt="The Painted Veil p6" onerror="this.parentElement.style.background='#7A4A38';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">06</div></div></div>
+    <div class="masonry-item" onclick="openLightbox(17)"><img src="veil_p07_text.jpg" alt="The Painted Veil p7" onerror="this.parentElement.style.background='#603828';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">07</div></div></div>
+    <div class="masonry-item" onclick="openLightbox(18)"><img src="veil_backcover.jpg" alt="The Painted Veil Back Cover" onerror="this.parentElement.style.background='#7A3A2A';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">Back Cover</div></div></div>
   </div>
 
-  <!-- Series 3 -->
+  <!-- Series 3: Children's Book -->
   <p class="series-label">Children's Book</p>
   <div class="masonry" id="masonry-3">
-    <div class="masonry-item" onclick="openLightbox(16)"><img src="book1.jpeg" alt="Children's Book 1" onerror="this.parentElement.style.background='#D0C0B0';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Children's Book</div><div class="masonry-num">01 / 03</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(17)"><img src="book2.jpeg" alt="Children's Book 2" onerror="this.parentElement.style.background='#C8B8A8';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Children's Book</div><div class="masonry-num">02 / 03</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(18)"><img src="book2.jpeg" alt="Children's Book 3" onerror="this.parentElement.style.background='#D8C8B8';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Children's Book</div><div class="masonry-num">03 / 03</div></div></div>
+    <div class="masonry-item" onclick="openLightbox(19)"><img src="book1.jpeg" alt="Children's Book 1" onerror="this.parentElement.style.background='#D0C0B0';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Children's Book</div><div class="masonry-num">01 / 02</div></div></div>
+    <div class="masonry-item" onclick="openLightbox(20)"><img src="book2.jpeg" alt="Children's Book 2" onerror="this.parentElement.style.background='#C8B8A8';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Children's Book</div><div class="masonry-num">02 / 02</div></div></div>
   </div>
 </section>
 
@@ -570,7 +635,7 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
       <h2 class="sec-title">Say <em>hello</em></h2>
     </div>
     <p>For commissions, collaborations, licensing, or just to share what my work made you feel — I'd love to hear from you.</p>
-    <a href="/cdn-cgi/l/email-protection#a1c9c4cdcdcee1cac8d5c0cfc0d6c0cfc68fc2cecc" class="contact-email"><span class="__cf_email__" data-cfemail="375f525b5b58775c5e43565956405659501954585a">[email&#160;protected]</span></a>
+    <a href="mailto:kitana@example.com" class="contact-email">kitana@example.com</a>
     <div class="social-row">
       <a href="#" target="_blank">Instagram</a>
       <a href="#" target="_blank">小红书</a>
@@ -603,9 +668,7 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
   <div class="detail-inner">
     <button class="detail-back" onclick="closeDetail()">Back to Gallery</button>
     <div class="detail-grid">
-      <div class="detail-img">
-        <img id="detail-img-el" src="" alt="">
-      </div>
+      <div class="detail-img"><img id="detail-img-el" src="" alt=""></div>
       <div class="detail-info">
         <p class="detail-series" id="detail-series"></p>
         <h2 class="detail-title" id="detail-title"></h2>
@@ -621,146 +684,139 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// Lightbox
+<!-- ══ PAINTED VEIL FULL-SCREEN READER MODAL ══ -->
+<div id="veil-modal">
+  <button class="veil-close" onclick="closeVeilReader()">✕</button>
+  <div class="veil-modal-title">The Painted Veil &nbsp;·&nbsp; William Somerset Maugham &nbsp;·&nbsp; Illustrated by Zixuan Wang</div>
+
+  <div class="veil-img-wrap">
+    <img id="veil-page-img" src="veil_cover.jpg" alt="The Painted Veil">
+    <div class="veil-zone left" onclick="veilPrev()"><div class="veil-arrow">&#8592;</div></div>
+    <div class="veil-zone right" onclick="veilNext()"><div class="veil-arrow">&#8594;</div></div>
+  </div>
+
+  <div class="veil-controls">
+    <button class="veil-btn" id="veil-btn-prev" onclick="veilPrev()" disabled>&#8592; Prev</button>
+    <span class="veil-counter" id="veil-counter">1 / 9</span>
+    <button class="veil-btn" id="veil-btn-next" onclick="veilNext()">Next &#8594;</button>
+  </div>
+
+  <div class="veil-dots" id="veil-dots"></div>
+  <div class="veil-hint">Click sides · Keyboard ← → · Swipe on mobile</div>
+</div>
+
+<script>
+// ── LIGHTBOX ──
 let lbIndex = 0;
 const lbImages = [
   'moa1.JPG','moa2.JPG','moa3.JPG','moa4.JPG','moa5.JPG',
   'moa6.JPG','moa7.JPG','moa8.JPG','moa9.JPG','moa10.JPG',
-  'veil1.JPG','veil2.JPG','veil3.JPG','veil4.JPG','veil5.JPG','veil6.JPG',
+  'veil_cover.jpg','veil_p01_text.jpg','veil_p02_text.jpg','veil_p03_text.jpg',
+  'veil_p04_text.jpg','veil_p05_text.jpg','veil_p06_text.jpg','veil_p07_text.jpg',
+  'veil_backcover.jpg',
   'book1.jpeg','book2.jpeg'
 ];
+function openLightbox(idx){lbIndex=idx;document.getElementById('lb-img').src=lbImages[lbIndex];document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden'}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow=''}
+function lbPrev(){lbIndex=(lbIndex-1+lbImages.length)%lbImages.length;document.getElementById('lb-img').src=lbImages[lbIndex]}
+function lbNext(){lbIndex=(lbIndex+1)%lbImages.length;document.getElementById('lb-img').src=lbImages[lbIndex]}
+const lbEl=document.getElementById('lightbox');
+if(lbEl) lbEl.addEventListener('click',function(e){if(e.target===this)closeLightbox()});
 
-function openLightbox(idx) {
-  lbIndex = idx;
-  document.getElementById('lb-img').src = lbImages[lbIndex];
-  document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function lbPrev() {
-  lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length;
-  document.getElementById('lb-img').src = lbImages[lbIndex];
-}
-function lbNext() {
-  lbIndex = (lbIndex + 1) % lbImages.length;
-  document.getElementById('lb-img').src = lbImages[lbIndex];
-}
-const lbEl = document.getElementById('lightbox');
-if(lbEl) lbEl.addEventListener('click', function(e) {
-  if (e.target === this) closeLightbox();
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeLightbox(); closeDetail(); }
-  if (e.key === 'ArrowLeft') lbPrev();
-  if (e.key === 'ArrowRight') lbNext();
-});
-
-// Work data — edit titles, descriptions, tags as needed
-const works = [
-  {src:"moa1.JPG", series:"Museum of Angels", title:"The Keeper", year:"2024", desc:"A young guardian tends to the artefacts of a forgotten age.", tags:["Digital Painting","Character"]},
-  {src:"moa2.JPG", series:"Museum of Angels", title:"Curiosity at the Window", year:"2024", desc:"Two curious girls peek through the museum window at night, glimpsing a quiet kind of magic.", tags:["Digital Painting","Character"]},
-  {src:"moa3.JPG", series:"Museum of Angels", title:"The Quiet Guardian", year:"2024", desc:"When morning light fills the grand hall, the little angel waits quietly for visitors.", tags:["Digital Painting","Interior"]},
-  {src:"moa4.JPG", series:"Museum of Angels", title:"The Angel and the Jewelry Box", year:"2024", subtitle:"(19th Century European Jewelry / Sewing Box)", desc:"Inside an elegant display case, a beautiful 19th-century European jewelry box sits open. Soft fabric lines the interior, holding small tools and delicate ornaments. The little angel sits inside the box, curiously playing with the old pieces of jewelry, as if exploring a tiny treasure chest. Each object once belonged to another time, and she quietly guards these shining memories.", tags:["Digital Painting","Still Life"]},
-  {src:"moa5.JPG", series:"Museum of Angels", title:"The Angel and the Nautilus Cup", year:"2024", subtitle:"(European Nautilus Shell Cup, 16–17th Century)", desc:"Under the soft light of the display case, an elegant European Nautilus Shell Cup rests quietly. The natural shell is supported by a richly decorated metal base, a type of vessel once used at royal banquets in European courts. The little angel sleeps peacefully inside the curved shell, as if resting in a cradle shaped by the sea.", tags:["Digital Painting","Still Life"]},
-  {src:"moa6.JPG", series:"Museum of Angels", title:"The Angel and the Pocket Watch", year:"2024", subtitle:"(European Gold Pocket Watch)", desc:"Under the warm light of the display, a delicate European gold pocket watch is opened. Roman numerals circle the white dial, while the slender hands move slowly across the face. The little angel sits beside the watch, gently touching the hands, as if trying to understand how time flows.", tags:["Digital Painting","Object"]},
-  {src:"moa7.JPG", series:"Museum of Angels", title:"The Angel at Work", year:"2024", desc:"In a small workshop deep inside the museum, the little angel carries out the quietest work of the day. She gently wipes the dust from the surface of ancient artifacts and carefully adjusts the position of delicate ceramics.", tags:["Digital Painting","Character"]},
-  {src:"moa8.JPG", series:"Museum of Angels", title:"William the Hippopotamus", year:"2024", desc:"The little angel rides William the ancient Egyptian hippopotamus on a quiet nighttime journey.", tags:["Digital Painting","Character"]},
-  {src:"moa9.JPG", series:"Museum of Angels", title:"The Porcelain Vase", year:"2024", desc:"She sits on the rim of a Yuan dynasty blue-and-white vase, like a small bird at rest.", tags:["Digital Painting","Still Life"]},
-  {src:"moa10.JPG", series:"Museum of Angels", title:"The Tang Figurine", year:"2024", desc:"The angel imitates a Tang dynasty figurine, two figures mirroring each other across time.", tags:["Digital Painting","Character"]},
-  {src:"veil1.JPG", series:"The Painted Veil", title:"First Light", year:"2024", desc:"A soft morning, a quiet garden, the moment before the world remembers it is busy.", tags:["Digital Painting","Landscape"]},
-  {src:"veil2.JPG", series:"The Painted Veil", title:"The Letter", year:"2024", desc:"Words that took a season to write, folded once and left on the table by the window.", tags:["Digital Painting","Still Life"]},
-  {src:"veil3.JPG", series:"The Painted Veil", title:"Reverie", year:"2024", desc:"She has been sitting here long enough for the afternoon to change colour twice.", tags:["Digital Painting","Character"]},
-  {src:"veil4.JPG", series:"The Painted Veil", title:"The Garden Wall", year:"2024", desc:"Beyond it, something is always in bloom. She has learned not to look too often.", tags:["Digital Painting","Landscape"]},
-  {src:"veil5.JPG", series:"The Painted Veil", title:"Dusk Errand", year:"2024", desc:"A small task carried out with great care, as the sky shifts from gold to grey.", tags:["Digital Painting","Character"]},
-  {src:"veil6.JPG", series:"The Painted Veil", title:"The Return", year:"2024", desc:"Coming home means something different each time. This time it means warmth and tea.", tags:["Digital Painting","Interior"]},
-  {src:"book1.jpeg", series:"Children s Book", title:"The Little Finder", year:"2023", desc:"A small child discovers that the world is full of things simply waiting to be found.", tags:["Digital Painting","Character"]},
-  {src:"book2.jpeg", series:"Children s Book", title:"Night Garden", year:"2023", desc:"After dark, the garden keeps a secret. Only those who tiptoe quietly are allowed to see it.", tags:["Digital Painting","Landscape"]},
-  {src:"book2.jpeg", series:"Children s Book", title:"The Borrowed Moon", year:"2023", desc:"A child borrows the moon for one evening, just to see if it fits in her pocket.", tags:["Digital Painting","Character"]},
+// ── VEIL READER ──
+const veilPages=[
+  'veil_cover.jpg',
+  'veil_p01_text.jpg','veil_p02_text.jpg','veil_p03_text.jpg',
+  'veil_p04_text.jpg','veil_p05_text.jpg','veil_p06_text.jpg',
+  'veil_p07_text.jpg',
+  'veil_backcover.jpg'
 ];
+let veilCurrent=0;
+const veilImg=document.getElementById('veil-page-img');
+const veilCounter=document.getElementById('veil-counter');
+const veilBtnPrev=document.getElementById('veil-btn-prev');
+const veilBtnNext=document.getElementById('veil-btn-next');
+const veilDotsEl=document.getElementById('veil-dots');
 
-let currentIndex = 0;
-let scrollPos = 0;
+// Build dots
+veilPages.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='veil-dot'+(i===0?' active':'');
+  d.onclick=()=>veilGoTo(i);
+  veilDotsEl.appendChild(d);
+});
 
-function openDetail(idx) {
-  currentIndex = idx;
-  scrollPos = window.scrollY;
-  renderDetail();
-  document.getElementById('page-detail').style.display = 'block';
-  document.body.style.overflow = 'hidden';
-  document.getElementById('page-detail').scrollTop = 0;
+function veilUpdateUI(){
+  veilCounter.textContent=(veilCurrent+1)+' / '+veilPages.length;
+  veilBtnPrev.disabled=veilCurrent===0;
+  veilBtnNext.disabled=veilCurrent===veilPages.length-1;
+  document.querySelectorAll('.veil-dot').forEach((d,i)=>d.classList.toggle('active',i===veilCurrent));
 }
 
-function closeDetail() {
-  document.getElementById('page-detail').style.display = 'none';
-  document.body.style.overflow = '';
-  window.scrollTo(0, scrollPos);
+function veilGoTo(index){
+  if(index<0||index>=veilPages.length||index===veilCurrent) return;
+  veilImg.classList.add('fade');
+  setTimeout(()=>{
+    veilCurrent=index;
+    veilImg.src=veilPages[veilCurrent];
+    veilImg.classList.remove('fade');
+    veilUpdateUI();
+  },280);
+}
+function veilNext(){veilGoTo(veilCurrent+1)}
+function veilPrev(){veilGoTo(veilCurrent-1)}
+
+function openVeilReader(){
+  veilCurrent=0;
+  veilImg.src=veilPages[0];
+  veilUpdateUI();
+  document.getElementById('veil-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeVeilReader(){
+  document.getElementById('veil-modal').classList.remove('open');
+  document.body.style.overflow='';
 }
 
-function renderDetail() {
-  const w = works[currentIndex];
-  document.getElementById('detail-img-el').src = w.src;
-  document.getElementById('detail-img-el').alt = w.title;
-  document.getElementById('detail-series').textContent = w.series;
-  document.getElementById('detail-title').textContent = w.title;
-  document.getElementById('detail-year').textContent = w.subtitle ? w.subtitle + '  · ' + w.year : w.year;
-  document.getElementById('detail-desc').textContent = w.desc;
-  const tagsEl = document.getElementById('detail-tags');
-  tagsEl.innerHTML = w.tags.map(t => `<span class="detail-tag">${t}</span>`).join('');
-}
+// Veil swipe
+let veilTouchX=0;
+const veilModal=document.getElementById('veil-modal');
+veilModal.addEventListener('touchstart',e=>{veilTouchX=e.touches[0].clientX},{passive:true});
+veilModal.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-veilTouchX;
+  if(Math.abs(dx)>50){if(dx<0)veilNext();else veilPrev();}
+},{passive:true});
+veilModal.addEventListener('click',function(e){if(e.target===this)closeVeilReader()});
 
-function prevWork() {
-  currentIndex = (currentIndex - 1 + works.length) % works.length;
-  renderDetail();
-  document.getElementById('page-detail').scrollTop = 0;
-}
-
-function nextWork() {
-  currentIndex = (currentIndex + 1) % works.length;
-  renderDetail();
-  document.getElementById('page-detail').scrollTop = 0;
-}
-
-// Close detail on Escape key
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
-
-// Flipbook
-let fbCurrent = 0;
-const FB_TOTAL = 10;
-
-function toggleBook(){
-  const wrap = document.getElementById('flipbook-wrap');
-  const btn = document.getElementById('book-btn');
-  if(!wrap||!btn) return;
-  const isHidden = wrap.style.display==='none'||wrap.style.display==='';
-  if(isHidden){
-    wrap.style.display='block';
-    btn.textContent='✦ Close Book';
-    fbCurrent=0;
-    fbShow(0);
-    setTimeout(()=>wrap.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
-  } else {
-    wrap.style.display='none';
-    btn.textContent='✦ Read the Book';
+// ── KEYBOARD ──
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeLightbox();closeDetail();closeVeilReader();}
+  if(document.getElementById('veil-modal').classList.contains('open')){
+    if(e.key==='ArrowRight')veilNext();
+    if(e.key==='ArrowLeft')veilPrev();
+  } else if(document.getElementById('lightbox').classList.contains('open')){
+    if(e.key==='ArrowLeft')lbPrev();
+    if(e.key==='ArrowRight')lbNext();
   }
-}
+});
 
+// ── FLIPBOOK (Museum of Angels) ──
+let fbCurrent=0;
+const FB_TOTAL=10;
+function toggleBook(){
+  const wrap=document.getElementById('flipbook-wrap');
+  const btn=document.getElementById('book-btn');
+  if(!wrap||!btn) return;
+  const isHidden=wrap.style.display==='none'||wrap.style.display==='';
+  if(isHidden){wrap.style.display='block';btn.textContent='✦ Close Book';fbCurrent=0;fbShow(0);setTimeout(()=>wrap.scrollIntoView({behavior:'smooth',block:'nearest'}),100);}
+  else{wrap.style.display='none';btn.textContent='✦ Read the Book';}
+}
 function fbShow(idx){
   for(let i=0;i<FB_TOTAL;i++){
     const el=document.getElementById('fb'+i);
     if(!el) continue;
-    if(i===idx){
-      el.style.opacity='1';
-      el.style.pointerEvents='all';
-      el.style.zIndex='2';
-    } else {
-      el.style.opacity='0';
-      el.style.pointerEvents='none';
-      el.style.zIndex='1';
-    }
+    if(i===idx){el.style.opacity='1';el.style.pointerEvents='all';el.style.zIndex='2';}
+    else{el.style.opacity='0';el.style.pointerEvents='none';el.style.zIndex='1';}
   }
   const cnt=document.getElementById('fb-count');
   const prev=document.getElementById('fb-prev');
@@ -769,42 +825,67 @@ function fbShow(idx){
   if(prev) prev.style.opacity=idx===0?'.3':'1';
   if(next) next.style.opacity=idx===FB_TOTAL-1?'.3':'1';
 }
-
-function fbTurn(dir){
-  const next=fbCurrent+dir;
-  if(next<0||next>=FB_TOTAL) return;
-  fbCurrent=next;
-  fbShow(fbCurrent);
-}
-
+function fbTurn(dir){const next=fbCurrent+dir;if(next<0||next>=FB_TOTAL)return;fbCurrent=next;fbShow(fbCurrent);}
 const fbWrap=document.getElementById('flipbook-wrap');
 if(fbWrap){
   let fbTx=0;
   fbWrap.addEventListener('touchstart',e=>{fbTx=e.touches[0].clientX},{passive:true});
-  fbWrap.addEventListener('touchend',e=>{
-    const dx=e.changedTouches[0].clientX-fbTx;
-    if(Math.abs(dx)>40) fbTurn(dx<0?1:-1);
-  },{passive:true});
+  fbWrap.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-fbTx;if(Math.abs(dx)>40)fbTurn(dx<0?1:-1);},{passive:true});
 }
 
-// Nav scroll behaviour
-const nav = document.getElementById('main-nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 80);
+// ── DETAIL PAGE ──
+const works=[
+  {src:"moa1.JPG",series:"Museum of Angels",title:"The Keeper",year:"2024",desc:"A young guardian tends to the artefacts of a forgotten age.",tags:["Digital Painting","Character"]},
+  {src:"moa2.JPG",series:"Museum of Angels",title:"Curiosity at the Window",year:"2024",desc:"Two curious girls peek through the museum window at night, glimpsing a quiet kind of magic.",tags:["Digital Painting","Character"]},
+  {src:"moa3.JPG",series:"Museum of Angels",title:"The Quiet Guardian",year:"2024",desc:"When morning light fills the grand hall, the little angel waits quietly for visitors.",tags:["Digital Painting","Interior"]},
+  {src:"moa4.JPG",series:"Museum of Angels",title:"The Angel and the Jewelry Box",year:"2024",desc:"Inside an elegant display case, the little angel explores a tiny treasure chest of memories.",tags:["Digital Painting","Still Life"]},
+  {src:"moa5.JPG",series:"Museum of Angels",title:"The Angel and the Nautilus Cup",year:"2024",desc:"The little angel sleeps peacefully inside the curved shell, as if resting in a cradle shaped by the sea.",tags:["Digital Painting","Still Life"]},
+  {src:"moa6.JPG",series:"Museum of Angels",title:"The Angel and the Pocket Watch",year:"2024",desc:"She gently touches the hands of a gold pocket watch, as if trying to understand how time flows.",tags:["Digital Painting","Object"]},
+  {src:"moa7.JPG",series:"Museum of Angels",title:"The Angel at Work",year:"2024",desc:"In a small workshop deep inside the museum, the little angel carries out the quietest work of the day.",tags:["Digital Painting","Character"]},
+  {src:"moa8.JPG",series:"Museum of Angels",title:"William the Hippopotamus",year:"2024",desc:"The little angel rides William the ancient Egyptian hippopotamus on a quiet nighttime journey.",tags:["Digital Painting","Character"]},
+  {src:"moa9.JPG",series:"Museum of Angels",title:"The Porcelain Vase",year:"2024",desc:"She sits on the rim of a Yuan dynasty blue-and-white vase, like a small bird at rest.",tags:["Digital Painting","Still Life"]},
+  {src:"moa10.JPG",series:"Museum of Angels",title:"The Tang Figurine",year:"2024",desc:"The angel imitates a Tang dynasty figurine — two figures mirroring each other across time.",tags:["Digital Painting","Character"]},
+  {src:"veil_cover.jpg",series:"The Painted Veil",title:"Cover",year:"2024",desc:"The Painted Veil, illustrated by Zixuan Wang.",tags:["Book Illustration","Cover"]},
+  {src:"veil_p01_text.jpg",series:"The Painted Veil",title:"Page 1 — Kitty & Walter",year:"2024",desc:"Crushed by social pressure, Kitty hastily accepted the proposal of Walter — a man she neither knew nor loved.",tags:["Book Illustration","Narrative"]},
+  {src:"veil_p02_text.jpg",series:"The Painted Veil",title:"Page 2 — Charlie Townsend",year:"2024",desc:"In Hong Kong, Kitty met the charming Charlie Townsend and fell into a passionate affair.",tags:["Book Illustration","Narrative"]},
+  {src:"veil_p03_text.jpg",series:"The Painted Veil",title:"Page 3 — Arrival",year:"2024",desc:"Kitty arrives in a remote, cholera-stricken village — a place of death and despair.",tags:["Book Illustration","Narrative"]},
+  {src:"veil_p04_text.jpg",series:"The Painted Veil",title:"Page 4 — The Convent",year:"2024",desc:"Inspired by the nuns' courage, Kitty begins to help and finds meaning in compassion and service.",tags:["Book Illustration","Narrative"]},
+  {src:"veil_p05_text.jpg",series:"The Painted Veil",title:"Page 5 — Walter's Passing",year:"2024",desc:"In losing Walter, Kitty finally sees his worth and the magnitude of her own growth.",tags:["Book Illustration","Narrative"]},
+  {src:"veil_p06_text.jpg",series:"The Painted Veil",title:"Page 6 — The Return",year:"2024",desc:"Kitty returns to Hong Kong, carrying grief and the clarity that comes with growth.",tags:["Book Illustration","Narrative"]},
+  {src:"veil_p07_text.jpg",series:"The Painted Veil",title:"Page 7 — A New Life",year:"2024",desc:"Kitty chooses to return to England, raise her unborn child alone, and begin a life truly her own.",tags:["Book Illustration","Narrative"]},
+  {src:"veil_backcover.jpg",series:"The Painted Veil",title:"Back Cover",year:"2024",desc:"Through sorrow and betrayal, she tore away the painted veil — and at last, saw herself clearly.",tags:["Book Illustration","Cover"]},
+  {src:"book1.jpeg",series:"Children's Book",title:"The Little Finder",year:"2023",desc:"A small child discovers that the world is full of things simply waiting to be found.",tags:["Digital Painting","Character"]},
+  {src:"book2.jpeg",series:"Children's Book",title:"Night Garden",year:"2023",desc:"After dark, the garden keeps a secret. Only those who tiptoe quietly are allowed to see it.",tags:["Digital Painting","Landscape"]},
+];
+let currentIndex=0;
+let scrollPos=0;
+function openDetail(idx){currentIndex=idx;scrollPos=window.scrollY;renderDetail();document.getElementById('page-detail').style.display='block';document.body.style.overflow='hidden';document.getElementById('page-detail').scrollTop=0;}
+function closeDetail(){document.getElementById('page-detail').style.display='none';document.body.style.overflow='';window.scrollTo(0,scrollPos);}
+function renderDetail(){
+  const w=works[currentIndex];
+  document.getElementById('detail-img-el').src=w.src;
+  document.getElementById('detail-img-el').alt=w.title;
+  document.getElementById('detail-series').textContent=w.series;
+  document.getElementById('detail-title').textContent=w.title;
+  document.getElementById('detail-year').textContent=w.subtitle?w.subtitle+' · '+w.year:w.year;
+  document.getElementById('detail-desc').textContent=w.desc;
+  document.getElementById('detail-tags').innerHTML=w.tags.map(t=>`<span class="detail-tag">${t}</span>`).join('');
+}
+function prevWork(){currentIndex=(currentIndex-1+works.length)%works.length;renderDetail();document.getElementById('page-detail').scrollTop=0;}
+function nextWork(){currentIndex=(currentIndex+1)%works.length;renderDetail();document.getElementById('page-detail').scrollTop=0;}
+
+// ── NAV SCROLL ──
+const nav=document.getElementById('main-nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>80)});
+
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});
 });
 
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const t = document.querySelector(a.getAttribute('href'));
-    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
-  });
-});
-
-const ro = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
-}, { threshold: 0.05 });
-document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+// ── REVEAL ON SCROLL ──
+const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}});},{threshold:0.05});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 </script>
 </body>
 </html>
