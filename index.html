@@ -707,7 +707,6 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
 // ── LIGHTBOX ──
 let lbIndex = 0;
 const lbImages = [
@@ -888,8 +887,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
 // ── REVEAL ON SCROLL ──
 const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}});},{threshold:0.05});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
-
-}); // end DOMContentLoaded
 </script>
 </body>
 </html>
