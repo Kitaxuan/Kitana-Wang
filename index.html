@@ -8,592 +8,356 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --cream:#FAF3E3;
-  --gold:#C9A84C;
-  --deep-gold:#8B6914;
-  --brown:#8B6B5A;
-  --dark:#3A2A1E;
-  --mid:#7A5C4A;
-  --light:#A8907A;
-  --border:#DDD0BC;
+  --cream:#FAF3E3;--gold:#C9A84C;--deep-gold:#8B6914;
+  --brown:#8B6B5A;--dark:#3A2A1E;--mid:#7A5C4A;
+  --light:#A8907A;--border:#DDD0BC;
 }
-html{scroll-behavior:smooth}
-body{font-family:'Cormorant Garamond',Georgia,serif;background:var(--cream);color:var(--dark);overflow-x:hidden}
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:var(--cream)}
-::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond',Georgia,serif;background:#000;color:var(--dark)}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@keyframes scrollPulse{0%,100%{opacity:.35;transform:scaleY(1)}50%{opacity:.9;transform:scaleY(1.18)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:500;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:1.5rem 4rem;
-  background:transparent;
-  transition:background .5s,box-shadow .5s;
-}
-nav.scrolled{background:rgba(250,243,227,.97);border-bottom:1px solid var(--border);box-shadow:0 2px 20px rgba(58,42,30,.07)}
-nav.scrolled .logo-main{color:var(--dark)}
-nav.scrolled .nav-links a{color:var(--mid)}
-.logo-main{display:block;font-family:'Playfair Display',serif;font-size:19px;color:#FAF3E3;letter-spacing:.06em;transition:color .4s;cursor:pointer}
-.logo-sub{display:block;font-size:10px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-top:2px}
-.nav-links{display:flex;gap:2.8rem;list-style:none}
-.nav-links a{font-size:11px;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;color:rgba(250,243,227,.85);font-family:'Cormorant Garamond',serif;transition:color .2s;position:relative}
-.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:100%;height:1px;background:var(--gold);transition:right .3s ease}
-.nav-links a:hover{color:var(--gold)}
-.nav-links a:hover::after{right:0}
+/* ── PAGE SYSTEM ── */
+.page{position:fixed;inset:0;opacity:0;pointer-events:none;transition:opacity .5s ease;overflow-y:auto}
+.page.active{opacity:1;pointer-events:all}
 
-/* ── PAGE 1: VIDEO ── */
-#page-video{position:relative;width:100%;height:100vh;overflow:hidden;background:#FAF3E3}
-.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#FAF3E3;z-index:0}
-.scroll-hint{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeUp 1s ease 1.4s both}
-.scroll-hint span{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);opacity:.8}
-.scroll-line{width:1px;height:38px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollPulse 2.2s ease-in-out infinite}
+/* ── HOME ── */
+#page-home{background:#000;overflow:hidden}
+#page-home video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;z-index:0}
+.home-logo{position:absolute;top:2.5rem;left:3rem;z-index:10;font-family:'Playfair Display',serif;color:#FAF3E3;letter-spacing:.06em;animation:fadeUp .8s ease .3s both}
+.home-logo span{display:block;font-size:22px}
+.home-logo small{display:block;font-size:9px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;margin-top:3px}
+.home-nav{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;animation:fadeUp .8s ease .7s both}
+.home-nav-btn{background:rgba(0,0,0,.4);border:1px solid rgba(201,168,76,.6);color:#FAF3E3;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:.28em;text-transform:uppercase;padding:.8rem 2rem;cursor:pointer;border-radius:2px;backdrop-filter:blur(6px);transition:all .25s;white-space:nowrap}
+.home-nav-btn:hover{background:rgba(201,168,76,.2);border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
 
-/* ── PAGE 2: INTRO TEXT ── */
-#page-intro{background:#FAF3E3;min-height:60vh;display:flex;align-items:center;justify-content:center;padding:4rem 2rem;text-align:center}
-.intro-inner{max-width:660px}
-.eyebrow{font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-style:italic;margin-bottom:1.6rem;display:flex;align-items:center;justify-content:center;gap:12px}
-.eyebrow::before,.eyebrow::after{content:'';display:inline-block;width:26px;height:1px;background:var(--gold);opacity:.65}
-.intro-title{font-family:'Playfair Display',serif;font-size:clamp(2.9rem,5.5vw,4.8rem);font-weight:400;line-height:1.1;color:var(--dark);margin-bottom:1.8rem}
-.intro-title em{font-style:italic;color:var(--brown)}
-.intro-desc{font-size:17px;line-height:2;color:var(--mid);margin-bottom:2.8rem;font-weight:300}
-.intro-actions{display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center}
-.btn-gold{background:var(--gold);color:#fff;border:none;padding:.9rem 2.4rem;font-size:11px;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;font-family:'Cormorant Garamond',serif;border-radius:2px;transition:background .25s,transform .15s;text-decoration:none;display:inline-block}
-.btn-gold:hover{background:var(--deep-gold);transform:translateY(-2px)}
-.btn-outline{background:transparent;color:var(--mid);border:1px solid rgba(138,107,90,.4);padding:.9rem 2rem;font-size:11px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;font-family:'Cormorant Garamond',serif;border-radius:2px;transition:all .25s;text-decoration:none;display:inline-block}
-.btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+/* ── TOP BAR ── */
+.top-bar{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 3rem;background:rgba(250,243,227,.97);border-bottom:1px solid var(--border);box-shadow:0 2px 16px rgba(58,42,30,.06)}
+.top-bar-logo{font-family:'Playfair Display',serif;font-size:17px;color:var(--dark);letter-spacing:.06em;cursor:pointer;transition:color .2s}
+.top-bar-logo:hover{color:var(--gold)}
+.top-bar-nav{display:flex;gap:2rem;list-style:none}
+.top-bar-nav a{font-size:11px;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;color:var(--mid);font-family:'Cormorant Garamond',serif;transition:color .2s;cursor:pointer}
+.top-bar-nav a:hover,.top-bar-nav a.active{color:var(--gold)}
 
-/* ── DIVIDER ── */
-.divider{display:flex;align-items:center;justify-content:center;gap:1.2rem;padding:3rem 4rem;color:var(--gold);font-size:14px;opacity:.5}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.5),transparent);max-width:240px}
+/* ── INNER PAGES ── */
+.inner-page{background:var(--cream)}
+.inner-page::-webkit-scrollbar{width:4px}
+.inner-page::-webkit-scrollbar-track{background:var(--cream)}
+.inner-page::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
 
-/* ── GALLERY PAGE ── */
-#page-gallery{padding:5rem 4rem;background:var(--cream)}
-.sec-header{text-align:center;margin-bottom:3.5rem}
-.sec-tag{font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-style:italic;margin-bottom:.8rem}
-.sec-title{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:400;color:var(--dark)}
+/* ── GALLERY ── */
+#page-gallery .content{padding:3rem 2.5rem 5rem}
+.sec-header{text-align:center;margin-bottom:3rem}
+.sec-tag{font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-style:italic;margin-bottom:.7rem}
+.sec-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;color:var(--dark)}
 .sec-title em{font-style:italic;color:var(--brown)}
+.series-label{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;font-style:italic;color:var(--dark);margin:2.5rem 0 1rem;display:flex;align-items:center;gap:1rem}
+.series-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.read-btn{font-size:13px;letter-spacing:.18em;color:var(--gold);background:transparent;border:1.5px solid rgba(201,168,76,.6);padding:.5rem 1.4rem;border-radius:20px;font-style:normal;font-family:'Cormorant Garamond',serif;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap}
+.read-btn:hover{background:rgba(201,168,76,.1);border-color:var(--gold)}
+.masonry{columns:2;column-gap:12px}
+@media(min-width:700px){.masonry{columns:3}}
+@media(min-width:1100px){.masonry{columns:4}}
+.masonry-item{break-inside:avoid;margin-bottom:12px;border-radius:6px;overflow:hidden;position:relative;cursor:pointer;border:1px solid var(--border);background:#EDE0D0}
+.masonry-item img{width:100%;display:block;transition:transform .5s ease}
+.masonry-item:hover img{transform:scale(1.05)}
+.masonry-overlay{position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(58,42,30,.75) 100%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:.8rem}
+.masonry-item:hover .masonry-overlay{opacity:1}
+.masonry-title{font-family:'Playfair Display',serif;font-style:italic;font-size:12px;color:#FAF3E3}
+.masonry-num{font-size:10px;color:rgba(250,243,227,.6);letter-spacing:.1em;margin-top:2px}
 
-.fb-spread{opacity:0;pointer-events:none;transition:opacity .3s ease}
+/* Flipbook */
+#flipbook-wrap{display:none;margin-bottom:2rem}
+.fb-spread{opacity:0;pointer-events:none;transition:opacity .3s ease;position:absolute;inset:0}
 .fb-spread.active{opacity:1;pointer-events:all}
 
-/* Series label */
-.series-label{
-  font-family:'Playfair Display',serif;
-  font-size:1.4rem;font-weight:400;font-style:italic;
-  color:var(--dark);
-  margin:3rem 0 1.2rem;
-  display:flex;align-items:center;gap:1rem;
-}
-.series-label::after{content:'';flex:1;height:1px;background:var(--border)}
+/* ── ABOUT ── */
+#page-about .content{max-width:900px;margin:0 auto;padding:4rem 2.5rem 5rem;display:grid;grid-template-columns:1fr 1.6fr;gap:4rem;align-items:start}
+@media(max-width:700px){#page-about .content{grid-template-columns:1fr;gap:2rem}}
+.about-img-frame{border-radius:6px;overflow:hidden;border:1px solid var(--border);aspect-ratio:3/4;background:#EDE0D0}
+.about-img-frame img{width:100%;height:100%;object-fit:cover;display:block}
+.about-text h2{font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;line-height:1.22;margin-bottom:1.4rem}
+.about-text h2 em{font-style:italic;color:var(--brown)}
+.about-text p{font-size:16px;line-height:2;color:var(--mid);margin-bottom:1rem;font-weight:300}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.tag{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--deep-gold);border:1px solid rgba(201,168,76,.45);padding:.4rem .9rem;border-radius:20px}
 
-/* Masonry grid */
-.masonry{
-  columns:2;
-  column-gap:14px;
-}
-.masonry-item{
-  break-inside:avoid;
-  margin-bottom:14px;
-  border-radius:8px;
-  overflow:hidden;
-  position:relative;
-  cursor:pointer;
-  border:1px solid var(--border);
-  background:#EDE0D0;
-}
+/* ── CONTACT ── */
+#page-contact .content{max-width:560px;margin:0 auto;padding:5rem 2.5rem;text-align:center}
+#page-contact .content h2{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:400;margin-bottom:1.5rem}
+#page-contact .content h2 em{font-style:italic;color:var(--brown)}
+#page-contact .content p{font-size:16px;line-height:1.9;color:var(--mid);margin-bottom:2rem;font-weight:300}
+.contact-email{font-family:'Playfair Display',serif;font-size:1.3rem;font-style:italic;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,168,76,.4);padding-bottom:3px;transition:color .2s}
+.contact-email:hover{color:var(--deep-gold)}
+.social-row{display:flex;justify-content:center;gap:2rem;margin-top:2.5rem;flex-wrap:wrap}
+.social-row a{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .2s}
+.social-row a:hover{color:var(--gold)}
 
 /* ── LIGHTBOX ── */
-#lightbox{
-  display:none;
-  position:fixed;inset:0;z-index:9999;
-  background:rgba(20,12,6,.92);
-  align-items:center;justify-content:center;
-  animation:fadeIn .25s ease;
-}
+#lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(20,12,6,.92);align-items:center;justify-content:center}
 #lightbox.open{display:flex}
-#lightbox img{
-  max-width:90vw;max-height:88vh;
-  object-fit:contain;border-radius:6px;
-  box-shadow:0 20px 60px rgba(0,0,0,.5);
-}
-.lb-close{
-  position:absolute;top:1.5rem;right:2rem;
-  font-size:28px;color:rgba(250,243,227,.7);
-  cursor:pointer;background:none;border:none;
-  line-height:1;transition:color .2s;
-}
+#lightbox img{max-width:90vw;max-height:88vh;object-fit:contain;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lb-close{position:absolute;top:1.5rem;right:2rem;font-size:28px;color:rgba(250,243,227,.7);cursor:pointer;background:none;border:none;line-height:1;transition:color .2s}
 .lb-close:hover{color:var(--gold)}
-.lb-prev,.lb-next{
-  position:absolute;top:50%;transform:translateY(-50%);
-  font-size:2rem;color:rgba(250,243,227,.6);
-  cursor:pointer;background:none;border:none;
-  padding:1rem;transition:color .2s;
-  line-height:1;
-}
+.lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);font-size:2rem;color:rgba(250,243,227,.6);cursor:pointer;background:none;border:none;padding:1rem;transition:color .2s;line-height:1}
 .lb-prev{left:1rem}.lb-next{right:1rem}
 .lb-prev:hover,.lb-next:hover{color:var(--gold)}
-.masonry-item img{
-  width:100%;display:block;
-  transition:transform .5s ease;
-}
-.masonry-item:hover img{transform:scale(1.05)}
-.masonry-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(transparent 55%,rgba(58,42,30,.75) 100%);
-  opacity:0;transition:opacity .3s;
-  display:flex;flex-direction:column;justify-content:flex-end;
-  padding:1rem;
-}
-.masonry-item:hover .masonry-overlay{opacity:1}
-.masonry-title{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:#FAF3E3}
-.masonry-num{font-size:10px;color:rgba(250,243,227,.6);letter-spacing:.12em;margin-top:2px}
 
-/* ── PAINTED VEIL MODAL READER ── */
-#veil-modal{
-  display:none;
-  position:fixed;inset:0;z-index:8000;
-  background:rgba(10,4,0,.96);
-  align-items:center;justify-content:center;
-  flex-direction:column;
-  gap:18px;
-  animation:fadeIn .3s ease;
-}
+/* ── VEIL MODAL ── */
+#veil-modal{display:none;position:fixed;inset:0;z-index:8000;background:rgba(10,4,0,.96);align-items:center;justify-content:center;flex-direction:column;gap:16px}
 #veil-modal.open{display:flex}
-.veil-modal-title{
-  color:rgba(212,175,55,.55);
-  font-size:10px;letter-spacing:.35em;text-transform:uppercase;
-  font-family:'Cormorant Garamond',serif;
-}
-.veil-img-wrap{
-  position:relative;
-  max-width:min(92vw,860px);
-  width:100%;
-}
-.veil-img-wrap img{
-  width:100%;height:auto;
-  max-height:78vh;
-  object-fit:contain;
-  display:block;
-  border-radius:4px;
-  box-shadow:0 20px 60px rgba(0,0,0,.7);
-  transition:opacity .35s ease;
-}
+.veil-modal-title{color:rgba(212,175,55,.5);font-size:10px;letter-spacing:.35em;text-transform:uppercase;font-family:'Cormorant Garamond',serif}
+.veil-img-wrap{position:relative;max-width:min(92vw,860px);width:100%}
+.veil-img-wrap img{width:100%;height:auto;max-height:76vh;object-fit:contain;display:block;border-radius:4px;box-shadow:0 20px 60px rgba(0,0,0,.7);transition:opacity .35s ease}
 .veil-img-wrap img.fade{opacity:0}
-.veil-zone{
-  position:absolute;top:0;height:100%;width:38%;
-  cursor:pointer;z-index:5;display:flex;align-items:center;
-  opacity:0;transition:opacity .25s;
-}
+.veil-zone{position:absolute;top:0;height:100%;width:38%;cursor:pointer;z-index:5;display:flex;align-items:center;opacity:0;transition:opacity .25s}
 .veil-zone:hover{opacity:1}
 .veil-zone.left{left:0;justify-content:flex-start}
 .veil-zone.right{right:0;justify-content:flex-end}
-.veil-arrow{
-  background:rgba(0,0,0,.55);
-  border:1px solid rgba(212,175,55,.4);
-  color:#d4af37;font-size:22px;
-  width:42px;height:42px;
-  display:flex;align-items:center;justify-content:center;
-  border-radius:50%;margin:0 14px;
-  backdrop-filter:blur(4px);
-  transition:background .2s,border-color .2s;
-}
+.veil-arrow{background:rgba(0,0,0,.55);border:1px solid rgba(212,175,55,.4);color:#d4af37;font-size:22px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:50%;margin:0 14px;backdrop-filter:blur(4px)}
 .veil-zone:hover .veil-arrow{background:rgba(100,50,10,.6);border-color:#d4af37}
 .veil-controls{display:flex;align-items:center;gap:20px}
-.veil-btn{
-  background:transparent;border:1px solid rgba(212,175,55,.35);
-  color:#d4af37;padding:7px 18px;
-  font-family:'Cormorant Garamond',serif;font-size:12px;
-  letter-spacing:.12em;cursor:pointer;border-radius:2px;
-  transition:all .2s;
-}
+.veil-btn{background:transparent;border:1px solid rgba(212,175,55,.35);color:#d4af37;padding:7px 18px;font-family:'Cormorant Garamond',serif;font-size:12px;letter-spacing:.12em;cursor:pointer;border-radius:2px;transition:all .2s}
 .veil-btn:hover{background:rgba(212,175,55,.12);border-color:#d4af37}
 .veil-btn:disabled{opacity:.25;cursor:default}
 .veil-counter{color:rgba(212,175,55,.6);font-size:11px;letter-spacing:.22em;min-width:60px;text-align:center}
 .veil-dots{display:flex;gap:5px;align-items:center}
 .veil-dot{width:5px;height:5px;border-radius:50%;background:rgba(212,175,55,.22);cursor:pointer;transition:all .2s}
 .veil-dot.active{background:#d4af37;transform:scale(1.4)}
-.veil-close{
-  position:absolute;top:1.2rem;right:1.5rem;
-  font-size:24px;color:rgba(250,243,227,.55);
-  cursor:pointer;background:none;border:none;
-  transition:color .2s;line-height:1;z-index:10;
-}
+.veil-close{position:absolute;top:1.2rem;right:1.5rem;font-size:24px;color:rgba(250,243,227,.55);cursor:pointer;background:none;border:none;transition:color .2s;line-height:1;z-index:10}
 .veil-close:hover{color:#d4af37}
-.veil-hint{color:rgba(212,175,55,.22);font-size:10px;letter-spacing:.14em}
 
-/* ── DETAIL PAGE ── */
-#page-detail{
-  display:none;
-  position:fixed;inset:0;z-index:999;
-  background:#FAF3E3;
-  overflow-y:auto;
-  animation:fadeIn .35s ease;
-}
-.detail-inner{max-width:960px;margin:0 auto;padding:6rem 4rem 5rem}
-.detail-back{display:inline-flex;align-items:center;gap:.6rem;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mid);cursor:pointer;margin-bottom:3rem;background:none;border:none;font-family:'Cormorant Garamond',serif;transition:color .2s}
-.detail-back:hover{color:var(--gold)}
-.detail-back::before{content:'←';font-size:14px}
-.detail-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;align-items:start}
-.detail-img{border-radius:8px;overflow:hidden;border:1px solid var(--border)}
-.detail-img img{width:100%;display:block}
-.detail-series{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-style:italic;margin-bottom:.8rem}
-.detail-title{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:400;line-height:1.2;color:var(--dark);margin-bottom:.6rem}
-.detail-title em{font-style:italic;color:var(--brown)}
-.detail-year{font-size:13px;color:var(--light);letter-spacing:.15em;margin-bottom:2rem}
-.detail-desc{font-size:16px;line-height:2;color:var(--mid);font-weight:300;margin-bottom:2.5rem}
-.detail-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2.5rem}
-.detail-tag{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--deep-gold);border:1px solid rgba(201,168,76,.4);padding:.35rem .8rem;border-radius:20px}
-.detail-nav{display:flex;gap:1rem;margin-top:2rem}
-.detail-nav-btn{background:transparent;border:1px solid var(--border);color:var(--mid);font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:.6rem 1.4rem;cursor:pointer;font-family:'Cormorant Garamond',serif;border-radius:2px;transition:all .2s}
-.detail-nav-btn:hover{border-color:var(--gold);color:var(--gold)}
-
-/* ── OTHER SECTIONS ── */
-.about-sec{background:#F5EDD8;padding:6rem 4rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.about-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1.6fr;gap:5rem;align-items:center}
-.about-img-frame{border-radius:6px;overflow:hidden;border:1px solid var(--border);aspect-ratio:3/4;background:#EDE0D0}
-.about-img-frame img{width:100%;height:100%;object-fit:cover;display:block}
-.about-img-wrap{position:relative}
-.about-deco{position:absolute;bottom:-18px;right:-18px;width:90px;height:90px;border:1px solid var(--gold);border-radius:50%;opacity:.28;pointer-events:none}
-.about-deco2{position:absolute;top:-12px;left:-12px;width:55px;height:55px;border:1px solid var(--gold);border-radius:50%;opacity:.2;pointer-events:none}
-.about-text h2{font-family:'Playfair Display',serif;font-size:2.3rem;font-weight:400;line-height:1.22;margin-bottom:1.6rem}
-.about-text h2 em{font-style:italic;color:var(--brown)}
-.about-text p{font-size:16px;line-height:2;color:var(--mid);margin-bottom:1rem;font-weight:300}
-.tags{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
-.tag{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--deep-gold);border:1px solid rgba(201,168,76,.45);padding:.45rem 1rem;border-radius:20px;transition:all .2s}
-.tag:hover{background:rgba(201,168,76,.08);border-color:var(--gold)}
-
-.proc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:920px;margin:0 auto}
-.proc-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:2.2rem 1.8rem;text-align:center;transition:transform .3s,box-shadow .3s}
-.proc-card:hover{transform:translateY(-5px);box-shadow:0 10px 28px rgba(58,42,30,.08)}
-.proc-num{font-family:'Playfair Display',serif;font-size:2.6rem;font-style:italic;color:var(--gold);opacity:.42;margin-bottom:.9rem;line-height:1}
-.proc-card h4{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400;margin-bottom:.7rem}
-.proc-card p{font-size:14px;line-height:1.85;color:var(--mid);font-weight:300}
-
-.commission-sec{background:var(--cream);padding:5rem 4rem;border-top:1px solid var(--border)}
-.commission-inner{max-width:800px;margin:0 auto}
-.commission-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2.5rem}
-.comm-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:2rem 1.5rem;position:relative;transition:transform .3s,box-shadow .3s}
-.comm-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(58,42,30,.08)}
-.comm-card.featured{border:1.5px solid var(--gold)}
-.comm-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:3px 14px;border-radius:20px;white-space:nowrap}
-.comm-type{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:400;margin-bottom:.5rem}
-.comm-price{font-size:1.8rem;font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);margin-bottom:1rem}
-.comm-price span{font-size:13px;color:var(--light);font-style:normal}
-.comm-list{list-style:none}
-.comm-list li{font-size:13px;line-height:1.9;color:var(--mid);padding-left:1.2rem;position:relative;font-weight:300}
-.comm-list li::before{content:'✦';position:absolute;left:0;font-size:8px;color:var(--gold);top:5px}
-
-.tip-sec{background:var(--dark);color:var(--cream);padding:6rem 4rem;text-align:center;position:relative;overflow:hidden}
-.tip-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:580px;height:580px;border-radius:50%;border:1px solid rgba(201,168,76,.14);pointer-events:none}
-.tip-inner{position:relative;z-index:2;max-width:560px;margin:0 auto}
-.tip-sec h3{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:400;font-style:italic;margin-bottom:1.2rem;color:#FAF3E3}
-.tip-sec p{font-size:16px;line-height:1.9;color:#C4A898;margin-bottom:2.8rem;font-weight:300}
-.tip-btn{background:var(--gold);color:var(--dark);border:none;padding:1.1rem 3.5rem;font-size:12px;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;font-family:'Cormorant Garamond',serif;border-radius:2px;transition:background .25s,transform .15s;text-decoration:none;display:inline-block}
-.tip-btn:hover{background:#DEB85C;transform:translateY(-2px)}
-
-.contact-sec{padding:5rem 4rem;border-top:1px solid var(--border);text-align:center}
-.contact-inner{max-width:540px;margin:0 auto}
-.contact-inner p{font-size:16px;line-height:1.9;color:var(--mid);margin-bottom:2rem;font-weight:300}
-.contact-email{font-family:'Playfair Display',serif;font-size:1.4rem;font-style:italic;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,168,76,.4);padding-bottom:3px;transition:color .2s}
-.contact-email:hover{color:var(--deep-gold)}
-.social-row{display:flex;justify-content:center;gap:2rem;margin-top:2.5rem}
-.social-row a{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .2s}
-.social-row a:hover{color:var(--gold)}
-
-footer{background:var(--dark);padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center}
-footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
-.foot-links{display:flex;gap:2rem}
-.foot-links a{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(250,243,227,.38);text-decoration:none;transition:color .2s}
-.foot-links a:hover{color:var(--gold)}
-
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-
-@media(min-width:901px){.masonry{columns:4;column-gap:14px}}
-@media(max-width:900px){
-  nav{padding:1.2rem 1.5rem}
-  .nav-links{gap:1.5rem}
-  #page-intro,#page-gallery,.about-sec,.commission-sec,.contact-sec{padding:4rem 1.5rem}
-  .masonry{columns:2}
-  .about-inner{grid-template-columns:1fr;gap:2.5rem}
-  .proc-grid,.commission-grid{grid-template-columns:1fr}
-  .detail-grid{grid-template-columns:1fr}
-  .detail-inner{padding:4rem 1.5rem}
-  footer{flex-direction:column;gap:1rem;text-align:center}
-  .veil-hint{display:none}
-}
+footer.inner-footer{background:var(--dark);padding:1.5rem 3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+footer.inner-footer span{font-size:11px;color:rgba(250,243,227,.35);letter-spacing:.1em}
 </style>
 </head>
 <body>
 
-<nav id="main-nav">
-  <div onclick="closeDetail()">
-    <span class="logo-main">Kitana Wang</span>
-    <span class="logo-sub">Illustration Studio</span>
-  </div>
-  <ul class="nav-links">
-    <li><a href="#page-gallery" onclick="closeDetail()">Gallery</a></li>
-    <li><a href="#page-process" onclick="closeDetail()">Process</a></li>
-    <li><a href="#page-about" onclick="closeDetail()">About</a></li>
-    <li><a href="#page-contact" onclick="closeDetail()">Contact</a></li>
-  </ul>
-</nav>
-
-<!-- PAGE 1: pure video -->
-<section id="page-video">
-  <video class="hero-video" autoplay muted loop playsinline>
+<!-- ══ HOME ══ -->
+<div class="page active" id="page-home">
+  <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;z-index:0">
     <source src="Hw_5.mp4" type="video/mp4">
   </video>
-  <div class="scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
+  <div class="home-logo">
+    <span>Kitana Wang</span>
+    <small>Illustration Studio</small>
   </div>
-</section>
-
-<!-- PAGE 2: intro text -->
-<section id="page-intro">
-  <div class="intro-inner">
-    <p class="eyebrow" style="animation:fadeUp 1.2s ease 0.3s both;opacity:0">Illustration</p>
-    <h1 class="intro-title" style="animation:fadeUp 1.2s ease 0.7s both;opacity:0">Welcome to my<br><em>little world</em></h1>
-    <p class="intro-desc" style="animation:fadeUp 1.2s ease 1.1s both;opacity:0">I'm Kitana (Zixuan) Wang, an illustrator based in New York, graduated from the School of Visual Arts. Here, everything is soft, strange, and a little emotional — a space where I explore stories through memory, atmosphere, and quiet moments.</p>
-    <div class="intro-actions" style="animation:fadeUp 1.2s ease 1.5s both;opacity:0">
-      <a href="#page-gallery" class="btn-gold">Enter the Gallery</a>
-    </div>
+  <div class="home-nav">
+    <button class="home-nav-btn" onclick="goTo('page-gallery')">Gallery</button>
+    <button class="home-nav-btn" onclick="goTo('page-about')">About</button>
+    <button class="home-nav-btn" onclick="goTo('page-contact')">Contact</button>
   </div>
-</section>
+</div>
 
-<div class="divider">✦</div>
-
-<!-- GALLERY -->
-<section id="page-gallery" style="padding:3rem 2rem;background:var(--cream)">
-  <div class="sec-header reveal">
-    <p class="sec-tag">— Selected Works —</p>
-    <h2 class="sec-title">From the <em>Studio</em></h2>
+<!-- ══ GALLERY ══ -->
+<div class="page inner-page" id="page-gallery">
+  <div class="top-bar">
+    <div class="top-bar-logo" onclick="goTo('page-home')">Kitana Wang</div>
+    <ul class="top-bar-nav">
+      <li><a class="active">Gallery</a></li>
+      <li><a onclick="goTo('page-about')">About</a></li>
+      <li><a onclick="goTo('page-contact')">Contact</a></li>
+    </ul>
   </div>
-
-  <!-- Series 1: Museum of Angels -->
-  <p class="series-label">Museum of Angels
-    <button onclick="toggleBook()" id="book-btn" style="font-size:16px;letter-spacing:.18em;color:var(--gold);background:transparent;border:1.5px solid rgba(201,168,76,.6);padding:.7rem 1.8rem;border-radius:20px;margin-left:1rem;font-style:normal;font-family:'Cormorant Garamond',serif;text-transform:uppercase;cursor:pointer;transition:all .2s">✦ Read the Book</button>
-  </p>
-
-  <!-- INLINE FLIPBOOK (Museum of Angels) -->
-  <div id="flipbook-wrap" style="display:none;margin-bottom:2rem">
-    <div id="flipbook" style="position:relative;width:100%;max-width:860px;margin:0 auto;height:min(70vh,520px);perspective:2000px">
-
-      <div class="fb-spread active" id="fb0" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-        <div style="overflow:hidden"><img src="moa1.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
-        <div style="background:#D4B898;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:2rem;text-align:center">
-          <img src="moa1.JPG" style="width:60px;height:60px;border-radius:50%;object-fit:cover;margin-bottom:1.2rem;opacity:.85">
-          <div style="font-family:'Playfair Display',serif;font-size:clamp(1.1rem,2vw,1.6rem);color:#3A2010;letter-spacing:.06em;line-height:1.4">Museum<br>of Angels</div>
-          <div style="font-size:.85rem;color:rgba(58,32,16,.55);letter-spacing:.18em;text-transform:uppercase;margin-top:.4rem">Zixuan Wang</div>
-        </div>
-      </div>
-
-      <div class="fb-spread" id="fb1" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.8rem">Curiosity at the Window</div>
-          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">As night falls, the museum is closed to the public. Two curious little girls quietly peek through a window, trying to glimpse the secrets inside. Through the glass, they notice a faint glow in the exhibition hall and a small figure moving among the display cases.</div>
-        </div>
-        <div style="overflow:hidden"><img src="moa2.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
-      </div>
-
-      <div class="fb-spread" id="fb2" style="position:absolute;inset:0;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-        <img src="moa3.JPG" style="width:100%;height:100%;object-fit:cover;display:block">
-      </div>
-
-      <div class="fb-spread" id="fb3" style="position:absolute;inset:0;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-        <img src="moa3.JPG" style="width:100%;height:100%;object-fit:cover;display:block">
-      </div>
-
-      <div class="fb-spread" id="fb4" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Jewelry Box</div>
-          <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(19th Century European Jewelry / Sewing Box)</div>
-          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">Inside an elegant display case, a beautiful 19th-century European jewelry box sits open. Soft fabric lines the interior, holding small tools and delicate ornaments. The little angel sits inside the box, curiously playing with the old pieces of jewelry, as if exploring a tiny treasure chest. Each object once belonged to another time, and she quietly guards these shining memories.</div>
-        </div>
-        <div style="overflow:hidden"><img src="moa4.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
-      </div>
-
-      <div class="fb-spread" id="fb5" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Nautilus Cup</div>
-          <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(European Nautilus Shell Cup, 16–17th Century)</div>
-          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">Under the soft light of the display case, an elegant European Nautilus Shell Cup rests quietly. The natural shell is supported by a richly decorated metal base, a type of vessel once used at royal banquets in European courts. The little angel sleeps peacefully inside the curved shell, as if resting in a cradle shaped by the sea.</div>
-        </div>
-        <div style="overflow:hidden"><img src="moa5.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
-      </div>
-
-      <div class="fb-spread" id="fb6" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Pocket Watch</div>
-          <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(European Gold Pocket Watch)</div>
-          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">Under the warm light of the display, a delicate European gold pocket watch is opened. Roman numerals circle the white dial, while the slender hands move slowly across the face. The little angel sits beside the watch, gently touching the hands, as if trying to understand how time flows.</div>
-        </div>
-        <div style="overflow:hidden"><img src="moa6.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
-      </div>
-
-      <div class="fb-spread" id="fb7" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.8rem">The Angel at Work</div>
-          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">In a small workshop deep inside the museum, the little angel carries out the quietest work of the day. She gently wipes the dust from the surface of ancient artifacts and carefully adjusts the position of delicate ceramics.</div>
-        </div>
-        <div style="overflow:hidden"><img src="moa7.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
-      </div>
-
-      <div class="fb-spread" id="fb8" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and William the Hippopotamus</div>
-          <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">("William" the Faience Hippopotamus, Middle Kingdom Egypt)</div>
-          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The little angel sits on its back, as if taking part in a quiet nighttime journey. While the hippopotamus carries memories of ancient Egypt, the angel softly watches over it.</div>
-        </div>
-        <div style="overflow:hidden"><img src="moa8.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
-      </div>
-
-      <div class="fb-spread" id="fb9" style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-        <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-          <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Tang Dynasty Figurine</div>
-          <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-          <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The two figures — one large and one small — seem to mirror each other across time.</div>
-        </div>
-        <div style="overflow:hidden"><img src="moa10.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
-      </div>
-
-      <div style="position:absolute;left:50%;top:0;bottom:0;width:4px;transform:translateX(-50%);background:linear-gradient(to right,rgba(0,0,0,.2),rgba(0,0,0,.05),rgba(0,0,0,.2));pointer-events:none;z-index:5"></div>
-    </div>
-
-    <div style="display:flex;align-items:center;justify-content:center;gap:2rem;margin-top:1.2rem">
-      <button onclick="fbTurn(-1)" id="fb-prev" style="background:transparent;border:1px solid var(--border);color:var(--mid);font-size:1.4rem;width:38px;height:38px;border-radius:50%;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--mid)'">‹</button>
-      <span id="fb-count" style="font-size:12px;letter-spacing:.2em;color:var(--mid);font-style:italic">1 / 10</span>
-      <button onclick="fbTurn(1)" id="fb-next" style="background:transparent;border:1px solid var(--border);color:var(--mid);font-size:1.4rem;width:38px;height:38px;border-radius:50%;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--mid)'">›</button>
-    </div>
-  </div>
-
-  <div class="masonry" id="masonry-1">
-    <div class="masonry-item" onclick="openLightbox(0)"><img src="moa1.JPG" alt="Museum of Angels 1" onerror="this.parentElement.style.background='#D4B898';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">01 / 10</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(1)"><img src="moa2.JPG" alt="Museum of Angels 2" onerror="this.parentElement.style.background='#C8A888';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">02 / 10</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(2)"><img src="moa3.JPG" alt="Museum of Angels 3" onerror="this.parentElement.style.background='#C0B090';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">03 / 10</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(3)"><img src="moa4.JPG" alt="Museum of Angels 4" onerror="this.parentElement.style.background='#D4A878';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">04 / 10</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(4)"><img src="moa5.JPG" alt="Museum of Angels 5" onerror="this.parentElement.style.background='#C8B898';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">05 / 10</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(5)"><img src="moa6.JPG" alt="Museum of Angels 6" onerror="this.parentElement.style.background='#B8A888';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">06 / 10</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(6)"><img src="moa7.JPG" alt="Museum of Angels 7" onerror="this.parentElement.style.background='#D0C0A0';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">07 / 10</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(7)"><img src="moa8.JPG" alt="Museum of Angels 8" onerror="this.parentElement.style.background='#C8A870';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">08 / 10</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(8)"><img src="moa9.JPG" alt="Museum of Angels 9" onerror="this.parentElement.style.background='#D4B890';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">09 / 10</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(9)"><img src="moa10.JPG" alt="Museum of Angels 10" onerror="this.parentElement.style.background='#C0A880';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">10 / 10</div></div></div>
-  </div>
-
-  <!-- Series 2: The Painted Veil -->
-  <p class="series-label">The Painted Veil
-    <button onclick="openVeilReader()" style="font-size:16px;letter-spacing:.18em;color:var(--gold);background:transparent;border:1.5px solid rgba(201,168,76,.6);padding:.7rem 1.8rem;border-radius:20px;margin-left:1rem;font-style:normal;font-family:'Cormorant Garamond',serif;text-transform:uppercase;cursor:pointer;transition:all .2s">✦ Read the Book</button>
-  </p>
-
-  <div class="masonry" id="masonry-2">
-    <div class="masonry-item" onclick="openLightbox(10)"><img src="veil_cover.jpg" alt="The Painted Veil Cover" onerror="this.parentElement.style.background='#7A3A2A';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">Cover</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(11)"><img src="veil_p01_text.jpg" alt="The Painted Veil p1" onerror="this.parentElement.style.background='#5A3020';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">01</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(12)"><img src="veil_p02_text.jpg" alt="The Painted Veil p2" onerror="this.parentElement.style.background='#6A4030';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">02</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(13)"><img src="veil_p03_text.jpg" alt="The Painted Veil p3" onerror="this.parentElement.style.background='#704838';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">03</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(14)"><img src="veil_p04_text.jpg" alt="The Painted Veil p4" onerror="this.parentElement.style.background='#5C3828';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">04</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(15)"><img src="veil_p05_text.jpg" alt="The Painted Veil p5" onerror="this.parentElement.style.background='#664030';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">05</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(16)"><img src="veil_p06_text.jpg" alt="The Painted Veil p6" onerror="this.parentElement.style.background='#7A4A38';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">06</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(17)"><img src="veil_p07_text.jpg" alt="The Painted Veil p7" onerror="this.parentElement.style.background='#603828';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">07</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(18)"><img src="veil_backcover.jpg" alt="The Painted Veil Back Cover" onerror="this.parentElement.style.background='#7A3A2A';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">Back Cover</div></div></div>
-  </div>
-
-  <!-- Series 3: Children's Book -->
-  <p class="series-label">Children's Book</p>
-  <div class="masonry" id="masonry-3">
-    <div class="masonry-item" onclick="openLightbox(19)"><img src="book1.jpeg" alt="Children's Book 1" onerror="this.parentElement.style.background='#D0C0B0';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Children's Book</div><div class="masonry-num">01 / 02</div></div></div>
-    <div class="masonry-item" onclick="openLightbox(20)"><img src="book2.jpeg" alt="Children's Book 2" onerror="this.parentElement.style.background='#C8B8A8';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Children's Book</div><div class="masonry-num">02 / 02</div></div></div>
-  </div>
-</section>
-
-<div class="divider">✦</div>
-
-<!-- PROCESS -->
-<section id="page-process" style="padding:5rem 4rem;background:var(--cream)">
-  <div class="sec-header reveal">
-    <p class="sec-tag">— Creative Process —</p>
-    <h2 class="sec-title">How a piece <em>comes to life</em></h2>
-  </div>
-  <div class="proc-grid">
-    <div class="proc-card reveal">
-      <div class="proc-num">I</div>
-      <h4>Sketching the world</h4>
-      <p>Every illustration begins with a mood — a feeling, a colour, a small story. I sketch loosely until the world takes shape.</p>
-    </div>
-    <div class="proc-card reveal">
-      <div class="proc-num">II</div>
-      <h4>Painting with light</h4>
-      <p>Layer by layer, warm lamplight and soft shadow build the atmosphere. The palette is always vintage — amber, blush, sage.</p>
-    </div>
-    <div class="proc-card reveal">
-      <div class="proc-num">III</div>
-      <h4>The final detail</h4>
-      <p>Gold accents, tiny flowers, a glowing clock face — the details are where the magic hides. This is where I spend the most time.</p>
-    </div>
-  </div>
-</section>
-
-<div class="divider">✦</div>
-
-<!-- ABOUT -->
-<section class="about-sec" id="page-about">
-  <div class="about-inner">
-    <div class="about-img-wrap reveal">
-      <div class="about-img-frame">
-        <img src="moa1.JPG" alt="About Kitana Wang" onerror="this.style.background='#C8A888'">
-      </div>
-      <div class="about-deco"></div>
-      <div class="about-deco2"></div>
-    </div>
-    <div class="about-text reveal">
-      <h2>The artist<br>behind the <em>door</em></h2>
-      <p>I'm Kitana Wang — an illustrator who lives in the space between storybooks and memory. My pieces are small worlds: lamplight rooms, gilded clocks, little girls with knowing eyes.</p>
-      <p>Influenced by vintage picture books and European fairy tales, I draw with warmth and nostalgia. Each illustration is an invitation to step through a door and stay a while.</p>
-      <p>I share works-in-progress and process notes on 小红书. If something I make moves you, a tip means more than you'd think.</p>
-      <div class="tags">
-        <span class="tag">Storybook</span>
-        <span class="tag">Digital Painting</span>
-        <span class="tag">Book Illustration</span>
-        <span class="tag">Commissions Open</span>
-        <span class="tag">Prints Available</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider">✦</div>
-
-
-
-<!-- TIP -->
-<section class="tip-sec">
-  <div class="tip-inner">
-    <h3>Support the studio</h3>
-    <p>If one of my illustrations has made you feel something — a little warmer, a little more nostalgic — a tip is always deeply welcome and never taken for granted.</p>
-    <a href="https://ko-fi.com/" target="_blank" class="tip-btn">Leave a tip 🔷</a>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section class="contact-sec" id="page-contact">
-  <div class="contact-inner reveal">
+  <div class="content">
     <div class="sec-header">
-      <p class="sec-tag">— Get in Touch —</p>
-      <h2 class="sec-title">Say <em>hello</em></h2>
+      <p class="sec-tag">— Selected Works —</p>
+      <h2 class="sec-title">From the <em>Studio</em></h2>
     </div>
-    <p>For commissions, collaborations, licensing, or just to share what my work made you feel — I'd love to hear from you.</p>
-    <a href="/cdn-cgi/l/email-protection#f69d9f82979897b6938e979b869a93d895999b" class="contact-email"><span class="__cf_email__" data-cfemail="72191b06131c1332170a131f021e175c111d1f">[email&#160;protected]</span></a>
+
+    <!-- Museum of Angels -->
+    <p class="series-label">Museum of Angels
+      <button class="read-btn" onclick="toggleBook()" id="book-btn">✦ Read the Book</button>
+    </p>
+
+    <div id="flipbook-wrap">
+      <div id="flipbook" style="position:relative;width:100%;max-width:860px;margin:0 auto;height:min(68vh,500px)">
+
+        <div class="fb-spread active" id="fb0" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+          <div style="overflow:hidden"><img src="moa1.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+          <div style="background:#D4B898;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:2rem;text-align:center">
+            <img src="moa1.JPG" style="width:60px;height:60px;border-radius:50%;object-fit:cover;margin-bottom:1.2rem;opacity:.85">
+            <div style="font-family:'Playfair Display',serif;font-size:clamp(1.1rem,2vw,1.6rem);color:#3A2010;letter-spacing:.06em;line-height:1.4">Museum<br>of Angels</div>
+            <div style="font-size:.85rem;color:rgba(58,32,16,.55);letter-spacing:.18em;text-transform:uppercase;margin-top:.4rem">Zixuan Wang</div>
+          </div>
+        </div>
+
+        <div class="fb-spread" id="fb1" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.8rem">Curiosity at the Window</div>
+            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">As night falls, two curious little girls quietly peek through a window, trying to glimpse the secrets inside the museum.</div>
+          </div>
+          <div style="overflow:hidden"><img src="moa2.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        </div>
+
+        <div class="fb-spread" id="fb2" style="box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+          <img src="moa3.JPG" style="width:100%;height:100%;object-fit:cover;display:block">
+        </div>
+
+        <div class="fb-spread" id="fb3" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Jewelry Box</div>
+            <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(19th Century European Jewelry / Sewing Box)</div>
+            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The little angel sits inside the box, curiously playing with old pieces of jewelry, as if exploring a tiny treasure chest.</div>
+          </div>
+          <div style="overflow:hidden"><img src="moa4.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        </div>
+
+        <div class="fb-spread" id="fb4" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Nautilus Cup</div>
+            <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(European Nautilus Shell Cup, 16–17th Century)</div>
+            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The little angel sleeps peacefully inside the curved shell, as if resting in a cradle shaped by the sea.</div>
+          </div>
+          <div style="overflow:hidden"><img src="moa5.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        </div>
+
+        <div class="fb-spread" id="fb5" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Pocket Watch</div>
+            <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(European Gold Pocket Watch)</div>
+            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The little angel gently touches the hands of the watch, as if trying to understand how time flows.</div>
+          </div>
+          <div style="overflow:hidden"><img src="moa6.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        </div>
+
+        <div class="fb-spread" id="fb6" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.8rem">The Angel at Work</div>
+            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">In a small workshop deep inside the museum, the little angel carries out the quietest work of the day.</div>
+          </div>
+          <div style="overflow:hidden"><img src="moa7.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        </div>
+
+        <div class="fb-spread" id="fb7" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and William the Hippopotamus</div>
+            <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">("William" — Middle Kingdom Egypt)</div>
+            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The little angel sits on its back, as if taking part in a quiet nighttime journey across time.</div>
+          </div>
+          <div style="overflow:hidden"><img src="moa8.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        </div>
+
+        <div class="fb-spread" id="fb8" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Porcelain Vase</div>
+            <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(Yuan Dynasty Blue-and-White Porcelain)</div>
+            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The little angel sits on the rim of the vase, like a small bird resting for a moment.</div>
+          </div>
+          <div style="overflow:hidden"><img src="moa9.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        </div>
+
+        <div class="fb-spread" id="fb9" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Tang Dynasty Figurine</div>
+            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
+            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The two figures — one large and one small — mirror each other across time.</div>
+          </div>
+          <div style="overflow:hidden"><img src="moa10.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        </div>
+
+        <div style="position:absolute;left:50%;top:0;bottom:0;width:4px;transform:translateX(-50%);background:linear-gradient(to right,rgba(0,0,0,.2),rgba(0,0,0,.05),rgba(0,0,0,.2));pointer-events:none;z-index:5"></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:2rem;margin-top:1.2rem">
+        <button onclick="fbTurn(-1)" id="fb-prev" style="background:transparent;border:1px solid var(--border);color:var(--mid);font-size:1.4rem;width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--mid)'">‹</button>
+        <span id="fb-count" style="font-size:12px;letter-spacing:.2em;color:var(--mid);font-style:italic">1 / 10</span>
+        <button onclick="fbTurn(1)" id="fb-next" style="background:transparent;border:1px solid var(--border);color:var(--mid);font-size:1.4rem;width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--mid)'">›</button>
+      </div>
+    </div>
+
+    <div class="masonry">
+      <div class="masonry-item" onclick="openLightbox(0)"><img src="moa1.JPG" alt="" onerror="this.parentElement.style.background='#D4B898';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">01 / 10</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(1)"><img src="moa2.JPG" alt="" onerror="this.parentElement.style.background='#C8A888';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">02 / 10</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(2)"><img src="moa3.JPG" alt="" onerror="this.parentElement.style.background='#C0B090';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">03 / 10</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(3)"><img src="moa4.JPG" alt="" onerror="this.parentElement.style.background='#D4A878';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">04 / 10</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(4)"><img src="moa5.JPG" alt="" onerror="this.parentElement.style.background='#C8B898';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">05 / 10</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(5)"><img src="moa6.JPG" alt="" onerror="this.parentElement.style.background='#B8A888';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">06 / 10</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(6)"><img src="moa7.JPG" alt="" onerror="this.parentElement.style.background='#D0C0A0';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">07 / 10</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(7)"><img src="moa8.JPG" alt="" onerror="this.parentElement.style.background='#C8A870';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">08 / 10</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(8)"><img src="moa9.JPG" alt="" onerror="this.parentElement.style.background='#D4B890';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">09 / 10</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(9)"><img src="moa10.JPG" alt="" onerror="this.parentElement.style.background='#C0A880';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">10 / 10</div></div></div>
+    </div>
+
+    <!-- The Painted Veil -->
+    <p class="series-label">The Painted Veil
+      <button class="read-btn" onclick="openVeilReader()">✦ Read the Book</button>
+    </p>
+    <div class="masonry">
+      <div class="masonry-item" onclick="openLightbox(10)"><img src="veil_cover.jpg" alt="" onerror="this.parentElement.style.background='#7A3A2A';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">Cover</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(11)"><img src="veil_p01_text.jpg" alt="" onerror="this.parentElement.style.background='#5A3020';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">01</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(12)"><img src="veil_p02_text.jpg" alt="" onerror="this.parentElement.style.background='#6A4030';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">02</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(13)"><img src="veil_p03_text.jpg" alt="" onerror="this.parentElement.style.background='#704838';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">03</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(14)"><img src="veil_p04_text.jpg" alt="" onerror="this.parentElement.style.background='#5C3828';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">04</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(15)"><img src="veil_p05_text.jpg" alt="" onerror="this.parentElement.style.background='#664030';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">05</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(16)"><img src="veil_p06_text.jpg" alt="" onerror="this.parentElement.style.background='#7A4A38';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">06</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(17)"><img src="veil_p07_text.jpg" alt="" onerror="this.parentElement.style.background='#603828';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">07</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(18)"><img src="veil_backcover.jpg" alt="" onerror="this.parentElement.style.background='#7A3A2A';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">Back Cover</div></div></div>
+    </div>
+
+    <!-- Children's Book -->
+    <p class="series-label">Children's Book</p>
+    <div class="masonry">
+      <div class="masonry-item" onclick="openLightbox(19)"><img src="book1.jpeg" alt="" onerror="this.parentElement.style.background='#D0C0B0';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Children's Book</div><div class="masonry-num">01 / 02</div></div></div>
+      <div class="masonry-item" onclick="openLightbox(20)"><img src="book2.jpeg" alt="" onerror="this.parentElement.style.background='#C8B8A8';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Children's Book</div><div class="masonry-num">02 / 02</div></div></div>
+    </div>
+  </div>
+  <footer class="inner-footer"><span>© 2025 Kitana Wang. All rights reserved.</span></footer>
+</div>
+
+<!-- ══ ABOUT ══ -->
+<div class="page inner-page" id="page-about">
+  <div class="top-bar">
+    <div class="top-bar-logo" onclick="goTo('page-home')">Kitana Wang</div>
+    <ul class="top-bar-nav">
+      <li><a onclick="goTo('page-gallery')">Gallery</a></li>
+      <li><a class="active">About</a></li>
+      <li><a onclick="goTo('page-contact')">Contact</a></li>
+    </ul>
+  </div>
+  <div class="content">
+    <div style="text-align:center;margin-bottom:3rem">
+      <p style="font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-style:italic;margin-bottom:.7rem">— The Artist —</p>
+      <h2 style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;color:var(--dark)">Behind the <em style="font-style:italic;color:var(--brown)">door</em></h2>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:4rem;align-items:start;max-width:860px;margin:0 auto">
+      <div class="about-img-frame"><img src="moa1.JPG" alt="Kitana Wang" onerror="this.style.background='#C8A888'"></div>
+      <div class="about-text">
+        <h2>I'm Kitana<br><em>(Zixuan) Wang</em></h2>
+        <p>An illustrator who lives in the space between storybooks and memory. My pieces are small worlds: lamplight rooms, gilded clocks, little girls with knowing eyes.</p>
+        <p>Influenced by vintage picture books and European fairy tales, I draw with warmth and nostalgia. Each illustration is an invitation to step through a door and stay a while.</p>
+        <p>Based in New York, graduated from the School of Visual Arts. I share works-in-progress and process notes on 小红书.</p>
+        <div class="tags">
+          <span class="tag">Storybook</span>
+          <span class="tag">Digital Painting</span>
+          <span class="tag">Book Illustration</span>
+          <span class="tag">Prints Available</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="inner-footer"><span>© 2025 Kitana Wang. All rights reserved.</span></footer>
+</div>
+
+<!-- ══ CONTACT ══ -->
+<div class="page inner-page" id="page-contact">
+  <div class="top-bar">
+    <div class="top-bar-logo" onclick="goTo('page-home')">Kitana Wang</div>
+    <ul class="top-bar-nav">
+      <li><a onclick="goTo('page-gallery')">Gallery</a></li>
+      <li><a onclick="goTo('page-about')">About</a></li>
+      <li><a class="active">Contact</a></li>
+    </ul>
+  </div>
+  <div class="content">
+    <h2>Say <em>hello</em></h2>
+    <p>For collaborations, licensing, or just to share what my work made you feel — I'd love to hear from you.</p>
+    <a href="mailto:kitana@example.com" class="contact-email">kitana@example.com</a>
     <div class="social-row">
       <a href="#" target="_blank">Instagram</a>
       <a href="#" target="_blank">小红书</a>
@@ -601,16 +365,8 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
       <a href="#" target="_blank">Ko-fi</a>
     </div>
   </div>
-</section>
-
-<footer>
-  <span>© 2025 Kitana Wang. All rights reserved.</span>
-  <div class="foot-links">
-    <a href="#page-gallery" onclick="closeDetail()">Gallery</a>
-    <a href="#page-about" onclick="closeDetail()">About</a>
-    <a href="#page-contact" onclick="closeDetail()">Contact</a>
-  </div>
-</footer>
+  <footer class="inner-footer"><span>© 2025 Kitana Wang. All rights reserved.</span></footer>
+</div>
 
 <!-- LIGHTBOX -->
 <div id="lightbox">
@@ -620,49 +376,31 @@ footer span{font-size:11px;color:rgba(250,243,227,.38);letter-spacing:.12em}
   <button class="lb-next" onclick="lbNext()">›</button>
 </div>
 
-<!-- DETAIL PAGE -->
-<div id="page-detail">
-  <div class="detail-inner">
-    <button class="detail-back" onclick="closeDetail()">Back to Gallery</button>
-    <div class="detail-grid">
-      <div class="detail-img"><img id="detail-img-el" src="" alt=""></div>
-      <div class="detail-info">
-        <p class="detail-series" id="detail-series"></p>
-        <h2 class="detail-title" id="detail-title"></h2>
-        <p class="detail-year" id="detail-year"></p>
-        <p class="detail-desc" id="detail-desc"></p>
-        <div class="detail-tags" id="detail-tags"></div>
-        <div class="detail-nav">
-          <button class="detail-nav-btn" onclick="prevWork()">← Previous</button>
-          <button class="detail-nav-btn" onclick="nextWork()">Next →</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ PAINTED VEIL FULL-SCREEN READER MODAL ══ -->
+<!-- VEIL MODAL -->
 <div id="veil-modal">
   <button class="veil-close" onclick="closeVeilReader()">✕</button>
-  <div class="veil-modal-title">The Painted Veil &nbsp;·&nbsp; William Somerset Maugham &nbsp;·&nbsp; Illustrated by Zixuan Wang</div>
-
+  <div class="veil-modal-title">The Painted Veil · William Somerset Maugham · Illustrated by Zixuan Wang</div>
   <div class="veil-img-wrap">
     <img id="veil-page-img" src="veil_cover.jpg" alt="The Painted Veil">
     <div class="veil-zone left" onclick="veilPrev()"><div class="veil-arrow">&#8592;</div></div>
     <div class="veil-zone right" onclick="veilNext()"><div class="veil-arrow">&#8594;</div></div>
   </div>
-
   <div class="veil-controls">
     <button class="veil-btn" id="veil-btn-prev" onclick="veilPrev()" disabled>&#8592; Prev</button>
     <span class="veil-counter" id="veil-counter">1 / 9</span>
     <button class="veil-btn" id="veil-btn-next" onclick="veilNext()">Next &#8594;</button>
   </div>
-
   <div class="veil-dots" id="veil-dots"></div>
-  <div class="veil-hint">Click sides · Keyboard ← → · Swipe on mobile</div>
 </div>
 
 <script>
+// ── PAGE SWITCHING ──
+function goTo(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById(id).scrollTop = 0;
+}
+
 // ── LIGHTBOX ──
 let lbIndex = 0;
 const lbImages = [
@@ -670,179 +408,86 @@ const lbImages = [
   'moa6.JPG','moa7.JPG','moa8.JPG','moa9.JPG','moa10.JPG',
   'veil_cover.jpg','veil_p01_text.jpg','veil_p02_text.jpg','veil_p03_text.jpg',
   'veil_p04_text.jpg','veil_p05_text.jpg','veil_p06_text.jpg','veil_p07_text.jpg',
-  'veil_backcover.jpg',
-  'book1.jpeg','book2.jpeg'
+  'veil_backcover.jpg','book1.jpeg','book2.jpeg'
 ];
-function openLightbox(idx){lbIndex=idx;document.getElementById('lb-img').src=lbImages[lbIndex];document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden'}
-function closeLightbox(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow=''}
-function lbPrev(){lbIndex=(lbIndex-1+lbImages.length)%lbImages.length;document.getElementById('lb-img').src=lbImages[lbIndex]}
-function lbNext(){lbIndex=(lbIndex+1)%lbImages.length;document.getElementById('lb-img').src=lbImages[lbIndex]}
-const lbEl=document.getElementById('lightbox');
-if(lbEl) lbEl.addEventListener('click',function(e){if(e.target===this)closeLightbox()});
+function openLightbox(idx) { lbIndex=idx; document.getElementById('lb-img').src=lbImages[lbIndex]; document.getElementById('lightbox').classList.add('open'); }
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+function lbPrev() { lbIndex=(lbIndex-1+lbImages.length)%lbImages.length; document.getElementById('lb-img').src=lbImages[lbIndex]; }
+function lbNext() { lbIndex=(lbIndex+1)%lbImages.length; document.getElementById('lb-img').src=lbImages[lbIndex]; }
+document.getElementById('lightbox').addEventListener('click', function(e){ if(e.target===this) closeLightbox(); });
 
 // ── VEIL READER ──
-const veilPages=[
-  'veil_cover.jpg',
-  'veil_p01_text.jpg','veil_p02_text.jpg','veil_p03_text.jpg',
-  'veil_p04_text.jpg','veil_p05_text.jpg','veil_p06_text.jpg',
-  'veil_p07_text.jpg',
-  'veil_backcover.jpg'
-];
-let veilCurrent=0;
-const veilImg=document.getElementById('veil-page-img');
-const veilCounter=document.getElementById('veil-counter');
-const veilBtnPrev=document.getElementById('veil-btn-prev');
-const veilBtnNext=document.getElementById('veil-btn-next');
-const veilDotsEl=document.getElementById('veil-dots');
-
-// Build dots
-veilPages.forEach((_,i)=>{
-  const d=document.createElement('div');
-  d.className='veil-dot'+(i===0?' active':'');
-  d.onclick=()=>veilGoTo(i);
-  veilDotsEl.appendChild(d);
+const veilPages = ['veil_cover.jpg','veil_p01_text.jpg','veil_p02_text.jpg','veil_p03_text.jpg','veil_p04_text.jpg','veil_p05_text.jpg','veil_p06_text.jpg','veil_p07_text.jpg','veil_backcover.jpg'];
+let veilCurrent = 0;
+veilPages.forEach((_,i) => {
+  const d = document.createElement('div');
+  d.className = 'veil-dot' + (i===0?' active':'');
+  d.onclick = () => veilGoTo(i);
+  document.getElementById('veil-dots').appendChild(d);
 });
-
-function veilUpdateUI(){
-  veilCounter.textContent=(veilCurrent+1)+' / '+veilPages.length;
-  veilBtnPrev.disabled=veilCurrent===0;
-  veilBtnNext.disabled=veilCurrent===veilPages.length-1;
-  document.querySelectorAll('.veil-dot').forEach((d,i)=>d.classList.toggle('active',i===veilCurrent));
+function veilUpdateUI() {
+  document.getElementById('veil-counter').textContent = (veilCurrent+1)+' / '+veilPages.length;
+  document.getElementById('veil-btn-prev').disabled = veilCurrent===0;
+  document.getElementById('veil-btn-next').disabled = veilCurrent===veilPages.length-1;
+  document.querySelectorAll('.veil-dot').forEach((d,i) => d.classList.toggle('active', i===veilCurrent));
 }
-
-function veilGoTo(index){
+function veilGoTo(index) {
   if(index<0||index>=veilPages.length||index===veilCurrent) return;
-  veilImg.classList.add('fade');
-  setTimeout(()=>{
-    veilCurrent=index;
-    veilImg.src=veilPages[veilCurrent];
-    veilImg.classList.remove('fade');
-    veilUpdateUI();
-  },280);
+  const img = document.getElementById('veil-page-img');
+  img.classList.add('fade');
+  setTimeout(() => { veilCurrent=index; img.src=veilPages[veilCurrent]; img.classList.remove('fade'); veilUpdateUI(); }, 280);
 }
-function veilNext(){veilGoTo(veilCurrent+1)}
-function veilPrev(){veilGoTo(veilCurrent-1)}
-
-function openVeilReader(){
+function veilNext() { veilGoTo(veilCurrent+1); }
+function veilPrev() { veilGoTo(veilCurrent-1); }
+function openVeilReader() {
   veilCurrent=0;
-  veilImg.src=veilPages[0];
+  document.getElementById('veil-page-img').src=veilPages[0];
   veilUpdateUI();
   document.getElementById('veil-modal').classList.add('open');
-  document.body.style.overflow='hidden';
 }
-function closeVeilReader(){
-  document.getElementById('veil-modal').classList.remove('open');
-  document.body.style.overflow='';
-}
-
-// Veil swipe
+function closeVeilReader() { document.getElementById('veil-modal').classList.remove('open'); }
+document.getElementById('veil-modal').addEventListener('click', function(e){ if(e.target===this) closeVeilReader(); });
 let veilTouchX=0;
-const veilModal=document.getElementById('veil-modal');
-veilModal.addEventListener('touchstart',e=>{veilTouchX=e.touches[0].clientX},{passive:true});
-veilModal.addEventListener('touchend',e=>{
-  const dx=e.changedTouches[0].clientX-veilTouchX;
-  if(Math.abs(dx)>50){if(dx<0)veilNext();else veilPrev();}
-},{passive:true});
-veilModal.addEventListener('click',function(e){if(e.target===this)closeVeilReader()});
+document.getElementById('veil-modal').addEventListener('touchstart',e=>{veilTouchX=e.touches[0].clientX;},{passive:true});
+document.getElementById('veil-modal').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-veilTouchX;if(Math.abs(dx)>50){dx<0?veilNext():veilPrev();}},{passive:true});
+
+// ── FLIPBOOK ──
+let fbCurrent = 0;
+const FB_TOTAL = 10;
+function toggleBook() {
+  const wrap = document.getElementById('flipbook-wrap');
+  const btn = document.getElementById('book-btn');
+  const hidden = wrap.style.display===''||wrap.style.display==='none';
+  if(hidden){ wrap.style.display='block'; btn.textContent='✦ Close Book'; fbCurrent=0; fbShow(0); setTimeout(()=>wrap.scrollIntoView({behavior:'smooth',block:'nearest'}),100); }
+  else{ wrap.style.display='none'; btn.textContent='✦ Read the Book'; }
+}
+function fbShow(idx) {
+  for(let i=0;i<FB_TOTAL;i++){
+    const el=document.getElementById('fb'+i); if(!el) continue;
+    el.style.opacity=i===idx?'1':'0';
+    el.style.pointerEvents=i===idx?'all':'none';
+    el.style.zIndex=i===idx?'2':'1';
+  }
+  document.getElementById('fb-count').textContent=(idx+1)+' / '+FB_TOTAL;
+  document.getElementById('fb-prev').style.opacity=idx===0?'.3':'1';
+  document.getElementById('fb-next').style.opacity=idx===FB_TOTAL-1?'.3':'1';
+}
+function fbTurn(dir){const n=fbCurrent+dir;if(n<0||n>=FB_TOTAL)return;fbCurrent=n;fbShow(fbCurrent);}
+let fbTouchX=0;
+document.getElementById('flipbook-wrap').addEventListener('touchstart',e=>{fbTouchX=e.touches[0].clientX;},{passive:true});
+document.getElementById('flipbook-wrap').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-fbTouchX;if(Math.abs(dx)>40)fbTurn(dx<0?1:-1);},{passive:true});
 
 // ── KEYBOARD ──
-document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){closeLightbox();closeDetail();closeVeilReader();}
+document.addEventListener('keydown', e => {
+  if(e.key==='Escape'){ closeLightbox(); closeVeilReader(); }
   if(document.getElementById('veil-modal').classList.contains('open')){
-    if(e.key==='ArrowRight')veilNext();
-    if(e.key==='ArrowLeft')veilPrev();
+    if(e.key==='ArrowRight') veilNext();
+    if(e.key==='ArrowLeft') veilPrev();
   } else if(document.getElementById('lightbox').classList.contains('open')){
-    if(e.key==='ArrowLeft')lbPrev();
-    if(e.key==='ArrowRight')lbNext();
+    if(e.key==='ArrowLeft') lbPrev();
+    if(e.key==='ArrowRight') lbNext();
   }
 });
-
-// ── FLIPBOOK (Museum of Angels) ──
-let fbCurrent=0;
-const FB_TOTAL=10;
-function toggleBook(){
-  const wrap=document.getElementById('flipbook-wrap');
-  const btn=document.getElementById('book-btn');
-  if(!wrap||!btn) return;
-  const isHidden=wrap.style.display==='none'||wrap.style.display==='';
-  if(isHidden){wrap.style.display='block';btn.textContent='✦ Close Book';fbCurrent=0;fbShow(0);setTimeout(()=>wrap.scrollIntoView({behavior:'smooth',block:'nearest'}),100);}
-  else{wrap.style.display='none';btn.textContent='✦ Read the Book';}
-}
-function fbShow(idx){
-  for(let i=0;i<FB_TOTAL;i++){
-    const el=document.getElementById('fb'+i);
-    if(!el) continue;
-    if(i===idx){el.style.opacity='1';el.style.pointerEvents='all';el.style.zIndex='2';}
-    else{el.style.opacity='0';el.style.pointerEvents='none';el.style.zIndex='1';}
-  }
-  const cnt=document.getElementById('fb-count');
-  const prev=document.getElementById('fb-prev');
-  const next=document.getElementById('fb-next');
-  if(cnt) cnt.textContent=(idx+1)+' / '+FB_TOTAL;
-  if(prev) prev.style.opacity=idx===0?'.3':'1';
-  if(next) next.style.opacity=idx===FB_TOTAL-1?'.3':'1';
-}
-function fbTurn(dir){const next=fbCurrent+dir;if(next<0||next>=FB_TOTAL)return;fbCurrent=next;fbShow(fbCurrent);}
-const fbWrap=document.getElementById('flipbook-wrap');
-if(fbWrap){
-  let fbTx=0;
-  fbWrap.addEventListener('touchstart',e=>{fbTx=e.touches[0].clientX},{passive:true});
-  fbWrap.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-fbTx;if(Math.abs(dx)>40)fbTurn(dx<0?1:-1);},{passive:true});
-}
-
-// ── DETAIL PAGE ──
-const works=[
-  {src:"moa1.JPG",series:"Museum of Angels",title:"The Keeper",year:"2024",desc:"A young guardian tends to the artefacts of a forgotten age.",tags:["Digital Painting","Character"]},
-  {src:"moa2.JPG",series:"Museum of Angels",title:"Curiosity at the Window",year:"2024",desc:"Two curious girls peek through the museum window at night, glimpsing a quiet kind of magic.",tags:["Digital Painting","Character"]},
-  {src:"moa3.JPG",series:"Museum of Angels",title:"The Quiet Guardian",year:"2024",desc:"When morning light fills the grand hall, the little angel waits quietly for visitors.",tags:["Digital Painting","Interior"]},
-  {src:"moa4.JPG",series:"Museum of Angels",title:"The Angel and the Jewelry Box",year:"2024",desc:"Inside an elegant display case, the little angel explores a tiny treasure chest of memories.",tags:["Digital Painting","Still Life"]},
-  {src:"moa5.JPG",series:"Museum of Angels",title:"The Angel and the Nautilus Cup",year:"2024",desc:"The little angel sleeps peacefully inside the curved shell, as if resting in a cradle shaped by the sea.",tags:["Digital Painting","Still Life"]},
-  {src:"moa6.JPG",series:"Museum of Angels",title:"The Angel and the Pocket Watch",year:"2024",desc:"She gently touches the hands of a gold pocket watch, as if trying to understand how time flows.",tags:["Digital Painting","Object"]},
-  {src:"moa7.JPG",series:"Museum of Angels",title:"The Angel at Work",year:"2024",desc:"In a small workshop deep inside the museum, the little angel carries out the quietest work of the day.",tags:["Digital Painting","Character"]},
-  {src:"moa8.JPG",series:"Museum of Angels",title:"William the Hippopotamus",year:"2024",desc:"The little angel rides William the ancient Egyptian hippopotamus on a quiet nighttime journey.",tags:["Digital Painting","Character"]},
-  {src:"moa9.JPG",series:"Museum of Angels",title:"The Porcelain Vase",year:"2024",desc:"She sits on the rim of a Yuan dynasty blue-and-white vase, like a small bird at rest.",tags:["Digital Painting","Still Life"]},
-  {src:"moa10.JPG",series:"Museum of Angels",title:"The Tang Figurine",year:"2024",desc:"The angel imitates a Tang dynasty figurine — two figures mirroring each other across time.",tags:["Digital Painting","Character"]},
-  {src:"veil_cover.jpg",series:"The Painted Veil",title:"Cover",year:"2024",desc:"The Painted Veil, illustrated by Zixuan Wang.",tags:["Book Illustration","Cover"]},
-  {src:"veil_p01_text.jpg",series:"The Painted Veil",title:"Page 1 — Kitty & Walter",year:"2024",desc:"Crushed by social pressure, Kitty hastily accepted the proposal of Walter — a man she neither knew nor loved.",tags:["Book Illustration","Narrative"]},
-  {src:"veil_p02_text.jpg",series:"The Painted Veil",title:"Page 2 — Charlie Townsend",year:"2024",desc:"In Hong Kong, Kitty met the charming Charlie Townsend and fell into a passionate affair.",tags:["Book Illustration","Narrative"]},
-  {src:"veil_p03_text.jpg",series:"The Painted Veil",title:"Page 3 — Arrival",year:"2024",desc:"Kitty arrives in a remote, cholera-stricken village — a place of death and despair.",tags:["Book Illustration","Narrative"]},
-  {src:"veil_p04_text.jpg",series:"The Painted Veil",title:"Page 4 — The Convent",year:"2024",desc:"Inspired by the nuns' courage, Kitty begins to help and finds meaning in compassion and service.",tags:["Book Illustration","Narrative"]},
-  {src:"veil_p05_text.jpg",series:"The Painted Veil",title:"Page 5 — Walter's Passing",year:"2024",desc:"In losing Walter, Kitty finally sees his worth and the magnitude of her own growth.",tags:["Book Illustration","Narrative"]},
-  {src:"veil_p06_text.jpg",series:"The Painted Veil",title:"Page 6 — The Return",year:"2024",desc:"Kitty returns to Hong Kong, carrying grief and the clarity that comes with growth.",tags:["Book Illustration","Narrative"]},
-  {src:"veil_p07_text.jpg",series:"The Painted Veil",title:"Page 7 — A New Life",year:"2024",desc:"Kitty chooses to return to England, raise her unborn child alone, and begin a life truly her own.",tags:["Book Illustration","Narrative"]},
-  {src:"veil_backcover.jpg",series:"The Painted Veil",title:"Back Cover",year:"2024",desc:"Through sorrow and betrayal, she tore away the painted veil — and at last, saw herself clearly.",tags:["Book Illustration","Cover"]},
-  {src:"book1.jpeg",series:"Children's Book",title:"The Little Finder",year:"2023",desc:"A small child discovers that the world is full of things simply waiting to be found.",tags:["Digital Painting","Character"]},
-  {src:"book2.jpeg",series:"Children's Book",title:"Night Garden",year:"2023",desc:"After dark, the garden keeps a secret. Only those who tiptoe quietly are allowed to see it.",tags:["Digital Painting","Landscape"]},
-];
-let currentIndex=0;
-let scrollPos=0;
-function openDetail(idx){currentIndex=idx;scrollPos=window.scrollY;renderDetail();document.getElementById('page-detail').style.display='block';document.body.style.overflow='hidden';document.getElementById('page-detail').scrollTop=0;}
-function closeDetail(){document.getElementById('page-detail').style.display='none';document.body.style.overflow='';window.scrollTo(0,scrollPos);}
-function renderDetail(){
-  const w=works[currentIndex];
-  document.getElementById('detail-img-el').src=w.src;
-  document.getElementById('detail-img-el').alt=w.title;
-  document.getElementById('detail-series').textContent=w.series;
-  document.getElementById('detail-title').textContent=w.title;
-  document.getElementById('detail-year').textContent=w.subtitle?w.subtitle+' · '+w.year:w.year;
-  document.getElementById('detail-desc').textContent=w.desc;
-  document.getElementById('detail-tags').innerHTML=w.tags.map(t=>`<span class="detail-tag">${t}</span>`).join('');
-}
-function prevWork(){currentIndex=(currentIndex-1+works.length)%works.length;renderDetail();document.getElementById('page-detail').scrollTop=0;}
-function nextWork(){currentIndex=(currentIndex+1)%works.length;renderDetail();document.getElementById('page-detail').scrollTop=0;}
-
-// ── NAV SCROLL ──
-const nav=document.getElementById('main-nav');
-window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>80)});
-
-// ── SMOOTH SCROLL ──
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});
-});
-
-// ── REVEAL ON SCROLL ──
-const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}});},{threshold:0.05});
-document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 </script>
 </body>
 </html>
