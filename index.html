@@ -12,7 +12,7 @@
   --brown:#8B6B5A;--dark:#3A2A1E;--mid:#7A5C4A;
   --light:#A8907A;--border:#DDD0BC;
 }
-html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond',Georgia,serif;background:#000;color:var(--dark)}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond',Georgia,serif;background:#FAFAF5;color:var(--dark)}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
@@ -21,14 +21,14 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond
 .page.active{opacity:1;pointer-events:all}
 
 /* ── HOME ── */
-#page-home{background:#000;overflow:hidden}
-#page-home video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;z-index:0}
-.home-logo{position:absolute;top:2.5rem;left:3rem;z-index:10;font-family:'Playfair Display',serif;color:#FAF3E3;letter-spacing:.06em;animation:fadeUp .8s ease .3s both}
+#page-home{background:#FAFAF5;overflow:hidden}
+#page-home video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#FAFAF5;z-index:0}
+.home-logo{position:absolute;top:2.5rem;left:3rem;z-index:10;font-family:'Playfair Display',serif;color:var(--gold);letter-spacing:.06em;animation:fadeUp .8s ease .3s both}
 .home-logo span{display:block;font-size:22px}
 .home-logo small{display:block;font-size:9px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;margin-top:3px}
 .home-nav{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;animation:fadeUp .8s ease .7s both}
-.home-nav-btn{background:rgba(0,0,0,.4);border:1px solid rgba(201,168,76,.6);color:#FAF3E3;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:.28em;text-transform:uppercase;padding:.8rem 2rem;cursor:pointer;border-radius:2px;backdrop-filter:blur(6px);transition:all .25s;white-space:nowrap}
-.home-nav-btn:hover{background:rgba(201,168,76,.2);border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.home-nav-btn{background:rgba(250,250,245,.6);border:1px solid rgba(201,168,76,.7);color:var(--dark);font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:.28em;text-transform:uppercase;padding:.8rem 2rem;cursor:pointer;border-radius:2px;backdrop-filter:blur(6px);transition:all .25s;white-space:nowrap}
+.home-nav-btn:hover{background:rgba(201,168,76,.15);border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
 
 /* ── TOP BAR ── */
 .top-bar{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 3rem;background:rgba(250,243,227,.97);border-bottom:1px solid var(--border);box-shadow:0 2px 16px rgba(58,42,30,.06)}
@@ -357,7 +357,7 @@ footer.inner-footer span{font-size:11px;color:rgba(250,243,227,.35);letter-spaci
   <div class="content">
     <h2>Say <em>hello</em></h2>
     <p>For collaborations, licensing, or just to share what my work made you feel — I'd love to hear from you.</p>
-    <a href="mailto:kitana@example.com" class="contact-email">kitana@example.com</a>
+    <a href="/cdn-cgi/l/email-protection#5f34362b3e313e1f3a273e322f333a713c3032" class="contact-email"><span class="__cf_email__" data-cfemail="7f14160b1e111e3f1a071e120f131a511c1012">[email&#160;protected]</span></a>
     <div class="social-row">
       <a href="#" target="_blank">Instagram</a>
       <a href="#" target="_blank">小红书</a>
@@ -393,7 +393,7 @@ footer.inner-footer span{font-size:11px;color:rgba(250,243,227,.35);letter-spaci
   <div class="veil-dots" id="veil-dots"></div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── PAGE SWITCHING ──
 function goTo(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -481,13 +481,4 @@ document.getElementById('flipbook-wrap').addEventListener('touchend',e=>{const d
 document.addEventListener('keydown', e => {
   if(e.key==='Escape'){ closeLightbox(); closeVeilReader(); }
   if(document.getElementById('veil-modal').classList.contains('open')){
-    if(e.key==='ArrowRight') veilNext();
-    if(e.key==='ArrowLeft') veilPrev();
-  } else if(document.getElementById('lightbox').classList.contains('open')){
-    if(e.key==='ArrowLeft') lbPrev();
-    if(e.key==='ArrowRight') lbNext();
-  }
-});
-</script>
-</body>
-</html>
+    if(e.key==='ArrowRight')
