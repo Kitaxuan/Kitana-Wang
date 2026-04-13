@@ -23,13 +23,12 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond
 /* ── HOME ── */
 #page-home{background:#FAFAF5;overflow:hidden}
 #page-home video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#FAFAF5;z-index:0;pointer-events:none}
-.home-logo{position:absolute;top:2.5rem;left:3rem;z-index:10;font-family:'Playfair Display',serif;color:var(--gold);letter-spacing:.06em;animation:fadeUp .8s ease .3s both}
+.home-logo{position:absolute;top:2.5rem;left:3rem;z-index:999;font-family:'Playfair Display',serif;color:var(--gold);letter-spacing:.06em}
 .home-logo span{display:block;font-size:22px}
 .home-logo small{display:block;font-size:9px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;margin-top:3px}
-.home-nav{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;animation:fadeUp .8s ease .7s both}
-.home-nav{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);z-index:100;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;animation:fadeUp .8s ease .7s both}
-.home-nav-btn{background:rgba(250,250,245,.6);border:1px solid rgba(201,168,76,.7);color:var(--dark);font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:.28em;text-transform:uppercase;padding:.8rem 2rem;cursor:pointer;border-radius:2px;backdrop-filter:blur(6px);transition:all .25s;white-space:nowrap;position:relative;z-index:100}
-.home-nav-btn:hover{background:rgba(201,168,76,.15);border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.home-nav{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);z-index:999;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+.home-nav-btn{background:rgba(250,250,245,.85);border:1.5px solid rgba(201,168,76,.8);color:var(--dark);font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:.28em;text-transform:uppercase;padding:.8rem 2rem;cursor:pointer;border-radius:2px;transition:all .25s;white-space:nowrap;position:relative;z-index:999}
+.home-nav-btn:hover{background:rgba(201,168,76,.15);border-color:var(--gold);color:var(--gold)}
 
 /* ── TOP BAR ── */
 .top-bar{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 3rem;background:rgba(250,243,227,.97);border-bottom:1px solid var(--border);box-shadow:0 2px 16px rgba(58,42,30,.06)}
@@ -143,9 +142,9 @@ footer.inner-footer span{font-size:11px;color:rgba(250,243,227,.35);letter-spaci
     <small>Illustration Studio</small>
   </div>
   <div class="home-nav">
-    <button class="home-nav-btn" onclick="goTo('page-gallery')">Gallery</button>
-    <button class="home-nav-btn" onclick="goTo('page-about')">About</button>
-    <button class="home-nav-btn" onclick="goTo('page-contact')">Contact</button>
+    <button class="home-nav-btn" id="btn-gallery">Gallery</button>
+    <button class="home-nav-btn" id="btn-about">About</button>
+    <button class="home-nav-btn" id="btn-contact">Contact</button>
   </div>
 </div>
 
@@ -477,6 +476,11 @@ function fbTurn(dir){const n=fbCurrent+dir;if(n<0||n>=FB_TOTAL)return;fbCurrent=
 let fbTouchX=0;
 document.getElementById('flipbook-wrap').addEventListener('touchstart',e=>{fbTouchX=e.touches[0].clientX;},{passive:true});
 document.getElementById('flipbook-wrap').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-fbTouchX;if(Math.abs(dx)>40)fbTurn(dx<0?1:-1);},{passive:true});
+
+// ── HOME NAV BUTTONS ──
+document.getElementById('btn-gallery').addEventListener('click', function(){ goTo('page-gallery'); });
+document.getElementById('btn-about').addEventListener('click', function(){ goTo('page-about'); });
+document.getElementById('btn-contact').addEventListener('click', function(){ goTo('page-contact'); });
 
 // ── KEYBOARD ──
 document.addEventListener('keydown', e => {
