@@ -4,338 +4,796 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kitana Wang — Illustration Studio</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --cream:#FAF3E3;--gold:#C9A84C;--deep-gold:#8B6914;
-  --brown:#8B6B5A;--dark:#3A2A1E;--mid:#7A5C4A;
-  --light:#A8907A;--border:#DDD0BC;
+  --ink:#1C1410;
+  --parchment:#FAFAF5;
+  --gold:#B8943F;
+  --gold-light:#D4AF6A;
+  --gold-pale:rgba(184,148,63,.12);
+  --dust:#E8E0D0;
+  --mid:#6B5B4E;
+  --border:rgba(184,148,63,.25);
 }
-html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond',Georgia,serif;background:#FAFAF5;color:var(--dark)}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'EB Garamond',Georgia,serif;background:var(--parchment);color:var(--ink)}
 
-/* PAGE SWITCHING */
+/* PAGE SYSTEM */
 .page{display:none;position:fixed;inset:0;overflow-y:auto}
 .page.active{display:block}
+.page.active.fade-in{animation:pageFade .4s ease}
+@keyframes pageFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* HOME */
-#page-home{background:#FAFAF5;overflow:hidden}
-#home-video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#FAFAF5;z-index:1;pointer-events:none}
-#home-logo{position:absolute;top:2.5rem;left:3rem;z-index:10;font-family:'Playfair Display',serif;color:var(--gold);letter-spacing:.06em}
-#home-logo span{display:block;font-size:22px}
-#home-logo small{display:block;font-size:9px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;margin-top:3px}
-#home-btns{position:absolute;bottom:3rem;left:0;right:0;z-index:10;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.hbtn{background:rgba(250,250,245,.9);border:1.5px solid #C9A84C;color:#3A2A1E;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:.28em;text-transform:uppercase;padding:.8rem 2rem;cursor:pointer;border-radius:2px}
-.hbtn:hover{background:rgba(201,168,76,.15);color:#C9A84C}
+/* ══ HOME ══ */
+#page-home{background:var(--parchment);overflow:hidden}
+#home-video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:var(--parchment);z-index:1;pointer-events:none}
 
-/* TOP BAR */
-.top-bar{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 3rem;background:rgba(250,243,227,.97);border-bottom:1px solid var(--border)}
-.top-bar-logo{font-family:'Playfair Display',serif;font-size:17px;color:var(--dark);cursor:pointer}
-.top-bar-logo:hover{color:var(--gold)}
-.top-bar-nav{display:flex;gap:2rem;list-style:none}
-.top-bar-nav a{font-size:11px;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;color:var(--mid);font-family:'Cormorant Garamond',serif;cursor:pointer}
+/* Decorative corner lines */
+#page-home::before{
+  content:'';position:absolute;inset:20px;
+  border:1px solid var(--border);
+  z-index:3;pointer-events:none;
+}
+
+.home-wordmark{
+  position:absolute;top:2.2rem;left:2.8rem;z-index:10;
+}
+.home-wordmark .name{
+  font-family:'Cinzel',serif;font-size:15px;
+  letter-spacing:.22em;color:var(--gold);
+  text-transform:uppercase;
+}
+.home-wordmark .sub{
+  font-size:9px;letter-spacing:.45em;
+  color:var(--mid);text-transform:uppercase;
+  margin-top:4px;font-family:'EB Garamond',serif;
+}
+
+.home-nav{
+  position:absolute;bottom:2.8rem;left:0;right:0;
+  z-index:10;
+  display:flex;align-items:center;justify-content:center;gap:0;
+}
+.home-nav-btn{
+  background:transparent;
+  border:none;border-right:1px solid var(--border);
+  color:var(--ink);
+  font-family:'Cinzel',serif;font-size:10px;
+  letter-spacing:.35em;text-transform:uppercase;
+  padding:.9rem 2.4rem;
+  cursor:pointer;transition:all .3s;
+  position:relative;
+}
+.home-nav-btn:last-child{border-right:none}
+.home-nav-btn::after{
+  content:'';position:absolute;
+  bottom:0;left:50%;right:50%;
+  height:1px;background:var(--gold);
+  transition:left .3s,right .3s;
+}
+.home-nav-btn:hover{color:var(--gold)}
+.home-nav-btn:hover::after{left:20%;right:20%}
+
+/* Thin gold line above nav */
+.home-nav-line{
+  position:absolute;bottom:4.5rem;left:50%;transform:translateX(-50%);
+  width:120px;height:1px;background:var(--border);
+  z-index:10;
+}
+
+/* ══ SHARED INNER LAYOUT ══ */
+.inner-page{background:var(--parchment)}
+.inner-page::-webkit-scrollbar{width:3px}
+.inner-page::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* Top bar */
+.top-bar{
+  position:sticky;top:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1rem 3rem;
+  background:rgba(250,250,245,.97);
+  border-bottom:1px solid var(--border);
+}
+.top-bar-logo{
+  font-family:'Cinzel',serif;font-size:13px;
+  color:var(--gold);letter-spacing:.22em;
+  text-transform:uppercase;cursor:pointer;
+  transition:opacity .2s;
+}
+.top-bar-logo:hover{opacity:.7}
+.top-bar-nav{display:flex;gap:2.5rem;list-style:none}
+.top-bar-nav a{
+  font-family:'Cinzel',serif;font-size:9px;
+  letter-spacing:.3em;text-transform:uppercase;
+  color:var(--mid);cursor:pointer;
+  transition:color .2s;text-decoration:none;
+  position:relative;padding-bottom:3px;
+}
+.top-bar-nav a::after{content:'';position:absolute;bottom:0;left:0;right:100%;height:1px;background:var(--gold);transition:right .3s}
 .top-bar-nav a:hover,.top-bar-nav a.active{color:var(--gold)}
+.top-bar-nav a:hover::after,.top-bar-nav a.active::after{right:0}
 
-/* INNER */
-.inner-page{background:var(--cream)}
-.inner-page::-webkit-scrollbar{width:4px}
-.inner-page::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+/* ══ GALLERY PAGE ══ */
+#page-gallery .content{padding:4rem 3rem 6rem;max-width:1100px;margin:0 auto}
 
-/* GALLERY */
-#page-gallery .content{padding:3rem 2.5rem 5rem}
-.sec-header{text-align:center;margin-bottom:3rem}
-.sec-tag{font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-style:italic;margin-bottom:.7rem}
-.sec-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;color:var(--dark)}
-.sec-title em{font-style:italic;color:var(--brown)}
-.series-label{font-family:'Playfair Display',serif;font-size:1.3rem;font-style:italic;color:var(--dark);margin:2.5rem 0 1rem;display:flex;align-items:center;gap:1rem}
-.series-label::after{content:'';flex:1;height:1px;background:var(--border)}
-.read-btn{font-size:13px;letter-spacing:.18em;color:var(--gold);background:transparent;border:1.5px solid rgba(201,168,76,.6);padding:.5rem 1.4rem;border-radius:20px;font-family:'Cormorant Garamond',serif;text-transform:uppercase;cursor:pointer}
-.read-btn:hover{background:rgba(201,168,76,.1)}
-.masonry{columns:2;column-gap:12px}
-@media(min-width:700px){.masonry{columns:3}}
-@media(min-width:1100px){.masonry{columns:4}}
-.masonry-item{break-inside:avoid;margin-bottom:12px;border-radius:6px;overflow:hidden;position:relative;cursor:pointer;border:1px solid var(--border);background:#EDE0D0}
-.masonry-item img{width:100%;display:block;transition:transform .5s}
-.masonry-item:hover img{transform:scale(1.05)}
-.masonry-overlay{position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(58,42,30,.75) 100%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:.8rem}
-.masonry-item:hover .masonry-overlay{opacity:1}
-.masonry-title{font-family:'Playfair Display',serif;font-style:italic;font-size:12px;color:#FAF3E3}
-.masonry-num{font-size:10px;color:rgba(250,243,227,.6);margin-top:2px}
+.gallery-hero{
+  text-align:center;margin-bottom:4rem;
+  padding-bottom:3rem;border-bottom:1px solid var(--border);
+}
+.gallery-hero .eyebrow{
+  font-size:9px;letter-spacing:.5em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.2rem;
+  display:flex;align-items:center;justify-content:center;gap:1rem;
+}
+.gallery-hero .eyebrow::before,.gallery-hero .eyebrow::after{
+  content:'';width:40px;height:1px;background:var(--border);display:inline-block;
+}
+.gallery-hero h1{
+  font-family:'Cormorant',serif;font-size:clamp(2.5rem,5vw,4rem);
+  font-weight:300;font-style:italic;color:var(--ink);line-height:1;
+}
 
-/* FLIPBOOK */
-#flipbook-wrap{display:none;margin-bottom:2rem}
-.fb-spread{opacity:0;pointer-events:none;transition:opacity .3s;position:absolute;inset:0}
+/* Series cards */
+.series-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:0}
+@media(max-width:700px){.series-grid{grid-template-columns:1fr}}
+.series-card{
+  position:relative;overflow:hidden;cursor:pointer;
+  aspect-ratio:4/3;background:var(--dust);
+  border:1px solid var(--border);
+}
+.series-card img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .8s ease;filter:brightness(.85);
+}
+.series-card:hover img{transform:scale(1.05)}
+.series-card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(28,20,16,.85) 0%,rgba(28,20,16,.2) 60%,transparent 100%);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:2.5rem;transition:background .4s;
+}
+.series-card:hover .series-card-overlay{background:linear-gradient(to top,rgba(28,20,16,.9) 0%,rgba(28,20,16,.35) 60%,transparent 100%)}
+.series-card-num{
+  font-size:9px;letter-spacing:.45em;text-transform:uppercase;
+  color:var(--gold-light);margin-bottom:.6rem;
+}
+.series-card-title{
+  font-family:'Cormorant',serif;font-size:clamp(1.6rem,3vw,2.4rem);
+  font-weight:300;font-style:italic;color:#FAF3E3;
+  line-height:1.1;margin-bottom:.8rem;
+}
+.series-card-desc{
+  font-size:13px;color:rgba(250,243,227,.6);
+  line-height:1.7;max-width:340px;
+  opacity:0;transform:translateY(8px);
+  transition:opacity .4s,transform .4s;
+}
+.series-card:hover .series-card-desc{opacity:1;transform:translateY(0)}
+.series-card-arrow{
+  position:absolute;top:2rem;right:2rem;
+  width:36px;height:36px;border:1px solid rgba(250,243,227,.3);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:rgba(250,243,227,.6);font-size:14px;
+  transition:all .3s;
+}
+.series-card:hover .series-card-arrow{border-color:var(--gold);color:var(--gold);transform:rotate(45deg)}
+
+/* ══ SERIES PAGE ══ */
+.series-page .content{padding:0}
+.series-hero{
+  height:38vh;position:relative;overflow:hidden;
+  display:flex;align-items:flex-end;
+  border-bottom:1px solid var(--border);
+}
+.series-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.5)}
+.series-hero-text{position:relative;z-index:2;padding:2.5rem 3rem;width:100%}
+.series-hero-eyebrow{font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.6rem}
+.series-hero-title{font-family:'Cormorant',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:300;font-style:italic;color:#FAF3E3;line-height:1}
+
+.series-tabs{
+  display:flex;border-bottom:1px solid var(--border);
+  background:var(--parchment);position:sticky;top:61px;z-index:90;
+}
+.series-tab{
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--mid);padding:1.1rem 2.2rem;cursor:pointer;
+  border-bottom:2px solid transparent;transition:all .2s;
+  background:none;border-top:none;border-left:none;border-right:none;
+  border-bottom:2px solid transparent;
+}
+.series-tab:hover{color:var(--gold)}
+.series-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+.tab-content{display:none;padding:3rem}
+.tab-content.active{display:block}
+
+/* Flipbook tab */
+.flipbook-wrap{max-width:900px;margin:0 auto}
+.flipbook-container{position:relative;width:100%;height:min(65vh,480px);margin-bottom:1.5rem}
+.fb-spread{opacity:0;pointer-events:none;transition:opacity .35s;position:absolute;inset:0;border-radius:4px;overflow:hidden;box-shadow:0 8px 40px rgba(28,20,16,.25)}
 .fb-spread.active{opacity:1;pointer-events:all}
+.fb-nav{display:flex;align-items:center;justify-content:center;gap:2rem}
+.fb-nav-btn{
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid var(--border);background:transparent;
+  color:var(--mid);font-size:1.2rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.fb-nav-btn:hover{border-color:var(--gold);color:var(--gold)}
+.fb-nav-btn:disabled{opacity:.25;cursor:default}
+.fb-count{font-size:11px;letter-spacing:.2em;color:var(--mid);font-style:italic;min-width:60px;text-align:center}
 
-/* ABOUT */
-#page-about .content{max-width:900px;margin:0 auto;padding:4rem 2.5rem 5rem;display:grid;grid-template-columns:1fr 1.6fr;gap:4rem;align-items:start}
-@media(max-width:700px){#page-about .content{grid-template-columns:1fr;gap:2rem}}
-.about-img-frame{border-radius:6px;overflow:hidden;border:1px solid var(--border);aspect-ratio:3/4;background:#EDE0D0}
-.about-img-frame img{width:100%;height:100%;object-fit:cover;display:block}
-.about-text h2{font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;line-height:1.22;margin-bottom:1.4rem}
-.about-text h2 em{font-style:italic;color:var(--brown)}
-.about-text p{font-size:16px;line-height:2;color:var(--mid);margin-bottom:1rem;font-weight:300}
-.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
-.tag{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--deep-gold);border:1px solid rgba(201,168,76,.45);padding:.4rem .9rem;border-radius:20px}
+/* Gallery grid tab */
+.gallery-grid{columns:2;column-gap:10px}
+@media(min-width:700px){.gallery-grid{columns:3}}
+@media(min-width:1000px){.gallery-grid{columns:4}}
+.gallery-item{break-inside:avoid;margin-bottom:10px;border-radius:4px;overflow:hidden;position:relative;cursor:pointer;background:#EDE0D0;border:1px solid var(--border)}
+.gallery-item img{width:100%;display:block;transition:transform .6s}
+.gallery-item:hover img{transform:scale(1.06)}
+.gallery-item-overlay{position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(28,20,16,.75) 100%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:.8rem}
+.gallery-item:hover .gallery-item-overlay{opacity:1}
+.gallery-item-title{font-family:'Cormorant',serif;font-style:italic;font-size:12px;color:#FAF3E3}
+.gallery-item-num{font-size:9px;color:rgba(250,243,227,.55);letter-spacing:.1em;margin-top:2px}
 
-/* CONTACT */
-#page-contact .content{max-width:560px;margin:0 auto;padding:5rem 2.5rem;text-align:center}
-#page-contact .content h2{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:400;margin-bottom:1.5rem}
-#page-contact .content h2 em{font-style:italic;color:var(--brown)}
-#page-contact .content p{font-size:16px;line-height:1.9;color:var(--mid);margin-bottom:2rem;font-weight:300}
-.contact-email{font-family:'Playfair Display',serif;font-size:1.3rem;font-style:italic;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,168,76,.4);padding-bottom:3px}
-.social-row{display:flex;justify-content:center;gap:2rem;margin-top:2.5rem;flex-wrap:wrap}
-.social-row a{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);text-decoration:none}
+/* Inspiration tab */
+.inspiration-layout{
+  max-width:760px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 2fr;gap:4rem;align-items:start;
+}
+@media(max-width:700px){.inspiration-layout{grid-template-columns:1fr;gap:2rem}}
+.inspiration-ornament{
+  text-align:center;padding-top:1rem;
+}
+.insp-roman{
+  font-family:'Cinzel',serif;font-size:5rem;
+  color:var(--border);line-height:1;margin-bottom:1rem;
+}
+.insp-line{width:1px;height:80px;background:linear-gradient(to bottom,var(--gold),transparent);margin:0 auto}
+.inspiration-text h3{
+  font-family:'Cormorant',serif;font-size:1.8rem;font-weight:300;font-style:italic;
+  color:var(--ink);margin-bottom:1.5rem;line-height:1.2;
+}
+.inspiration-text p{
+  font-size:16px;line-height:2;color:var(--mid);
+  font-weight:400;margin-bottom:1.2rem;
+}
+.inspiration-text blockquote{
+  border-left:2px solid var(--gold);padding-left:1.5rem;
+  margin:2rem 0;font-style:italic;font-size:17px;
+  color:var(--ink);line-height:1.8;
+}
+
+/* Process tab */
+.process-steps{max-width:900px;margin:0 auto}
+.process-step{
+  display:grid;grid-template-columns:80px 1fr;gap:2.5rem;
+  align-items:start;margin-bottom:3.5rem;
+  padding-bottom:3.5rem;border-bottom:1px solid var(--border);
+}
+.process-step:last-child{border-bottom:none}
+@media(max-width:600px){.process-step{grid-template-columns:1fr}}
+.step-num{
+  font-family:'Cinzel',serif;font-size:3rem;
+  color:var(--border);line-height:1;padding-top:.3rem;
+  text-align:center;
+}
+.step-body h4{
+  font-family:'Cormorant',serif;font-size:1.4rem;font-weight:500;
+  color:var(--ink);margin-bottom:.6rem;
+}
+.step-body p{font-size:15px;line-height:1.9;color:var(--mid);margin-bottom:1.2rem}
+.step-images{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:1rem}
+.step-images img{width:100%;border-radius:4px;border:1px solid var(--border);cursor:pointer;transition:transform .3s}
+.step-images img:hover{transform:scale(1.02)}
+
+/* ══ ABOUT PAGE ══ */
+#page-about .content{
+  max-width:960px;margin:0 auto;
+  padding:5rem 3rem;
+  display:grid;grid-template-columns:1fr 1.8fr;gap:5rem;align-items:start;
+}
+@media(max-width:700px){#page-about .content{grid-template-columns:1fr;gap:2.5rem;padding:3rem 1.5rem}}
+.about-img{border-radius:4px;overflow:hidden;border:1px solid var(--border);aspect-ratio:3/4;background:#EDE0D0}
+.about-img img{width:100%;height:100%;object-fit:cover;display:block}
+.about-text .label{font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:.8rem}
+.about-text .label::before{content:'';width:24px;height:1px;background:var(--gold)}
+.about-text h2{font-family:'Cormorant',serif;font-size:2.5rem;font-weight:300;line-height:1.15;margin-bottom:1.8rem;font-style:italic}
+.about-text h2 em{color:var(--gold);font-style:normal}
+.about-text p{font-size:16px;line-height:2;color:var(--mid);margin-bottom:1rem}
+.about-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:2rem}
+.about-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border);padding:.4rem 1rem;border-radius:1px}
+
+/* ══ CONTACT PAGE ══ */
+#page-contact .content{
+  max-width:500px;margin:0 auto;
+  padding:6rem 2rem;text-align:center;
+}
+#page-contact .content .label{font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:block}
+#page-contact .content h2{font-family:'Cormorant',serif;font-size:3rem;font-weight:300;font-style:italic;color:var(--ink);margin-bottom:2rem;line-height:1}
+#page-contact .content p{font-size:16px;line-height:1.9;color:var(--mid);margin-bottom:2.5rem}
+.contact-email{
+  display:inline-block;font-family:'Cormorant',serif;font-size:1.3rem;font-style:italic;
+  color:var(--gold);text-decoration:none;
+  border-bottom:1px solid var(--border);padding-bottom:4px;transition:border-color .2s;
+}
+.contact-email:hover{border-color:var(--gold)}
+.social-row{display:flex;justify-content:center;gap:2.5rem;margin-top:3rem;flex-wrap:wrap}
+.social-row a{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .2s;font-family:'Cinzel',serif}
 .social-row a:hover{color:var(--gold)}
+.contact-divider{width:40px;height:1px;background:var(--border);margin:2.5rem auto}
 
-/* LIGHTBOX */
-#lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(20,12,6,.92);align-items:center;justify-content:center}
+/* ══ LIGHTBOX ══ */
+#lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(28,20,16,.95);align-items:center;justify-content:center}
 #lightbox.open{display:flex}
-#lightbox img{max-width:90vw;max-height:88vh;object-fit:contain;border-radius:6px}
-.lb-close{position:absolute;top:1.5rem;right:2rem;font-size:28px;color:rgba(250,243,227,.7);cursor:pointer;background:none;border:none;line-height:1}
-.lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);font-size:2rem;color:rgba(250,243,227,.6);cursor:pointer;background:none;border:none;padding:1rem;line-height:1}
-.lb-prev{left:1rem}.lb-next{right:1rem}
-.lb-prev:hover,.lb-next:hover,.lb-close:hover{color:var(--gold)}
+#lightbox img{max-width:90vw;max-height:88vh;object-fit:contain;border-radius:2px}
+.lb-close{position:absolute;top:1.5rem;right:2rem;font-size:20px;color:rgba(250,243,227,.5);cursor:pointer;background:none;border:none;line-height:1;font-family:'Cinzel',serif;letter-spacing:.1em;transition:color .2s}
+.lb-close:hover{color:var(--gold)}
+.lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);font-size:1.8rem;color:rgba(250,243,227,.4);cursor:pointer;background:none;border:none;padding:1.2rem;line-height:1;transition:color .2s}
+.lb-prev{left:.5rem}.lb-next{right:.5rem}
+.lb-prev:hover,.lb-next:hover{color:var(--gold)}
 
-/* VEIL MODAL */
-#veil-modal{display:none;position:fixed;inset:0;z-index:8000;background:rgba(10,4,0,.96);align-items:center;justify-content:center;flex-direction:column;gap:16px}
+/* ══ VEIL MODAL ══ */
+#veil-modal{display:none;position:fixed;inset:0;z-index:8000;background:rgba(10,4,0,.96);align-items:center;justify-content:center;flex-direction:column;gap:14px}
 #veil-modal.open{display:flex}
-.veil-modal-title{color:rgba(212,175,55,.5);font-size:10px;letter-spacing:.35em;text-transform:uppercase;font-family:'Cormorant Garamond',serif}
+.veil-modal-title{color:rgba(184,148,63,.45);font-size:9px;letter-spacing:.4em;text-transform:uppercase;font-family:'Cinzel',serif}
 .veil-img-wrap{position:relative;max-width:min(92vw,860px);width:100%}
-.veil-img-wrap img{width:100%;height:auto;max-height:76vh;object-fit:contain;display:block;border-radius:4px;box-shadow:0 20px 60px rgba(0,0,0,.7);transition:opacity .35s}
+.veil-img-wrap img{width:100%;height:auto;max-height:76vh;object-fit:contain;display:block;border-radius:2px;box-shadow:0 20px 60px rgba(0,0,0,.7);transition:opacity .3s}
 .veil-img-wrap img.fade{opacity:0}
-.veil-zone{position:absolute;top:0;height:100%;width:38%;cursor:pointer;z-index:5;display:flex;align-items:center;opacity:0;transition:opacity .25s}
+.veil-zone{position:absolute;top:0;height:100%;width:36%;cursor:pointer;z-index:5;display:flex;align-items:center;opacity:0;transition:opacity .25s}
 .veil-zone:hover{opacity:1}
 .veil-zone.left{left:0;justify-content:flex-start}
 .veil-zone.right{right:0;justify-content:flex-end}
-.veil-arrow{background:rgba(0,0,0,.55);border:1px solid rgba(212,175,55,.4);color:#d4af37;font-size:22px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:50%;margin:0 14px}
-.veil-zone:hover .veil-arrow{background:rgba(100,50,10,.6)}
-.veil-controls{display:flex;align-items:center;gap:20px}
-.veil-btn{background:transparent;border:1px solid rgba(212,175,55,.35);color:#d4af37;padding:7px 18px;font-family:'Cormorant Garamond',serif;font-size:12px;cursor:pointer;border-radius:2px}
-.veil-btn:disabled{opacity:.25;cursor:default}
-.veil-counter{color:rgba(212,175,55,.6);font-size:11px;letter-spacing:.22em;min-width:60px;text-align:center}
-.veil-dots{display:flex;gap:5px;align-items:center}
-.veil-dot{width:5px;height:5px;border-radius:50%;background:rgba(212,175,55,.22);cursor:pointer;transition:all .2s}
-.veil-dot.active{background:#d4af37;transform:scale(1.4)}
-.veil-close{position:absolute;top:1.2rem;right:1.5rem;font-size:24px;color:rgba(250,243,227,.55);cursor:pointer;background:none;border:none;z-index:10}
+.veil-arrow{background:rgba(0,0,0,.5);border:1px solid rgba(184,148,63,.4);color:#d4af37;font-size:18px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;margin:0 14px}
+.veil-zone:hover .veil-arrow{background:rgba(80,40,5,.7);border-color:#d4af37}
+.veil-controls{display:flex;align-items:center;gap:16px}
+.veil-btn{background:transparent;border:1px solid rgba(184,148,63,.3);color:#d4af37;padding:6px 16px;font-family:'EB Garamond',serif;font-size:12px;cursor:pointer;border-radius:1px;transition:all .2s}
+.veil-btn:hover{background:rgba(184,148,63,.1);border-color:#d4af37}
+.veil-btn:disabled{opacity:.2;cursor:default}
+.veil-counter{color:rgba(184,148,63,.55);font-size:11px;letter-spacing:.2em;min-width:55px;text-align:center}
+.veil-dots{display:flex;gap:5px}
+.veil-dot{width:4px;height:4px;border-radius:50%;background:rgba(184,148,63,.2);cursor:pointer;transition:all .2s}
+.veil-dot.active{background:#d4af37;transform:scale(1.5)}
+.veil-close{position:absolute;top:1.2rem;right:1.5rem;font-size:18px;color:rgba(250,243,227,.4);cursor:pointer;background:none;border:none;z-index:10;font-family:'Cinzel',serif;letter-spacing:.1em;transition:color .2s}
 .veil-close:hover{color:#d4af37}
 
-footer{background:var(--dark);padding:1.5rem 3rem}
-footer span{font-size:11px;color:rgba(250,243,227,.35);letter-spacing:.1em}
+footer{background:var(--ink);padding:1.2rem 3rem;display:flex;justify-content:space-between;align-items:center}
+footer span{font-size:9px;color:rgba(250,243,227,.25);letter-spacing:.18em;text-transform:uppercase;font-family:'Cinzel',serif}
 </style>
 </head>
 <body>
 
-<!-- HOME -->
+<!-- ══ HOME ══ -->
 <div class="page active" id="page-home">
   <video id="home-video" autoplay muted loop playsinline>
     <source src="Hw_5.mp4" type="video/mp4">
   </video>
-  <div id="home-logo">
-    <span>Kitana Wang</span>
-    <small>Illustration Studio</small>
+  <div class="home-wordmark">
+    <div class="name">Kitana Wang</div>
+    <div class="sub">Illustration Studio</div>
   </div>
-  <div id="home-btns">
-    <button class="hbtn" id="btn-gallery">Gallery</button>
-    <button class="hbtn" id="btn-about">About</button>
-    <button class="hbtn" id="btn-contact">Contact</button>
+  <div class="home-nav-line"></div>
+  <div class="home-nav">
+    <button class="home-nav-btn" id="btn-gallery">Gallery</button>
+    <button class="home-nav-btn" id="btn-about">About</button>
+    <button class="home-nav-btn" id="btn-contact">Contact</button>
   </div>
 </div>
 
-<!-- GALLERY -->
+<!-- ══ GALLERY ══ -->
 <div class="page inner-page" id="page-gallery">
   <div class="top-bar">
-    <div class="top-bar-logo" id="logo-from-gallery">Kitana Wang</div>
+    <div class="top-bar-logo" id="logo-g">Kitana Wang</div>
     <ul class="top-bar-nav">
       <li><a class="active">Gallery</a></li>
-      <li><a id="nav-about-from-gallery">About</a></li>
-      <li><a id="nav-contact-from-gallery">Contact</a></li>
+      <li><a id="nav-about-g">About</a></li>
+      <li><a id="nav-contact-g">Contact</a></li>
     </ul>
   </div>
   <div class="content">
-    <div class="sec-header">
-      <p class="sec-tag">— Selected Works —</p>
-      <h2 class="sec-title">From the <em>Studio</em></h2>
+    <div class="gallery-hero">
+      <div class="eyebrow">Selected Works</div>
+      <h1>From the Studio</h1>
     </div>
+    <div class="series-grid">
+      <div class="series-card" id="card-moa">
+        <img src="moa1.JPG" alt="Museum of Angels" onerror="this.style.background='#C8A870';this.style.display='none'">
+        <div class="series-card-overlay">
+          <div class="series-card-num">Series I</div>
+          <div class="series-card-title">Museum<br>of Angels</div>
+          <div class="series-card-desc">A little angel guards the artifacts of the Metropolitan Museum of Art through the night.</div>
+        </div>
+        <div class="series-card-arrow">↗</div>
+      </div>
+      <div class="series-card" id="card-veil">
+        <img src="veil_cover.jpg" alt="The Painted Veil" onerror="this.style.background='#7A3A2A';this.style.display='none'">
+        <div class="series-card-overlay">
+          <div class="series-card-num">Series II</div>
+          <div class="series-card-title">The Painted<br>Veil</div>
+          <div class="series-card-desc">An illustrated retelling of W. Somerset Maugham's classic novel.</div>
+        </div>
+        <div class="series-card-arrow">↗</div>
+      </div>
+    </div>
+  </div>
+  <footer><span>© 2025 Kitana Wang</span></footer>
+</div>
 
-    <p class="series-label">Museum of Angels
-      <button class="read-btn" id="book-btn">✦ Read the Book</button>
-    </p>
+<!-- ══ MOA SERIES PAGE ══ -->
+<div class="page inner-page series-page" id="page-moa">
+  <div class="top-bar">
+    <div class="top-bar-logo" id="logo-moa">Kitana Wang</div>
+    <ul class="top-bar-nav">
+      <li><a id="nav-gallery-moa">Gallery</a></li>
+      <li><a id="nav-about-moa">About</a></li>
+      <li><a id="nav-contact-moa">Contact</a></li>
+    </ul>
+  </div>
+  <div class="series-hero">
+    <img src="moa3.JPG" alt="" onerror="this.style.display='none'">
+    <div class="series-hero-text">
+      <div class="series-hero-eyebrow">Series I — 2024</div>
+      <div class="series-hero-title">Museum of Angels</div>
+    </div>
+  </div>
+  <div class="series-tabs">
+    <button class="series-tab active" data-tab="moa-flipbook">Flipbook</button>
+    <button class="series-tab" data-tab="moa-gallery">Gallery</button>
+    <button class="series-tab" data-tab="moa-inspiration">Inspiration</button>
+    <button class="series-tab" data-tab="moa-process">Process</button>
+  </div>
 
-    <div id="flipbook-wrap">
-      <div id="flipbook" style="position:relative;width:100%;max-width:860px;margin:0 auto;height:min(68vh,500px)">
-        <div class="fb-spread active" id="fb0" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+  <!-- FLIPBOOK TAB -->
+  <div class="tab-content active" id="moa-flipbook">
+    <div class="flipbook-wrap">
+      <div class="flipbook-container">
+        <div class="fb-spread active" id="fb0" style="display:grid;grid-template-columns:1fr 1fr">
           <div style="overflow:hidden"><img src="moa1.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
-          <div style="background:#D4B898;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:2rem;text-align:center">
-            <img src="moa1.JPG" style="width:60px;height:60px;border-radius:50%;object-fit:cover;margin-bottom:1.2rem;opacity:.85">
-            <div style="font-family:'Playfair Display',serif;font-size:clamp(1.1rem,2vw,1.6rem);color:#3A2010;letter-spacing:.06em;line-height:1.4">Museum<br>of Angels</div>
-            <div style="font-size:.85rem;color:rgba(58,32,16,.55);letter-spacing:.18em;text-transform:uppercase;margin-top:.4rem">Zixuan Wang</div>
+          <div style="background:#D4B898;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem;text-align:center">
+            <div style="font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:rgba(58,32,16,.5);margin-bottom:1.5rem;font-family:'Cinzel',serif">Zixuan Wang</div>
+            <div style="font-family:'Cormorant',serif;font-size:clamp(1.4rem,3vw,2.2rem);font-weight:300;font-style:italic;color:#3A2010;line-height:1.2">Museum<br>of Angels</div>
+            <div style="width:30px;height:1px;background:#C9A84C;margin:1.5rem auto;opacity:.5"></div>
+            <div style="font-size:11px;letter-spacing:.1em;color:rgba(58,32,16,.4);font-family:'EB Garamond',serif">2024</div>
           </div>
         </div>
-        <div class="fb-spread" id="fb1" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.8rem">Curiosity at the Window</div>
-            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">As night falls, two curious little girls quietly peek through a window, trying to glimpse the secrets inside the museum.</div>
+        <div class="fb-spread" id="fb1" style="display:grid;grid-template-columns:1fr 1fr">
+          <div style="background:#D4B898;padding:2.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Cormorant',serif;font-size:clamp(.95rem,1.8vw,1.2rem);font-weight:500;color:#3A2010;margin-bottom:1rem">Curiosity at the Window</div>
+            <div style="width:28px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:1rem"></div>
+            <div style="font-size:clamp(.75rem,1.2vw,.88rem);line-height:1.9;color:#5A3A2A;font-weight:300;font-family:'EB Garamond',serif">As night falls, two curious little girls quietly peek through a window, trying to glimpse the secrets inside the museum.</div>
           </div>
           <div style="overflow:hidden"><img src="moa2.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
         </div>
-        <div class="fb-spread" id="fb2" style="box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
+        <div class="fb-spread" id="fb2">
           <img src="moa3.JPG" style="width:100%;height:100%;object-fit:cover;display:block">
         </div>
-        <div class="fb-spread" id="fb3" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Jewelry Box</div>
-            <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(19th Century European Jewelry / Sewing Box)</div>
-            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The little angel sits inside the box, curiously playing with old pieces of jewelry.</div>
+        <div class="fb-spread" id="fb3" style="display:grid;grid-template-columns:1fr 1fr">
+          <div style="background:#D4B898;padding:2.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Cormorant',serif;font-size:clamp(.95rem,1.8vw,1.2rem);font-weight:500;color:#3A2010;margin-bottom:.4rem">The Angel and the Jewelry Box</div>
+            <div style="font-size:clamp(.68rem,1vw,.78rem);color:rgba(58,32,16,.5);font-style:italic;margin-bottom:1rem;font-family:'EB Garamond',serif">(19th Century European Jewelry / Sewing Box)</div>
+            <div style="width:28px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:1rem"></div>
+            <div style="font-size:clamp(.75rem,1.2vw,.88rem);line-height:1.9;color:#5A3A2A;font-weight:300;font-family:'EB Garamond',serif">The little angel sits inside the box, curiously playing with old pieces of jewelry.</div>
           </div>
           <div style="overflow:hidden"><img src="moa4.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
         </div>
-        <div class="fb-spread" id="fb4" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Nautilus Cup</div>
-            <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(European Nautilus Shell Cup, 16–17th Century)</div>
-            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The little angel sleeps peacefully inside the curved shell, as if resting in a cradle shaped by the sea.</div>
+        <div class="fb-spread" id="fb4" style="display:grid;grid-template-columns:1fr 1fr">
+          <div style="background:#D4B898;padding:2.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Cormorant',serif;font-size:clamp(.95rem,1.8vw,1.2rem);font-weight:500;color:#3A2010;margin-bottom:.4rem">The Angel and the Nautilus Cup</div>
+            <div style="font-size:clamp(.68rem,1vw,.78rem);color:rgba(58,32,16,.5);font-style:italic;margin-bottom:1rem;font-family:'EB Garamond',serif">(European Nautilus Shell Cup, 16–17th Century)</div>
+            <div style="width:28px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:1rem"></div>
+            <div style="font-size:clamp(.75rem,1.2vw,.88rem);line-height:1.9;color:#5A3A2A;font-weight:300;font-family:'EB Garamond',serif">The little angel sleeps peacefully inside the curved shell, as if resting in a cradle shaped by the sea.</div>
           </div>
           <div style="overflow:hidden"><img src="moa5.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
         </div>
-        <div class="fb-spread" id="fb5" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Pocket Watch</div>
-            <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(European Gold Pocket Watch)</div>
-            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The little angel gently touches the hands, as if trying to understand how time flows.</div>
+        <div class="fb-spread" id="fb5" style="display:grid;grid-template-columns:1fr 1fr">
+          <div style="background:#D4B898;padding:2.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Cormorant',serif;font-size:clamp(.95rem,1.8vw,1.2rem);font-weight:500;color:#3A2010;margin-bottom:.4rem">The Angel and the Pocket Watch</div>
+            <div style="font-size:clamp(.68rem,1vw,.78rem);color:rgba(58,32,16,.5);font-style:italic;margin-bottom:1rem;font-family:'EB Garamond',serif">(European Gold Pocket Watch)</div>
+            <div style="width:28px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:1rem"></div>
+            <div style="font-size:clamp(.75rem,1.2vw,.88rem);line-height:1.9;color:#5A3A2A;font-weight:300;font-family:'EB Garamond',serif">The little angel gently touches the hands, as if trying to understand how time flows.</div>
           </div>
           <div style="overflow:hidden"><img src="moa6.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
         </div>
-        <div class="fb-spread" id="fb6" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.8rem">The Angel at Work</div>
-            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">In a small workshop deep inside the museum, the little angel carries out the quietest work of the day.</div>
+        <div class="fb-spread" id="fb6" style="display:grid;grid-template-columns:1fr 1fr">
+          <div style="background:#D4B898;padding:2.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Cormorant',serif;font-size:clamp(.95rem,1.8vw,1.2rem);font-weight:500;color:#3A2010;margin-bottom:1rem">The Angel at Work</div>
+            <div style="width:28px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:1rem"></div>
+            <div style="font-size:clamp(.75rem,1.2vw,.88rem);line-height:1.9;color:#5A3A2A;font-weight:300;font-family:'EB Garamond',serif">In a small workshop deep inside the museum, the little angel carries out the quietest work of the day.</div>
           </div>
           <div style="overflow:hidden"><img src="moa7.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
         </div>
-        <div class="fb-spread" id="fb7" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and William the Hippopotamus</div>
-            <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">("William" — Middle Kingdom Egypt)</div>
-            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The little angel sits on its back, as if taking part in a quiet nighttime journey across time.</div>
+        <div class="fb-spread" id="fb7" style="display:grid;grid-template-columns:1fr 1fr">
+          <div style="background:#D4B898;padding:2.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Cormorant',serif;font-size:clamp(.95rem,1.8vw,1.2rem);font-weight:500;color:#3A2010;margin-bottom:.4rem">The Angel and William the Hippopotamus</div>
+            <div style="font-size:clamp(.68rem,1vw,.78rem);color:rgba(58,32,16,.5);font-style:italic;margin-bottom:1rem;font-family:'EB Garamond',serif">("William" — Middle Kingdom Egypt)</div>
+            <div style="width:28px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:1rem"></div>
+            <div style="font-size:clamp(.75rem,1.2vw,.88rem);line-height:1.9;color:#5A3A2A;font-weight:300;font-family:'EB Garamond',serif">The little angel sits on its back, as if taking part in a quiet nighttime journey across time.</div>
           </div>
           <div style="overflow:hidden"><img src="moa8.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
         </div>
-        <div class="fb-spread" id="fb8" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Porcelain Vase</div>
-            <div style="font-size:clamp(.68rem,1.1vw,.78rem);color:rgba(58,32,16,.6);font-style:italic;margin-bottom:.8rem">(Yuan Dynasty Blue-and-White Porcelain)</div>
-            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The little angel sits on the rim of the vase, like a small bird resting for a moment.</div>
+        <div class="fb-spread" id="fb8" style="display:grid;grid-template-columns:1fr 1fr">
+          <div style="background:#D4B898;padding:2.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Cormorant',serif;font-size:clamp(.95rem,1.8vw,1.2rem);font-weight:500;color:#3A2010;margin-bottom:.4rem">The Angel and the Porcelain Vase</div>
+            <div style="font-size:clamp(.68rem,1vw,.78rem);color:rgba(58,32,16,.5);font-style:italic;margin-bottom:1rem;font-family:'EB Garamond',serif">(Yuan Dynasty Blue-and-White Porcelain)</div>
+            <div style="width:28px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:1rem"></div>
+            <div style="font-size:clamp(.75rem,1.2vw,.88rem);line-height:1.9;color:#5A3A2A;font-weight:300;font-family:'EB Garamond',serif">The little angel sits on the rim of the vase, like a small bird resting for a moment.</div>
           </div>
           <div style="overflow:hidden"><img src="moa9.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
         </div>
-        <div class="fb-spread" id="fb9" style="display:grid;grid-template-columns:1fr 1fr;box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:6px;overflow:hidden">
-          <div style="background:#D4B898;padding:2rem 1.8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
-            <div style="font-family:'Playfair Display',serif;font-size:clamp(.9rem,1.6vw,1.1rem);color:#3A2010;margin-bottom:.4rem">The Angel and the Tang Dynasty Figurine</div>
-            <div style="width:36px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:.8rem"></div>
-            <div style="font-size:clamp(.72rem,1.2vw,.85rem);line-height:1.85;color:#3A2010;text-transform:uppercase;letter-spacing:.04em;font-weight:300">The two figures mirror each other across time.</div>
+        <div class="fb-spread" id="fb9" style="display:grid;grid-template-columns:1fr 1fr">
+          <div style="background:#D4B898;padding:2.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+            <div style="font-family:'Cormorant',serif;font-size:clamp(.95rem,1.8vw,1.2rem);font-weight:500;color:#3A2010;margin-bottom:1rem">The Angel and the Tang Dynasty Figurine</div>
+            <div style="width:28px;height:1px;background:#C9A84C;opacity:.5;margin-bottom:1rem"></div>
+            <div style="font-size:clamp(.75rem,1.2vw,.88rem);line-height:1.9;color:#5A3A2A;font-weight:300;font-family:'EB Garamond',serif">The two figures mirror each other across time.</div>
           </div>
           <div style="overflow:hidden"><img src="moa10.JPG" style="width:100%;height:100%;object-fit:cover;display:block"></div>
         </div>
-        <div style="position:absolute;left:50%;top:0;bottom:0;width:4px;transform:translateX(-50%);background:linear-gradient(to right,rgba(0,0,0,.2),rgba(0,0,0,.05),rgba(0,0,0,.2));pointer-events:none;z-index:5"></div>
       </div>
-      <div style="display:flex;align-items:center;justify-content:center;gap:2rem;margin-top:1.2rem">
-        <button id="fb-prev" style="background:transparent;border:1px solid var(--border);color:var(--mid);font-size:1.4rem;width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center">‹</button>
-        <span id="fb-count" style="font-size:12px;letter-spacing:.2em;color:var(--mid);font-style:italic">1 / 10</span>
-        <button id="fb-next" style="background:transparent;border:1px solid var(--border);color:var(--mid);font-size:1.4rem;width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center">›</button>
+      <div class="fb-nav">
+        <button class="fb-nav-btn" id="fb-prev">‹</button>
+        <span class="fb-count" id="fb-count">1 / 10</span>
+        <button class="fb-nav-btn" id="fb-next">›</button>
       </div>
-    </div>
-
-    <div class="masonry">
-      <div class="masonry-item" id="lb0"><img src="moa1.JPG" alt="" onerror="this.parentElement.style.background='#D4B898';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">01 / 10</div></div></div>
-      <div class="masonry-item" id="lb1"><img src="moa2.JPG" alt="" onerror="this.parentElement.style.background='#C8A888';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">02 / 10</div></div></div>
-      <div class="masonry-item" id="lb2"><img src="moa3.JPG" alt="" onerror="this.parentElement.style.background='#C0B090';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">03 / 10</div></div></div>
-      <div class="masonry-item" id="lb3"><img src="moa4.JPG" alt="" onerror="this.parentElement.style.background='#D4A878';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">04 / 10</div></div></div>
-      <div class="masonry-item" id="lb4"><img src="moa5.JPG" alt="" onerror="this.parentElement.style.background='#C8B898';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">05 / 10</div></div></div>
-      <div class="masonry-item" id="lb5"><img src="moa6.JPG" alt="" onerror="this.parentElement.style.background='#B8A888';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">06 / 10</div></div></div>
-      <div class="masonry-item" id="lb6"><img src="moa7.JPG" alt="" onerror="this.parentElement.style.background='#D0C0A0';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">07 / 10</div></div></div>
-      <div class="masonry-item" id="lb7"><img src="moa8.JPG" alt="" onerror="this.parentElement.style.background='#C8A870';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">08 / 10</div></div></div>
-      <div class="masonry-item" id="lb8"><img src="moa9.JPG" alt="" onerror="this.parentElement.style.background='#D4B890';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">09 / 10</div></div></div>
-      <div class="masonry-item" id="lb9"><img src="moa10.JPG" alt="" onerror="this.parentElement.style.background='#C0A880';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Museum of Angels</div><div class="masonry-num">10 / 10</div></div></div>
-    </div>
-
-    <p class="series-label">The Painted Veil
-      <button class="read-btn" id="veil-open-btn">✦ Read the Book</button>
-    </p>
-    <div class="masonry">
-      <div class="masonry-item" id="lb10"><img src="veil_cover.jpg" alt="" onerror="this.parentElement.style.background='#7A3A2A';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">Cover</div></div></div>
-      <div class="masonry-item" id="lb11"><img src="veil_p01_text.jpg" alt="" onerror="this.parentElement.style.background='#5A3020';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">01</div></div></div>
-      <div class="masonry-item" id="lb12"><img src="veil_p02_text.jpg" alt="" onerror="this.parentElement.style.background='#6A4030';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">02</div></div></div>
-      <div class="masonry-item" id="lb13"><img src="veil_p03_text.jpg" alt="" onerror="this.parentElement.style.background='#704838';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">03</div></div></div>
-      <div class="masonry-item" id="lb14"><img src="veil_p04_text.jpg" alt="" onerror="this.parentElement.style.background='#5C3828';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">04</div></div></div>
-      <div class="masonry-item" id="lb15"><img src="veil_p05_text.jpg" alt="" onerror="this.parentElement.style.background='#664030';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">05</div></div></div>
-      <div class="masonry-item" id="lb16"><img src="veil_p06_text.jpg" alt="" onerror="this.parentElement.style.background='#7A4A38';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">06</div></div></div>
-      <div class="masonry-item" id="lb17"><img src="veil_p07_text.jpg" alt="" onerror="this.parentElement.style.background='#603828';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">07</div></div></div>
-      <div class="masonry-item" id="lb18"><img src="veil_backcover.jpg" alt="" onerror="this.parentElement.style.background='#7A3A2A';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">The Painted Veil</div><div class="masonry-num">Back Cover</div></div></div>
-    </div>
-
-    <p class="series-label">Children's Book</p>
-    <div class="masonry">
-      <div class="masonry-item" id="lb19"><img src="book1.jpeg" alt="" onerror="this.parentElement.style.background='#D0C0B0';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Children's Book</div><div class="masonry-num">01 / 02</div></div></div>
-      <div class="masonry-item" id="lb20"><img src="book2.jpeg" alt="" onerror="this.parentElement.style.background='#C8B8A8';this.style.display='none'"><div class="masonry-overlay"><div class="masonry-title">Children's Book</div><div class="masonry-num">02 / 02</div></div></div>
     </div>
   </div>
-  <footer><span>© 2025 Kitana Wang. All rights reserved.</span></footer>
-</div>
 
-<!-- ABOUT -->
-<div class="page inner-page" id="page-about">
-  <div class="top-bar">
-    <div class="top-bar-logo" id="logo-from-about">Kitana Wang</div>
-    <ul class="top-bar-nav">
-      <li><a id="nav-gallery-from-about">Gallery</a></li>
-      <li><a class="active">About</a></li>
-      <li><a id="nav-contact-from-about">Contact</a></li>
-    </ul>
-  </div>
-  <div class="content">
-    <div style="text-align:center;margin-bottom:3rem">
-      <p style="font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-style:italic;margin-bottom:.7rem">— The Artist —</p>
-      <h2 style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;color:var(--dark)">Behind the <em style="font-style:italic;color:var(--brown)">door</em></h2>
+  <!-- GALLERY TAB -->
+  <div class="tab-content" id="moa-gallery">
+    <div class="gallery-grid">
+      <div class="gallery-item" data-lb="0"><img src="moa1.JPG" alt="" onerror="this.parentElement.style.background='#D4B898';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">Museum of Angels</div><div class="gallery-item-num">01</div></div></div>
+      <div class="gallery-item" data-lb="1"><img src="moa2.JPG" alt="" onerror="this.parentElement.style.background='#C8A888';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">Museum of Angels</div><div class="gallery-item-num">02</div></div></div>
+      <div class="gallery-item" data-lb="2"><img src="moa3.JPG" alt="" onerror="this.parentElement.style.background='#C0B090';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">Museum of Angels</div><div class="gallery-item-num">03</div></div></div>
+      <div class="gallery-item" data-lb="3"><img src="moa4.JPG" alt="" onerror="this.parentElement.style.background='#D4A878';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">Museum of Angels</div><div class="gallery-item-num">04</div></div></div>
+      <div class="gallery-item" data-lb="4"><img src="moa5.JPG" alt="" onerror="this.parentElement.style.background='#C8B898';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">Museum of Angels</div><div class="gallery-item-num">05</div></div></div>
+      <div class="gallery-item" data-lb="5"><img src="moa6.JPG" alt="" onerror="this.parentElement.style.background='#B8A888';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">Museum of Angels</div><div class="gallery-item-num">06</div></div></div>
+      <div class="gallery-item" data-lb="6"><img src="moa7.JPG" alt="" onerror="this.parentElement.style.background='#D0C0A0';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">Museum of Angels</div><div class="gallery-item-num">07</div></div></div>
+      <div class="gallery-item" data-lb="7"><img src="moa8.JPG" alt="" onerror="this.parentElement.style.background='#C8A870';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">Museum of Angels</div><div class="gallery-item-num">08</div></div></div>
+      <div class="gallery-item" data-lb="8"><img src="moa9.JPG" alt="" onerror="this.parentElement.style.background='#D4B890';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">Museum of Angels</div><div class="gallery-item-num">09</div></div></div>
+      <div class="gallery-item" data-lb="9"><img src="moa10.JPG" alt="" onerror="this.parentElement.style.background='#C0A880';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">Museum of Angels</div><div class="gallery-item-num">10</div></div></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:4rem;align-items:start;max-width:860px;margin:0 auto">
-      <div class="about-img-frame"><img src="moa1.JPG" alt="Kitana Wang" onerror="this.style.background='#C8A888'"></div>
-      <div class="about-text">
-        <h2>I'm Kitana<br><em>(Zixuan) Wang</em></h2>
-        <p>An illustrator who lives in the space between storybooks and memory. My pieces are small worlds: lamplight rooms, gilded clocks, little girls with knowing eyes.</p>
-        <p>Influenced by vintage picture books and European fairy tales, I draw with warmth and nostalgia. Each illustration is an invitation to step through a door and stay a while.</p>
-        <p>Based in New York, graduated from the School of Visual Arts.</p>
-        <div class="tags">
-          <span class="tag">Storybook</span>
-          <span class="tag">Digital Painting</span>
-          <span class="tag">Book Illustration</span>
-          <span class="tag">Prints Available</span>
+  </div>
+
+  <!-- INSPIRATION TAB -->
+  <div class="tab-content" id="moa-inspiration">
+    <div class="inspiration-layout">
+      <div class="inspiration-ornament">
+        <div class="insp-roman">I</div>
+        <div class="insp-line"></div>
+      </div>
+      <div class="inspiration-text">
+        <h3>A Guardian<br>in the Gallery</h3>
+        <p>This project was inspired by my experience living in New York. As a student here, I often visit The Metropolitan Museum of Art, where I am constantly drawn to artifacts from different countries and time periods.</p>
+        <blockquote>From European decorative objects to Chinese ceramics and ancient Egyptian sculptures, each piece carries not only aesthetic beauty but also layers of history and memory.</blockquote>
+        <p>Spending time in these quiet gallery spaces made me wonder if there might be an unseen presence gently watching over these objects. This idea led me to create the character of a "little angel" — an invisible guardian who moves through the museum, caring for these artifacts in a soft and intimate way.</p>
+        <p>Through this project, I aim to transform these distant, static objects into something more emotional and imaginative. By placing the angel within these historical pieces, I hope to create a sense of warmth and connection, allowing viewers to experience these artifacts not just as objects, but as stories still quietly alive.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROCESS TAB -->
+  <div class="tab-content" id="moa-process">
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h4>Research</h4>
+          <p>Studying the history, artifacts, and costumes of each era represented in the collection. Each object required careful research to understand its cultural context and visual language.</p>
+          <div class="step-images">
+            <img src="moaprocess1.jpeg" alt="Research sketch" onerror="this.style.display='none'">
+            <img src="moaprocess2.jpeg" alt="Research sketch" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <h4>Sketching & Composition</h4>
+          <p>Developing compositions and character poses through rough sketches. Exploring how the angel interacts with each artifact — her scale, posture, and emotional expression.</p>
+          <div class="step-images">
+            <img src="moaprocess3.jpeg" alt="Composition sketch" onerror="this.style.display='none'">
+            <img src="moaprocess4.jpeg" alt="Character sketch" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <h4>Colour Exploration</h4>
+          <p>Testing colour palettes and combinations to find the right mood for each piece. The palette draws from the warmth of museum galleries — amber, cream, and antique gold.</p>
+          <div class="step-images">
+            <img src="moaprocess5.jpeg" alt="Colour study" onerror="this.style.display='none'">
+            <img src="moaprocess6.jpeg" alt="Colour study" onerror="this.style.display='none'">
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <footer><span>© 2025 Kitana Wang. All rights reserved.</span></footer>
+  <footer><span>© 2025 Kitana Wang</span></footer>
 </div>
 
-<!-- CONTACT -->
+<!-- ══ VEIL SERIES PAGE ══ -->
+<div class="page inner-page series-page" id="page-veil">
+  <div class="top-bar">
+    <div class="top-bar-logo" id="logo-veil">Kitana Wang</div>
+    <ul class="top-bar-nav">
+      <li><a id="nav-gallery-veil">Gallery</a></li>
+      <li><a id="nav-about-veil">About</a></li>
+      <li><a id="nav-contact-veil">Contact</a></li>
+    </ul>
+  </div>
+  <div class="series-hero">
+    <img src="veil_p02_text.jpg" alt="" onerror="this.style.display='none'">
+    <div class="series-hero-text">
+      <div class="series-hero-eyebrow">Series II — 2024</div>
+      <div class="series-hero-title">The Painted Veil</div>
+    </div>
+  </div>
+  <div class="series-tabs">
+    <button class="series-tab active" data-tab="veil-flipbook">Flipbook</button>
+    <button class="series-tab" data-tab="veil-gallery">Gallery</button>
+    <button class="series-tab" data-tab="veil-inspiration">Inspiration</button>
+    <button class="series-tab" data-tab="veil-process">Process</button>
+  </div>
+
+  <!-- VEIL FLIPBOOK TAB -->
+  <div class="tab-content active" id="veil-flipbook">
+    <div style="max-width:900px;margin:0 auto">
+      <div style="position:relative;width:100%;max-width:860px;margin:0 auto 1.5rem;height:min(65vh,480px)">
+        <div id="vfb0" class="fb-spread active" style="border-radius:4px;overflow:hidden;box-shadow:0 8px 40px rgba(28,20,16,.25)">
+          <img src="veil_cover.jpg" style="width:100%;height:100%;object-fit:contain;display:block;background:#5A1A0A">
+        </div>
+        <div id="vfb1" class="fb-spread" style="border-radius:4px;overflow:hidden;box-shadow:0 8px 40px rgba(28,20,16,.25)">
+          <img src="veil_p01_text.jpg" style="width:100%;height:100%;object-fit:contain;display:block;background:#3A2010">
+        </div>
+        <div id="vfb2" class="fb-spread" style="border-radius:4px;overflow:hidden;box-shadow:0 8px 40px rgba(28,20,16,.25)">
+          <img src="veil_p02_text.jpg" style="width:100%;height:100%;object-fit:contain;display:block;background:#3A2010">
+        </div>
+        <div id="vfb3" class="fb-spread" style="border-radius:4px;overflow:hidden;box-shadow:0 8px 40px rgba(28,20,16,.25)">
+          <img src="veil_p03_text.jpg" style="width:100%;height:100%;object-fit:contain;display:block;background:#3A2010">
+        </div>
+        <div id="vfb4" class="fb-spread" style="border-radius:4px;overflow:hidden;box-shadow:0 8px 40px rgba(28,20,16,.25)">
+          <img src="veil_p04_text.jpg" style="width:100%;height:100%;object-fit:contain;display:block;background:#3A2010">
+        </div>
+        <div id="vfb5" class="fb-spread" style="border-radius:4px;overflow:hidden;box-shadow:0 8px 40px rgba(28,20,16,.25)">
+          <img src="veil_p05_text.jpg" style="width:100%;height:100%;object-fit:contain;display:block;background:#3A2010">
+        </div>
+        <div id="vfb6" class="fb-spread" style="border-radius:4px;overflow:hidden;box-shadow:0 8px 40px rgba(28,20,16,.25)">
+          <img src="veil_p06_text.jpg" style="width:100%;height:100%;object-fit:contain;display:block;background:#3A2010">
+        </div>
+        <div id="vfb7" class="fb-spread" style="border-radius:4px;overflow:hidden;box-shadow:0 8px 40px rgba(28,20,16,.25)">
+          <img src="veil_p07_text.jpg" style="width:100%;height:100%;object-fit:contain;display:block;background:#3A2010">
+        </div>
+        <div id="vfb8" class="fb-spread" style="border-radius:4px;overflow:hidden;box-shadow:0 8px 40px rgba(28,20,16,.25)">
+          <img src="veil_backcover.jpg" style="width:100%;height:100%;object-fit:contain;display:block;background:#5A1A0A">
+        </div>
+      </div>
+      <div class="fb-nav">
+        <button class="fb-nav-btn" id="vfb-prev">‹</button>
+        <span class="fb-count" id="vfb-count">1 / 9</span>
+        <button class="fb-nav-btn" id="vfb-next">›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VEIL GALLERY TAB -->
+  <div class="tab-content" id="veil-gallery">
+    <div class="gallery-grid">
+      <div class="gallery-item" data-lb="10"><img src="veil_cover.jpg" alt="" onerror="this.parentElement.style.background='#7A3A2A';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">The Painted Veil</div><div class="gallery-item-num">Cover</div></div></div>
+      <div class="gallery-item" data-lb="11"><img src="veil_p01_text.jpg" alt="" onerror="this.parentElement.style.background='#5A3020';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">The Painted Veil</div><div class="gallery-item-num">01</div></div></div>
+      <div class="gallery-item" data-lb="12"><img src="veil_p02_text.jpg" alt="" onerror="this.parentElement.style.background='#6A4030';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">The Painted Veil</div><div class="gallery-item-num">02</div></div></div>
+      <div class="gallery-item" data-lb="13"><img src="veil_p03_text.jpg" alt="" onerror="this.parentElement.style.background='#704838';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">The Painted Veil</div><div class="gallery-item-num">03</div></div></div>
+      <div class="gallery-item" data-lb="14"><img src="veil_p04_text.jpg" alt="" onerror="this.parentElement.style.background='#5C3828';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">The Painted Veil</div><div class="gallery-item-num">04</div></div></div>
+      <div class="gallery-item" data-lb="15"><img src="veil_p05_text.jpg" alt="" onerror="this.parentElement.style.background='#664030';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">The Painted Veil</div><div class="gallery-item-num">05</div></div></div>
+      <div class="gallery-item" data-lb="16"><img src="veil_p06_text.jpg" alt="" onerror="this.parentElement.style.background='#7A4A38';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">The Painted Veil</div><div class="gallery-item-num">06</div></div></div>
+      <div class="gallery-item" data-lb="17"><img src="veil_p07_text.jpg" alt="" onerror="this.parentElement.style.background='#603828';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">The Painted Veil</div><div class="gallery-item-num">07</div></div></div>
+      <div class="gallery-item" data-lb="18"><img src="veil_backcover.jpg" alt="" onerror="this.parentElement.style.background='#7A3A2A';this.style.display='none'"><div class="gallery-item-overlay"><div class="gallery-item-title">The Painted Veil</div><div class="gallery-item-num">Back Cover</div></div></div>
+    </div>
+  </div>
+
+  <!-- VEIL INSPIRATION TAB -->
+  <div class="tab-content" id="veil-inspiration">
+    <div class="inspiration-layout">
+      <div class="inspiration-ornament">
+        <div class="insp-roman">II</div>
+        <div class="insp-line"></div>
+      </div>
+      <div class="inspiration-text">
+        <h3>Through Sorrow,<br>She Saw Clearly</h3>
+        <blockquote>"Through sorrow and betrayal, she tore away the painted veil — and at last, saw herself clearly."</blockquote>
+        <p>W. Somerset Maugham's novel follows Kitty Fane, a woman whose journey from vanity to self-discovery forms the emotional backbone of this illustrated retelling.</p>
+        <p>The illustrated book aims to visualise the inner transformation of Kitty — from a woman shaped by the illusions of society to one who finds strength through loss, humility, and compassion.</p>
+        <p>Each spread pairs narrative text with full-colour illustrations, drawing from a rich palette of dark burgundy, candlelight gold, and twilight blue to evoke the emotional weight of each chapter.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- VEIL PROCESS TAB -->
+  <div class="tab-content" id="veil-process">
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h4>Research & Costume Study</h4>
+          <p>Researching early 20th century fashion, Chinese village life, and Colonial Hong Kong to ground the visual world of the story in authentic historical detail.</p>
+          <div class="step-images">
+            <img src="moaprocess1.jpeg" alt="Research" onerror="this.style.display='none'">
+            <img src="moaprocess2.jpeg" alt="Research" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <h4>Character & Scene Sketching</h4>
+          <p>Developing Kitty's character arc visually — her posture, expression, and clothing shift across the narrative to reflect her inner transformation.</p>
+          <div class="step-images">
+            <img src="moaprocess3.jpeg" alt="Sketching" onerror="this.style.display='none'">
+            <img src="moaprocess4.jpeg" alt="Sketching" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <h4>Colour & Final Illustration</h4>
+          <p>Applying a restrained palette — deep burgundy, warm candlelight, dusty blue — to give each spread a cinematic and emotionally precise atmosphere.</p>
+          <div class="step-images">
+            <img src="moaprocess5.jpeg" alt="Colour" onerror="this.style.display='none'">
+            <img src="moaprocess6.jpeg" alt="Final" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer><span>© 2025 Kitana Wang</span></footer>
+</div>
+
+<!-- ══ ABOUT ══ -->
+<div class="page inner-page" id="page-about">
+  <div class="top-bar">
+    <div class="top-bar-logo" id="logo-a">Kitana Wang</div>
+    <ul class="top-bar-nav">
+      <li><a id="nav-gallery-a">Gallery</a></li>
+      <li><a class="active">About</a></li>
+      <li><a id="nav-contact-a">Contact</a></li>
+    </ul>
+  </div>
+  <div class="content">
+    <div class="about-img">
+      <img src="moa1.JPG" alt="Kitana Wang" onerror="this.style.background='#C8A888'">
+    </div>
+    <div class="about-text">
+      <div class="label">The Artist</div>
+      <h2>Kitana<br><em>Wang</em></h2>
+      <p>An illustrator who lives in the space between storybooks and memory. My pieces are small worlds: lamplight rooms, gilded clocks, little girls with knowing eyes.</p>
+      <p>Influenced by vintage picture books and European fairy tales, I draw with warmth and nostalgia. Each illustration is an invitation to step through a door and stay a while.</p>
+      <p>Based in New York, graduated from the School of Visual Arts. I share works-in-progress and process notes on 小红书.</p>
+      <div class="about-tags">
+        <span class="about-tag">Storybook</span>
+        <span class="about-tag">Digital Painting</span>
+        <span class="about-tag">Book Illustration</span>
+        <span class="about-tag">Prints Available</span>
+      </div>
+    </div>
+  </div>
+  <footer><span>© 2025 Kitana Wang</span></footer>
+</div>
+
+<!-- ══ CONTACT ══ -->
 <div class="page inner-page" id="page-contact">
   <div class="top-bar">
-    <div class="top-bar-logo" id="logo-from-contact">Kitana Wang</div>
+    <div class="top-bar-logo" id="logo-c">Kitana Wang</div>
     <ul class="top-bar-nav">
-      <li><a id="nav-gallery-from-contact">Gallery</a></li>
-      <li><a id="nav-about-from-contact">About</a></li>
+      <li><a id="nav-gallery-c">Gallery</a></li>
+      <li><a id="nav-about-c">About</a></li>
       <li><a class="active">Contact</a></li>
     </ul>
   </div>
   <div class="content">
-    <h2>Say <em>hello</em></h2>
+    <span class="label">Get in Touch</span>
+    <h2>Say<br><em style="font-style:italic;color:var(--gold)">hello</em></h2>
+    <div class="contact-divider"></div>
     <p>For collaborations, licensing, or just to share what my work made you feel — I'd love to hear from you.</p>
     <a href="mailto:kitana@example.com" class="contact-email">kitana@example.com</a>
     <div class="social-row">
@@ -345,7 +803,7 @@ footer span{font-size:11px;color:rgba(250,243,227,.35);letter-spacing:.1em}
       <a href="#" target="_blank">Ko-fi</a>
     </div>
   </div>
-  <footer><span>© 2025 Kitana Wang. All rights reserved.</span></footer>
+  <footer><span>© 2025 Kitana Wang</span></footer>
 </div>
 
 <!-- LIGHTBOX -->
@@ -356,156 +814,140 @@ footer span{font-size:11px;color:rgba(250,243,227,.35);letter-spacing:.1em}
   <button class="lb-next" id="lb-next">›</button>
 </div>
 
-<!-- VEIL MODAL -->
-<div id="veil-modal">
-  <button class="veil-close" id="veil-close">✕</button>
-  <div class="veil-modal-title">The Painted Veil · Illustrated by Zixuan Wang</div>
-  <div class="veil-img-wrap">
-    <img id="veil-page-img" src="veil_cover.jpg" alt="">
-    <div class="veil-zone left" id="veil-left"><div class="veil-arrow">&#8592;</div></div>
-    <div class="veil-zone right" id="veil-right"><div class="veil-arrow">&#8594;</div></div>
-  </div>
-  <div class="veil-controls">
-    <button class="veil-btn" id="veil-btn-prev">&#8592; Prev</button>
-    <span class="veil-counter" id="veil-counter">1 / 9</span>
-    <button class="veil-btn" id="veil-btn-next">Next &#8594;</button>
-  </div>
-  <div class="veil-dots" id="veil-dots"></div>
-</div>
-
 <script>
-(function() {
+(function(){
 
-// PAGE SWITCHING
-function goTo(id) {
-  var pages = document.querySelectorAll('.page');
-  for (var i = 0; i < pages.length; i++) {
-    pages[i].classList.remove('active');
-  }
-  var target = document.getElementById(id);
-  if (target) {
-    target.classList.add('active');
-    target.scrollTop = 0;
-  }
-}
-
-// HOME BUTTONS
-document.getElementById('btn-gallery').addEventListener('click', function() { goTo('page-gallery'); });
-document.getElementById('btn-about').addEventListener('click', function() { goTo('page-about'); });
-document.getElementById('btn-contact').addEventListener('click', function() { goTo('page-contact'); });
-
-// GALLERY NAV
-document.getElementById('logo-from-gallery').addEventListener('click', function() { goTo('page-home'); });
-document.getElementById('nav-about-from-gallery').addEventListener('click', function() { goTo('page-about'); });
-document.getElementById('nav-contact-from-gallery').addEventListener('click', function() { goTo('page-contact'); });
-
-// ABOUT NAV
-document.getElementById('logo-from-about').addEventListener('click', function() { goTo('page-home'); });
-document.getElementById('nav-gallery-from-about').addEventListener('click', function() { goTo('page-gallery'); });
-document.getElementById('nav-contact-from-about').addEventListener('click', function() { goTo('page-contact'); });
-
-// CONTACT NAV
-document.getElementById('logo-from-contact').addEventListener('click', function() { goTo('page-home'); });
-document.getElementById('nav-gallery-from-contact').addEventListener('click', function() { goTo('page-gallery'); });
-document.getElementById('nav-about-from-contact').addEventListener('click', function() { goTo('page-about'); });
-
-// LIGHTBOX
-var lbIndex = 0;
-var lbImages = [
+var lbImages=[
   'moa1.JPG','moa2.JPG','moa3.JPG','moa4.JPG','moa5.JPG',
   'moa6.JPG','moa7.JPG','moa8.JPG','moa9.JPG','moa10.JPG',
   'veil_cover.jpg','veil_p01_text.jpg','veil_p02_text.jpg','veil_p03_text.jpg',
   'veil_p04_text.jpg','veil_p05_text.jpg','veil_p06_text.jpg','veil_p07_text.jpg',
-  'veil_backcover.jpg','book1.jpeg','book2.jpeg'
+  'veil_backcover.jpg'
 ];
-for (var i = 0; i <= 20; i++) {
-  (function(idx) {
-    var el = document.getElementById('lb' + idx);
-    if (el) el.addEventListener('click', function() {
-      lbIndex = idx;
-      document.getElementById('lb-img').src = lbImages[idx];
-      document.getElementById('lightbox').classList.add('open');
-    });
-  })(i);
-}
-document.getElementById('lb-close').addEventListener('click', function() { document.getElementById('lightbox').classList.remove('open'); });
-document.getElementById('lb-prev').addEventListener('click', function() { lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length; document.getElementById('lb-img').src = lbImages[lbIndex]; });
-document.getElementById('lb-next').addEventListener('click', function() { lbIndex = (lbIndex + 1) % lbImages.length; document.getElementById('lb-img').src = lbImages[lbIndex]; });
-document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('open'); });
+var lbIndex=0;
 
-// VEIL READER
-var veilPages = ['veil_cover.jpg','veil_p01_text.jpg','veil_p02_text.jpg','veil_p03_text.jpg','veil_p04_text.jpg','veil_p05_text.jpg','veil_p06_text.jpg','veil_p07_text.jpg','veil_backcover.jpg'];
-var veilCurrent = 0;
-var dotsEl = document.getElementById('veil-dots');
-for (var i = 0; i < veilPages.length; i++) {
-  (function(idx) {
-    var d = document.createElement('div');
-    d.className = 'veil-dot' + (idx === 0 ? ' active' : '');
-    d.addEventListener('click', function() { veilGoTo(idx); });
-    dotsEl.appendChild(d);
-  })(i);
+// PAGE SWITCHING
+function goTo(id){
+  var pages=document.querySelectorAll('.page');
+  for(var i=0;i<pages.length;i++) pages[i].classList.remove('active');
+  var t=document.getElementById(id);
+  if(t){t.classList.add('active');t.classList.add('fade-in');t.scrollTop=0;setTimeout(function(){t.classList.remove('fade-in');},400);}
 }
-function veilUpdateUI() {
-  document.getElementById('veil-counter').textContent = (veilCurrent + 1) + ' / ' + veilPages.length;
-  document.getElementById('veil-btn-prev').disabled = veilCurrent === 0;
-  document.getElementById('veil-btn-next').disabled = veilCurrent === veilPages.length - 1;
-  var dots = document.querySelectorAll('.veil-dot');
-  for (var i = 0; i < dots.length; i++) { dots[i].classList.toggle('active', i === veilCurrent); }
-}
-function veilGoTo(index) {
-  if (index < 0 || index >= veilPages.length || index === veilCurrent) return;
-  var img = document.getElementById('veil-page-img');
-  img.classList.add('fade');
-  setTimeout(function() { veilCurrent = index; img.src = veilPages[veilCurrent]; img.classList.remove('fade'); veilUpdateUI(); }, 280);
-}
-document.getElementById('veil-open-btn').addEventListener('click', function() {
-  veilCurrent = 0;
-  document.getElementById('veil-page-img').src = veilPages[0];
-  veilUpdateUI();
-  document.getElementById('veil-modal').classList.add('open');
-});
-document.getElementById('veil-close').addEventListener('click', function() { document.getElementById('veil-modal').classList.remove('open'); });
-document.getElementById('veil-btn-prev').addEventListener('click', function() { veilGoTo(veilCurrent - 1); });
-document.getElementById('veil-btn-next').addEventListener('click', function() { veilGoTo(veilCurrent + 1); });
-document.getElementById('veil-left').addEventListener('click', function() { veilGoTo(veilCurrent - 1); });
-document.getElementById('veil-right').addEventListener('click', function() { veilGoTo(veilCurrent + 1); });
-document.getElementById('veil-modal').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('open'); });
 
-// FLIPBOOK
-var fbCurrent = 0;
-var FB_TOTAL = 10;
-document.getElementById('book-btn').addEventListener('click', function() {
-  var wrap = document.getElementById('flipbook-wrap');
-  if (wrap.style.display === 'none' || wrap.style.display === '') {
-    wrap.style.display = 'block';
-    this.textContent = '✦ Close Book';
-    fbCurrent = 0; fbShow(0);
-    setTimeout(function() { wrap.scrollIntoView({behavior:'smooth', block:'nearest'}); }, 100);
-  } else {
-    wrap.style.display = 'none';
-    this.textContent = '✦ Read the Book';
-  }
-});
-function fbShow(idx) {
-  for (var i = 0; i < FB_TOTAL; i++) {
-    var el = document.getElementById('fb' + i);
-    if (!el) continue;
-    el.style.opacity = i === idx ? '1' : '0';
-    el.style.pointerEvents = i === idx ? 'all' : 'none';
-    el.style.zIndex = i === idx ? '2' : '1';
-  }
-  document.getElementById('fb-count').textContent = (idx + 1) + ' / ' + FB_TOTAL;
-  document.getElementById('fb-prev').style.opacity = idx === 0 ? '.3' : '1';
-  document.getElementById('fb-next').style.opacity = idx === FB_TOTAL - 1 ? '.3' : '1';
+// HOME
+document.getElementById('btn-gallery').addEventListener('click',function(){goTo('page-gallery');});
+document.getElementById('btn-about').addEventListener('click',function(){goTo('page-about');});
+document.getElementById('btn-contact').addEventListener('click',function(){goTo('page-contact');});
+
+// GALLERY CARDS
+document.getElementById('card-moa').addEventListener('click',function(){goTo('page-moa');});
+document.getElementById('card-veil').addEventListener('click',function(){goTo('page-veil');});
+
+// NAV — gallery page
+document.getElementById('logo-g').addEventListener('click',function(){goTo('page-home');});
+document.getElementById('nav-about-g').addEventListener('click',function(){goTo('page-about');});
+document.getElementById('nav-contact-g').addEventListener('click',function(){goTo('page-contact');});
+
+// NAV — moa page
+document.getElementById('logo-moa').addEventListener('click',function(){goTo('page-home');});
+document.getElementById('nav-gallery-moa').addEventListener('click',function(){goTo('page-gallery');});
+document.getElementById('nav-about-moa').addEventListener('click',function(){goTo('page-about');});
+document.getElementById('nav-contact-moa').addEventListener('click',function(){goTo('page-contact');});
+
+// NAV — veil page
+document.getElementById('logo-veil').addEventListener('click',function(){goTo('page-home');});
+document.getElementById('nav-gallery-veil').addEventListener('click',function(){goTo('page-gallery');});
+document.getElementById('nav-about-veil').addEventListener('click',function(){goTo('page-about');});
+document.getElementById('nav-contact-veil').addEventListener('click',function(){goTo('page-contact');});
+
+// NAV — about
+document.getElementById('logo-a').addEventListener('click',function(){goTo('page-home');});
+document.getElementById('nav-gallery-a').addEventListener('click',function(){goTo('page-gallery');});
+document.getElementById('nav-contact-a').addEventListener('click',function(){goTo('page-contact');});
+
+// NAV — contact
+document.getElementById('logo-c').addEventListener('click',function(){goTo('page-home');});
+document.getElementById('nav-gallery-c').addEventListener('click',function(){goTo('page-gallery');});
+document.getElementById('nav-about-c').addEventListener('click',function(){goTo('page-about');});
+
+// TABS
+var tabs=document.querySelectorAll('.series-tab');
+for(var i=0;i<tabs.length;i++){
+  tabs[i].addEventListener('click',function(){
+    var tabId=this.getAttribute('data-tab');
+    var parent=this.closest('.series-page');
+    var sibTabs=parent.querySelectorAll('.series-tab');
+    var sibContents=parent.querySelectorAll('.tab-content');
+    for(var j=0;j<sibTabs.length;j++) sibTabs[j].classList.remove('active');
+    for(var j=0;j<sibContents.length;j++) sibContents[j].classList.remove('active');
+    this.classList.add('active');
+    var tc=document.getElementById(tabId);
+    if(tc) tc.classList.add('active');
+  });
 }
-document.getElementById('fb-prev').addEventListener('click', function() { if (fbCurrent > 0) { fbCurrent--; fbShow(fbCurrent); } });
-document.getElementById('fb-next').addEventListener('click', function() { if (fbCurrent < FB_TOTAL - 1) { fbCurrent++; fbShow(fbCurrent); } });
+
+// MOA FLIPBOOK
+var fbCur=0; var FB_TOT=10;
+function fbShow(idx){
+  for(var i=0;i<FB_TOT;i++){
+    var el=document.getElementById('fb'+i); if(!el) continue;
+    el.style.opacity=i===idx?'1':'0';
+    el.style.pointerEvents=i===idx?'all':'none';
+    el.style.zIndex=i===idx?'2':'1';
+  }
+  document.getElementById('fb-count').textContent=(idx+1)+' / '+FB_TOT;
+  document.getElementById('fb-prev').disabled=idx===0;
+  document.getElementById('fb-next').disabled=idx===FB_TOT-1;
+}
+document.getElementById('fb-prev').addEventListener('click',function(){if(fbCur>0){fbCur--;fbShow(fbCur);}});
+document.getElementById('fb-next').addEventListener('click',function(){if(fbCur<FB_TOT-1){fbCur++;fbShow(fbCur);}});
+
+// VEIL FLIPBOOK
+var vfbCur=0; var VFB_TOT=9;
+function vfbShow(idx){
+  for(var i=0;i<VFB_TOT;i++){
+    var el=document.getElementById('vfb'+i); if(!el) continue;
+    el.style.opacity=i===idx?'1':'0';
+    el.style.pointerEvents=i===idx?'all':'none';
+    el.style.zIndex=i===idx?'2':'1';
+  }
+  document.getElementById('vfb-count').textContent=(idx+1)+' / '+VFB_TOT;
+  document.getElementById('vfb-prev').disabled=idx===0;
+  document.getElementById('vfb-next').disabled=idx===VFB_TOT-1;
+}
+document.getElementById('vfb-prev').addEventListener('click',function(){if(vfbCur>0){vfbCur--;vfbShow(vfbCur);}});
+document.getElementById('vfb-next').addEventListener('click',function(){if(vfbCur<VFB_TOT-1){vfbCur++;vfbShow(vfbCur);}});
+
+// LIGHTBOX
+var allItems=document.querySelectorAll('.gallery-item');
+for(var i=0;i<allItems.length;i++){
+  allItems[i].addEventListener('click',function(){
+    var idx=parseInt(this.getAttribute('data-lb'));
+    lbIndex=idx;
+    document.getElementById('lb-img').src=lbImages[idx];
+    document.getElementById('lightbox').classList.add('open');
+  });
+}
+document.getElementById('lb-close').addEventListener('click',function(){document.getElementById('lightbox').classList.remove('open');});
+document.getElementById('lb-prev').addEventListener('click',function(){lbIndex=(lbIndex-1+lbImages.length)%lbImages.length;document.getElementById('lb-img').src=lbImages[lbIndex];});
+document.getElementById('lb-next').addEventListener('click',function(){lbIndex=(lbIndex+1)%lbImages.length;document.getElementById('lb-img').src=lbImages[lbIndex];});
+document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
+
+// PROCESS IMAGES lightbox
+var procImgs=document.querySelectorAll('.step-images img');
+for(var i=0;i<procImgs.length;i++){
+  procImgs[i].addEventListener('click',function(){
+    document.getElementById('lb-img').src=this.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+}
 
 // KEYBOARD
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    document.getElementById('lightbox').classList.remove('open');
-    document.getElementById('veil-modal').classList.remove('open');
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape') document.getElementById('lightbox').classList.remove('open');
+  if(document.getElementById('lightbox').classList.contains('open')){
+    if(e.key==='ArrowLeft'){lbIndex=(lbIndex-1+lbImages.length)%lbImages.length;document.getElementById('lb-img').src=lbImages[lbIndex];}
+    if(e.key==='ArrowRight'){lbIndex=(lbIndex+1)%lbImages.length;document.getElementById('lb-img').src=lbImages[lbIndex];}
   }
 });
 
