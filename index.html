@@ -187,6 +187,7 @@ footer span{font-size:9px;color:rgba(250,243,227,.25);letter-spacing:.18em;text-
     <div class="home-nav-divider"></div>
     <div class="home-nav">
       <button class="hnbtn" id="h-gallery">Gallery</button>
+      <button class="hnbtn" id="h-work">Work Experience</button>
       <button class="hnbtn" id="h-about">About</button>
       <button class="hnbtn" id="h-contact">Contact</button>
     </div>
@@ -199,6 +200,7 @@ footer span{font-size:9px;color:rgba(250,243,227,.25);letter-spacing:.18em;text-
     <div class="tb-logo" id="g-home">Kitana Wang</div>
     <ul class="tb-nav">
       <li><a class="cur">Gallery</a></li>
+      <li><a id="g-work">Work Experience</a></li>
       <li><a id="g-about">About</a></li>
       <li><a id="g-contact">Contact</a></li>
     </ul>
@@ -774,28 +776,93 @@ footer span{font-size:9px;color:rgba(250,243,227,.25);letter-spacing:.18em;text-
   <footer><span>© 2025 Kitana Wang</span></footer>
 </div>
 
+<!-- WORK EXPERIENCE -->
+<div class="page inner-page" id="page-work">
+  <div class="top-bar">
+    <div class="tb-logo" id="wk-home">Kitana Wang</div>
+    <ul class="tb-nav">
+      <li><a id="wk-gallery">Gallery</a></li>
+      <li><a class="cur">Work Experience</a></li>
+      <li><a id="wk-about">About</a></li>
+      <li><a id="wk-contact">Contact</a></li>
+    </ul>
+  </div>
+
+  <div style="max-width:800px;margin:0 auto;padding:5rem 3rem 6rem">
+
+    <!-- Header -->
+    <div style="text-align:center;margin-bottom:4rem;padding-bottom:3rem;border-bottom:1px solid var(--border)">
+      <div style="font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;font-family:'Cinzel',serif">— Experience —</div>
+      <h1 style="font-family:'Cormorant',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;font-style:italic;color:var(--ink)">Work Experience</h1>
+    </div>
+
+    <!-- Experience Entry -->
+    <div style="margin-bottom:4rem;padding-bottom:4rem;border-bottom:1px solid var(--border)">
+      <div style="display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:start;margin-bottom:1.5rem">
+        <div>
+          <h2 style="font-family:'Cormorant',serif;font-size:1.6rem;font-weight:500;color:var(--ink);margin-bottom:.3rem">New Media Operations Intern</h2>
+          <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase">Visual China Group (VCG) — Beijing, China</div>
+        </div>
+        <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.15em;color:var(--mid);text-align:right;padding-top:.3rem">2025</div>
+      </div>
+      <ul style="list-style:none;padding:0">
+        <li style="display:flex;gap:1rem;margin-bottom:.9rem;font-size:15px;line-height:1.8;color:var(--mid)"><span style="color:var(--gold);flex-shrink:0;margin-top:.1rem">—</span>Contributed to digital content strategy and social media operations for one of China's largest visual content platforms.</li>
+        <li style="display:flex;gap:1rem;margin-bottom:.9rem;font-size:15px;line-height:1.8;color:var(--mid)"><span style="color:var(--gold);flex-shrink:0;margin-top:.1rem">—</span>Managed and coordinated illustration assets across multiple channels, ensuring visual consistency and timely delivery.</li>
+        <li style="display:flex;gap:1rem;margin-bottom:.9rem;font-size:15px;line-height:1.8;color:var(--mid)"><span style="color:var(--gold);flex-shrink:0;margin-top:.1rem">—</span>Collaborated with editorial teams on the <em>Encyclopedia of China</em> illustration project, producing original works later published in the encyclopedia.</li>
+        <li style="display:flex;gap:1rem;margin-bottom:.9rem;font-size:15px;line-height:1.8;color:var(--mid)"><span style="color:var(--gold);flex-shrink:0;margin-top:.1rem">—</span>Assisted in organising large-scale image libraries, gaining experience in commercial illustration standards and licensing systems.</li>
+        <li style="display:flex;gap:1rem;font-size:15px;line-height:1.8;color:var(--mid)"><span style="color:var(--gold);flex-shrink:0;margin-top:.1rem">—</span>Contributed to published illustration work with national-level distribution through the <em>Encyclopedia of China</em> project.</li>
+      </ul>
+    </div>
+
+    <!-- Publications & Recognition -->
+    <div style="margin-bottom:4rem;padding-bottom:4rem;border-bottom:1px solid var(--border)">
+      <div style="font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:1.8rem;font-family:'Cinzel',serif">Publications & Recognition</div>
+      <div style="border-left:2px solid var(--gold);padding-left:1.8rem">
+        <h3 style="font-family:'Cormorant',serif;font-size:1.4rem;font-weight:500;color:var(--ink);margin-bottom:1rem">Encyclopedia of China — Published Illustrator</h3>
+        <ul style="list-style:none;padding:0">
+          <li style="display:flex;gap:1rem;margin-bottom:.9rem;font-size:15px;line-height:1.8;color:var(--mid)"><span style="color:var(--gold);flex-shrink:0;margin-top:.1rem">—</span>Selected to contribute original illustrations through Visual China Group's editorial program.</li>
+          <li style="display:flex;gap:1rem;font-size:15px;line-height:1.8;color:var(--mid)"><span style="color:var(--gold);flex-shrink:0;margin-top:.1rem">—</span>Work published in one of China's leading national reference publications.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Published Work Images -->
+    <div>
+      <div style="font-size:9px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:1.8rem;font-family:'Cinzel',serif">Published Work</div>
+      <div class="img-grid">
+        <div class="img-item" data-src="96.jpeg"><img src="96.jpeg" alt="Encyclopedia of China" onerror="this.parentElement.style.background='#1A1A2A';this.style.display='none'"><div class="img-overlay"><div class="img-label">Encyclopedia of China</div><div class="img-num">Cover</div></div></div>
+        <div class="img-item" data-src="95.jpeg"><img src="95.jpeg" alt="Giraffe Illustration" onerror="this.parentElement.style.background='#F0EDE8';this.style.display='none'"><div class="img-overlay"><div class="img-label">Giraffe Anatomy</div><div class="img-num">Published Page</div></div></div>
+        <div class="img-item" data-src="94.jpeg"><img src="94.jpeg" alt="DNA Illustration" onerror="this.parentElement.style.background='#1A1A2A';this.style.display='none'"><div class="img-overlay"><div class="img-label">DNA Diagram</div><div class="img-num">Published Page</div></div></div>
+      </div>
+    </div>
+
+  </div>
+  <footer><span>© 2025 Kitana Wang</span></footer>
+</div>
+
 <!-- ABOUT -->
 <div class="page inner-page" id="page-about">
   <div class="top-bar">
     <div class="tb-logo" id="ab-home">Kitana Wang</div>
     <ul class="tb-nav">
       <li><a id="ab-gallery">Gallery</a></li>
+      <li><a id="ab-work">Work Experience</a></li>
       <li><a class="cur">About</a></li>
       <li><a id="ab-contact">Contact</a></li>
     </ul>
   </div>
   <div class="content">
-    <div class="about-img"><img src="moa1.JPG" alt="" onerror="this.style.background='#C8A888'"></div>
+    <div class="about-img"><img src="IMG_1147.jpeg" alt="Zixuan Wang" onerror="this.style.background='#C8A888'"></div>
     <div class="about-text">
-      <div class="alabel">The Artist</div>
-      <h2>Kitana<br><em>Wang</em></h2>
-      <p>An illustrator who lives in the space between storybooks and memory. My pieces are small worlds: lamplight rooms, gilded clocks, little girls with knowing eyes.</p>
-      <p>Influenced by vintage picture books and European fairy tales, I draw with warmth and nostalgia. Each illustration is an invitation to step through a door and stay a while.</p>
-      <p>Based in New York, graduated from the School of Visual Arts.</p>
+      <div class="alabel">Illustrator & Visual Designer</div>
+      <h2>Zixuan<br><em>Wang</em></h2>
+      <p>Narrative-focused illustrator and visual designer based in New York, with a strong interest in translating cultural, editorial, and literary concepts into compelling visual storytelling.</p>
+      <p>Experienced in digital content production and editorial illustration through work with Visual China Group. Skilled in developing cohesive visual systems across platforms, with a practice rooted in character, atmosphere, and narrative-driven design.</p>
       <div class="atags">
         <span class="atag">Storybook</span>
         <span class="atag">Digital Painting</span>
         <span class="atag">Book Illustration</span>
+        <span class="atag">Editorial</span>
         <span class="atag">Prints Available</span>
       </div>
     </div>
@@ -809,6 +876,7 @@ footer span{font-size:9px;color:rgba(250,243,227,.25);letter-spacing:.18em;text-
     <div class="tb-logo" id="ct-home">Kitana Wang</div>
     <ul class="tb-nav">
       <li><a id="ct-gallery">Gallery</a></li>
+      <li><a id="ct-work">Work Experience</a></li>
       <li><a id="ct-about">About</a></li>
       <li><a class="cur">Contact</a></li>
     </ul>
@@ -849,6 +917,7 @@ function goTo(id){
 
 // HOME
 document.getElementById('h-gallery').addEventListener('click',function(){goTo('page-gallery');});
+document.getElementById('h-work').addEventListener('click',function(){goTo('page-work');});
 document.getElementById('h-about').addEventListener('click',function(){goTo('page-about');});
 document.getElementById('h-contact').addEventListener('click',function(){goTo('page-contact');});
 
@@ -861,8 +930,15 @@ document.getElementById('c-fa').addEventListener('click',function(){goTo('page-f
 
 // GALLERY NAV
 document.getElementById('g-home').addEventListener('click',function(){goTo('page-home');});
+document.getElementById('g-work').addEventListener('click',function(){goTo('page-work');});
 document.getElementById('g-about').addEventListener('click',function(){goTo('page-about');});
 document.getElementById('g-contact').addEventListener('click',function(){goTo('page-contact');});
+
+// WORK NAV
+document.getElementById('wk-home').addEventListener('click',function(){goTo('page-home');});
+document.getElementById('wk-gallery').addEventListener('click',function(){goTo('page-gallery');});
+document.getElementById('wk-about').addEventListener('click',function(){goTo('page-about');});
+document.getElementById('wk-contact').addEventListener('click',function(){goTo('page-contact');});
 
 // MOA NAV
 document.getElementById('moa-home').addEventListener('click',function(){goTo('page-home');});
@@ -897,11 +973,13 @@ document.getElementById('fa-contact').addEventListener('click',function(){goTo('
 // ABOUT NAV
 document.getElementById('ab-home').addEventListener('click',function(){goTo('page-home');});
 document.getElementById('ab-gallery').addEventListener('click',function(){goTo('page-gallery');});
+document.getElementById('ab-work').addEventListener('click',function(){goTo('page-work');});
 document.getElementById('ab-contact').addEventListener('click',function(){goTo('page-contact');});
 
 // CONTACT NAV
 document.getElementById('ct-home').addEventListener('click',function(){goTo('page-home');});
 document.getElementById('ct-gallery').addEventListener('click',function(){goTo('page-gallery');});
+document.getElementById('ct-work').addEventListener('click',function(){goTo('page-work');});
 document.getElementById('ct-about').addEventListener('click',function(){goTo('page-about');});
 
 // TABS
